@@ -44,9 +44,9 @@ const cdn = {
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const TerserPlugin = require("terser-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 //匹配此 {RegExp} 的资源
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
-
 module.exports = {
   css: {
     loaderOptions: {
@@ -56,7 +56,7 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-      const plugins = []
+      const plugins = [];
       // start 生成 gzip 压缩文件
       plugins.push(
           new CompressionWebpackPlugin({
@@ -87,13 +87,18 @@ module.exports = {
     });
     config.set('optimization', {
       minimize: true,
-      minimizer: [new TerserPlugin({
-        terserOptions: {
-          compress: {
-            drop_console: true
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: true
+            }
           }
-        }
-      })],
+        }),
+        new CssMinimizerPlugin({
+          parallel: 4,
+        }),
+      ],
     });
     // 配置svg加载规则
     config.module.rules.delete("svg"); //重点:删除默认配置中处理svg,

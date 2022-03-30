@@ -1,8 +1,7 @@
 <template>
     <div :class="['sidebar-component', {'fixed': fixed}]">
         <div class="content">
-            <div v-show="isLargeScreen"
-                id="logo"
+            <div id="logo"
                 :class="{'back': isBack}"
                 @click="onBack">
                 <div class="logo-box">
@@ -25,8 +24,7 @@
                     :active="current === index">
                     <div class="inner">
                         <span :class="['iconfont', nav.icon]"></span>
-                        <span v-show="!isSmallScreen"
-                            class="text">{{ nav.name }}</span>
+                        <span class="text">{{ nav.name }}</span>
                     </div>
                 </router-link>
             </div>
@@ -61,7 +59,6 @@
 </template>
 
 <script>
-    import { useMediaQuery } from '@vueuse/core';
     const defaultNavList = [
         {
             name: '时间线',
@@ -82,12 +79,6 @@
     lvTags = ['普通用户', '管理员', '博主'];
 
     export default {
-        setup() {
-            const isLargeScreen = useMediaQuery('(min-width: 775px)');
-            const isMediumScreen = useMediaQuery('(min-width: 641px) and (max-width: 775px)');
-            const isSmallScreen = useMediaQuery('(max-width: 640px)');
-            return { isLargeScreen, isMediumScreen, isSmallScreen };
-        },
         data() {
             return {
                 fixed: false,
@@ -158,6 +149,53 @@
 
 <style lang="scss" scoped>
 
+// 响应式
+@media screen and (min-width: 775px) {
+    .nav-box {
+        justify-content: center;
+    }
+}
+@media screen and (max-width: 775px) {
+    #logo {
+        display: none;
+    }
+}
+@media screen and (min-width: 641px) {
+    .user-box .info-box {
+        display: flex;
+    }
+    .nav-item {
+        height: fit-content;
+        &::before {
+            border-radius: 24px;
+        }
+        .inner {
+            padding: 5px 15px;
+            .iconfont {
+                margin-right: 10px;
+            }
+        }
+    }
+}
+@media screen and (max-width: 640px) {
+    .user-box .info-box {
+        display: none;
+    }
+    .nav-item {
+        height: 100%;
+        &::before {
+            border-radius: 0;
+        }
+        .inner {
+            padding: 0 15px;
+            .text {
+                display: none;
+            }
+        }
+    }
+}
+
+// 侧边栏
 .sidebar-component {
     z-index: 100;
     box-sizing: border-box;
@@ -259,42 +297,12 @@
     }
 
     // 导航
-    @media screen and (min-width: 775px) {
-        .nav-box {
-            justify-content: center;
-        }
-    }
     .nav-box {
         flex-grow: 1;
         display: flex;
         flex-direction: row;
         align-items: center;
         height: 100%;
-        @media screen and (min-width: 641px) {
-            .nav-item {
-                height: fit-content;
-                &::before {
-                    border-radius: 24px;
-                }
-                .inner {
-                    padding: 5px 15px;
-                    .iconfont {
-                        margin-right: 10px;
-                    }
-                }
-            }
-        }
-        @media screen and (max-width: 640px) {
-            .nav-item {
-                height: 100%;
-                &::before {
-                    border-radius: 0;
-                }
-                .inner {
-                    padding: 0 15px;
-                }
-            }
-        }
         .nav-item {
             position: relative;
             display: flex;
@@ -377,7 +385,6 @@
             transition: 0.2s;
             .info-box {
                 flex-grow: 1;
-                display: flex;
                 flex-direction: row;
                 align-items: center;
                 justify-content: flex-end;

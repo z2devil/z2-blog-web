@@ -1,7 +1,7 @@
 <template>
     <div>
         <span>组件A</span>
-        <span>{{ x }}-{{ y }}</span>
+        <!-- <span>{{ x }}-{{ y }}</span> -->
         <!-- <div class="mouse" 
             :style="{ 
                 'left': x +'px', 
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import { useMouse } from '@vueuse/core'
+    // import { useMouse } from '@vueuse/core'
 
     export default {
         data() {
@@ -20,8 +20,8 @@
             }
         },
         setup() {
-            const { x, y } = useMouse({ touch: false });
-            return { x, y };
+            // const { x, y } = useMouse({ touch: false });
+            // return { x, y };
         }
     }
 </script>
