@@ -1,7 +1,8 @@
 <template>
     <div :class="['sidebar-component', {'fixed': fixed}]">
         <div class="content">
-            <div id="nav"
+            <div v-show="isLargeScreen"
+                id="logo"
                 :class="{'back': isBack}"
                 @click="onBack">
                 <div class="logo-box">
@@ -24,7 +25,8 @@
                     :active="current === index">
                     <div class="inner">
                         <span :class="['iconfont', nav.icon]"></span>
-                        <span class="text">{{ nav.name }}</span>
+                        <span v-show="!isSmallScreen"
+                            class="text">{{ nav.name }}</span>
                     </div>
                 </router-link>
             </div>
@@ -32,7 +34,8 @@
                 @click="onUserInfo">
                 <div class="inner">
                     <div class="info-box">
-                        <div class="info-content">
+                        <div v-show="!isSmallScreen"
+                            class="info-content">
                             <template v-if="$auth.has()">
                                 <span class="nickname">{{ userInfo.nickname }}</span>
                                 <span class="sub-info">{{ tag[userInfo.lv] }}</span>
@@ -58,6 +61,7 @@
 </template>
 
 <script>
+    import { useMediaQuery } from '@vueuse/core';
     const defaultNavList = [
         {
             name: '时间线',
@@ -78,6 +82,12 @@
     lvTags = ['普通用户', '管理员', '博主'];
 
     export default {
+        setup() {
+            const isLargeScreen = useMediaQuery('(min-width: 775px)');
+            const isMediumScreen = useMediaQuery('(min-width: 641px) and (max-width: 775px)');
+            const isSmallScreen = useMediaQuery('(max-width: 640px)');
+            return { isLargeScreen, isMediumScreen, isSmallScreen };
+        },
         data() {
             return {
                 fixed: false,
@@ -176,7 +186,8 @@
     height: $nav_height;
     padding: 0 20px;
     margin: 0 auto;
-    #nav {
+    // logo
+    #logo {
         position: relative;
         &.back {
             .logo-box {
@@ -246,15 +257,49 @@
             }
         }
     }
+
+    // 导航
+    @media screen and (min-width: 775px) {
+        .nav-box {
+            justify-content: center;
+        }
+    }
     .nav-box {
         flex-grow: 1;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        align-items: center;
+        height: 100%;
+        @media screen and (min-width: 641px) {
+            .nav-item {
+                height: fit-content;
+                &::before {
+                    border-radius: 24px;
+                }
+                .inner {
+                    padding: 5px 15px;
+                    .iconfont {
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+        @media screen and (max-width: 640px) {
+            .nav-item {
+                height: 100%;
+                &::before {
+                    border-radius: 0;
+                }
+                .inner {
+                    padding: 0 15px;
+                }
+            }
+        }
         .nav-item {
             position: relative;
+            display: flex;
+            align-items: center;
             width: fit-content;
-            height: fit-content;
             margin-right: 30px;
             text-decoration: none;
             color: unset;
@@ -265,11 +310,10 @@
                 width: 100%;
                 height: 100%;
                 background-color: rgba(0, 0, 0, 0.05);
-                border-radius: 24px;
                 opacity: 0;
                 transition: 0.2s;
             }
-            &[active="true"],&:hover {
+            &[active="true"], &:hover {
                 &::before {
                     opacity: 1;
                 }
@@ -283,15 +327,11 @@
                 }
             }
             .inner {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                padding: 5px 15px;
+
                 color: $text2;
                 transition: 0.2s;
                 .iconfont {
                     font-size: 22px;
-                    margin-right: 10px;
                 }
                 .text {
                     font-family: "Microsoft JhengHei UI";
@@ -302,6 +342,7 @@
         }
     }
 
+    // 用户
     .user-box {
         flex-shrink: 0;
         max-width: 196px;
@@ -331,7 +372,7 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            padding: 0 0 0 15px;
+            padding: 0;
             color: $text2;
             transition: 0.2s;
             .info-box {

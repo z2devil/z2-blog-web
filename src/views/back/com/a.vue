@@ -2,11 +2,11 @@
     <div>
         <span>组件A</span>
         <span>{{ x }}-{{ y }}</span>
-        <div class="mouse" 
+        <!-- <div class="mouse" 
             :style="{ 
                 'left': x +'px', 
                 'top': y +'px' 
-            }"></div>
+            }"></div> -->
     </div>
 </template>
 

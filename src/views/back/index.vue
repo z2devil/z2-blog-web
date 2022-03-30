@@ -45,7 +45,7 @@
 
 <style lang="scss" scoped>
 * {
-    cursor: none!important;
+    // cursor: none!important;
 }
 .container {
     width: $con_width;
