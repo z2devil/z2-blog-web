@@ -116,7 +116,7 @@ export default {
          * 搜索
          */
         onSearch() {
-            this.$emit("search", {keyword: this.value, tags: this.selectedOptions});
+            this.$emit("search", {keyword: this.value.trim(), tags: this.selectedOptions});
         },
     }
 }

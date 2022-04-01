@@ -32,8 +32,7 @@
                 @click="onUserInfo">
                 <div class="inner">
                     <div class="info-box">
-                        <div v-show="!isSmallScreen"
-                            class="info-content">
+                        <div class="info-content">
                             <template v-if="$auth.has()">
                                 <span class="nickname">{{ userInfo.nickname }}</span>
                                 <span class="sub-info">{{ tag[userInfo.lv] }}</span>
@@ -150,12 +149,12 @@
 <style lang="scss" scoped>
 
 // 响应式
-@media screen and (min-width: 775px) {
+@media screen and (min-width: 801px) {
     .nav-box {
         justify-content: center;
     }
 }
-@media screen and (max-width: 775px) {
+@media screen and (max-width: 800px) {
     #logo {
         display: none;
     }
@@ -388,6 +387,7 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: flex-end;
+                margin-left: 10px;
                 .info-content {
                     display: flex;
                     flex-direction: column;
