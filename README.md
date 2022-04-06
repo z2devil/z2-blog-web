@@ -1,5 +1,5 @@
 # z2-blog-web
-个人博客前端项目，主要包含无感用户登录注册、文字图片内容社区、markdown编辑器、oss文件上传等功能。
+个人博客前端项目，主要包含无感用户登录注册、文字图片内容社区、Markdown 编辑器、OSS 文件上传等功能。
 
 # 详细功能
 
@@ -36,7 +36,7 @@
     * type 按钮类型（normal（默认）、primary、dashed、link）
     * disabled 失活
     * circle 圆形按钮
-    * rounde 圆角按钮
+    * round 圆角按钮
     * ghost 透明风格按钮
     * loading 加载状态
 2. message 弹框
