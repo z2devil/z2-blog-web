@@ -92,6 +92,19 @@ export default {
             }
         }
     },
+    mounted() {
+        let that = this;
+        this.$emitter.on('article-like', (id, val) => {
+            for (let i = 0; i < that.page.data.length; i++) {
+                const li = that.page.data[i];
+                if (li.id === id) {
+                    li.isLiked = val > 0;
+                    li.likes += val;
+                    break;
+                }
+            }
+        });
+    },
     activated() {
         let that = this;
         this.$emitter.on('touch-bottom', () => {
@@ -108,6 +121,9 @@ export default {
         this.$emitter.off('view-leave');
         // 卸载滚动监听事件
         document.removeEventListener('wheel', this.scrollEvent, { passive: false });
+    },
+    beforeUnmount() {
+        this.$emitter.off('article-like');
     },
     methods: {
         /**

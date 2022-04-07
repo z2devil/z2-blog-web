@@ -208,10 +208,11 @@ export default {
          */
         likeIt() {
             if (!this.$auth.has) return;
-            like(2, this.articleData.id).then(res => {
-                this.articleData.likes = res;
+            like(2, this.articleData.id).then(() => {
                 this.articleData.isLiked = !this.articleData.isLiked;
-                this.$msg("success", "点赞成功")
+                this.articleData.likes += this.articleData.isLiked ? 1 : -1;
+                this.$emitter.emit("article-like", this.articleData.id, this.articleData.isLiked ? 1 : -1);
+                this.$msg("success", "点赞成功");
             }).catch(() => {
                 this.$msg("error", "点赞失败");
             });

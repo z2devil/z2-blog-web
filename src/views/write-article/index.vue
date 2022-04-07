@@ -10,8 +10,8 @@
             <input class="title-input"
                 type="text"
                 v-model="form.title"
-                placeholder="请输入标题（20字以内）"
-                maxLength="20" >
+                placeholder="请输入标题（30字以内）"
+                maxLength="30" >
             <div class="btn release-btn"
                 @click="release">
                 <span class="iconfont icon-success"></span>
