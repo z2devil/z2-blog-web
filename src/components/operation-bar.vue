@@ -9,7 +9,7 @@
             type="primary"
             circle
             title="喜欢"
-            @click="toLike">
+            @click="$emit('to-like')">
             <div class="inner">
                 <span class="iconfont"
                     :class="like.liked ? 'icon-like-fill' : 'icon-like'"></span>
@@ -20,14 +20,14 @@
             class="option comment-btn"
             circle
             title="评论"
-            @click="toCcomment">
+            @click="$emit('to-comment')">
             <span class="iconfont icon-comment"></span>
         </z-button>
         <z-button v-if="write"
             class="option write-btn"
             circle
             title="写内容"
-            @click="toWrite">
+            @click="$emit('to-write')">
             <span class="iconfont icon-edit"></span>
         </z-button>
         <template v-for="(tool, index) in tools"
@@ -58,9 +58,7 @@
 </template>
 
 <script>
-function handle(e) {
-    e.preventDefault();
-}
+import { onMounted, onBeforeUnmount } from 'vue';
 
 export default {
     props: {
@@ -144,40 +142,33 @@ export default {
             operations: ['like', 'comment', 'write', 'top']
         }
     },
-    emits: ['to-like', 'to-comment', 'to-write'],
-    methods: {
-        /**
-         * 点赞
-         */
-        toLike() {
-            this.$emit('to-like');
-        },
-        /**
-         * 评论
-         */
-        toCcomment() {
-            this.$emit('to-comment');
-        },
-        /**
-         * 发表
-         */
-        toWrite() {
-            this.$emit('to-write');
-        },
+    setup() {
+        let isTopping = false;
+        const checkWheel = function() {
+            isTopping = false;
+        };
+        onMounted(() => {
+            document.addEventListener('wheel', checkWheel);
+        });
+        onBeforeUnmount(() => {
+            document.removeEventListener('wheel', checkWheel);
+        });
         /**
          * 回到顶端
          */
-        toTop() {
-            const i = document.documentElement.scrollTop || document.body.scrollTop;
-            if (i > 0) {
-                window.requestAnimationFrame(this.toTop);
-                window.scrollTo(0, i - i / 8);
-                document.addEventListener('mousewheel', handle, { passive: false });
-            }else {
-                document.removeEventListener('mousewheel', handle, { passive: false });
-            }
-        },
-    }
+        const toTop = function() {
+            isTopping = true;
+            const scroll = function() {
+                const i = document.documentElement.scrollTop || document.body.scrollTop;
+                if (i > 0 && isTopping) {
+                    window.requestAnimationFrame(scroll);
+                    window.scrollTo(0, i - i / 8);
+                }
+            };
+            scroll();
+        };
+        return { toTop };
+    },
 }
 </script>
 

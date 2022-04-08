@@ -40,11 +40,6 @@ export default {
     computed: {
         display() {
             let res = this.$store.getters['pl/getView'] !== null;
-            if (res) {
-                // this.setScrollTriger(false);
-            }else {
-                // this.setScrollTriger(true);
-            }
             return res;
         },
         view() {
@@ -65,19 +60,6 @@ export default {
     methods: {
         hide() {
             this.$PL.hide(this);
-        },
-        setScrollTriger(bool) {
-            if(bool) {
-                if (document.addEventListener) { //firefox
-                    document.removeEventListener('DOMMouseScroll', this.scrollFunction, false);
-                }
-                window.removeEventListener('mousewheel', this.scrollFunction, { passive: false });
-            }else {
-                if (document.addEventListener) { //firefox
-                    document.addEventListener('DOMMouseScroll', this.scrollFunction, false);
-                }
-                window.addEventListener('mousewheel', this.scrollFunction, { passive: false });
-            }
         },
         scrollFunction(e) {
             e = e || window.event;

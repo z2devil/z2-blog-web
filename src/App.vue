@@ -39,7 +39,6 @@ export default {
 
 <style lang="scss">
 @import url(//at.alicdn.com/t/font_2012018_tkf4x0svmo.css);
-// @import url(https://oss.z2devil.cn/blog/fonts/msjh/msjh_fonts.css);
 
 #main {
     -webkit-font-smoothing: antialiased;
