@@ -148,10 +148,10 @@ export default {
             isTopping = false;
         };
         onMounted(() => {
-            document.addEventListener('wheel', checkWheel);
+            document.addEventListener('wheel', checkWheel, { passive: true });
         });
         onBeforeUnmount(() => {
-            document.removeEventListener('wheel', checkWheel);
+            document.removeEventListener('wheel', checkWheel), { passive: true };
         });
         /**
          * 回到顶端
