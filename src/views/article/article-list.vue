@@ -129,7 +129,7 @@ export default {
             left: 20px;
             bottom: 10px;
             .user-info-box {
-                /deep/ .user-name {
+                :deep(.user-name) {
                     font-weight: bold;
                     color: $text2;
                     @include stroke($white);

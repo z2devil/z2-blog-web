@@ -503,7 +503,7 @@ import compress from '@/utils/compress.js'
             left: 20px;
             bottom: 10px;
             .user-info-box {
-                /deep/ .user-name {
+                :deep(.user-name) {
                     font-weight: bold;
                     color: $white;
                     @include stroke(#000);

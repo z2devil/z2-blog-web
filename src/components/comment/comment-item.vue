@@ -323,7 +323,7 @@ import {
                 color: $text1;
             }
         }
-        /deep/ .popup {
+        :deep(.popup) {
             top: 26px;
         }
     }

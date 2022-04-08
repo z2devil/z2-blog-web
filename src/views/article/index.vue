@@ -273,7 +273,7 @@ export default {
         text-align: center;
         padding-bottom: 20px;
     }
-    &:deep(.highlight-text) {
+    :deep(.highlight-text) {
         background-color: yellow;
     }
 }

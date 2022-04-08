@@ -42,9 +42,8 @@ const cdn = {
 
 //引入插件
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const TerserPlugin = require("terser-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 //匹配此 {RegExp} 的资源
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 module.exports = {
@@ -56,20 +55,56 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-      const plugins = [];
-      // start 生成 gzip 压缩文件
-      plugins.push(
-          new CompressionWebpackPlugin({
-              filename: "[path].gz[query]",  // 目标资源名称
-              algorithm: "gzip",
-              test: productionGzipExtensions,  // 处理所有匹配此 {RegExp} 的资源
-              threshold: 10240,  // 只处理比这个值大的资源。按字节计算(楼主设置10K以上进行压缩)
-              minRatio: 0.8  // 只有压缩率比这个值小的资源才会被处理
-          })
-      );
-      plugins.push(new BundleAnalyzerPlugin());
-      // End 生成 gzip 压缩文件
-      if (process.env.NODE_ENV === 'production') config.plugins = [...config.plugins, ...plugins];
+    const plugins = [];
+    // gzip 压缩
+    plugins.push(
+        new CompressionWebpackPlugin({
+            filename: "[path].gz[query]",  // 目标资源名称
+            algorithm: "gzip",
+            test: productionGzipExtensions,  // 处理所有匹配此 {RegExp} 的资源
+            threshold: 10240,  // 只处理比这个值大的资源。按字节计算(楼主设置10K以上进行压缩)
+            minRatio: 0.8  // 只有压缩率比这个值小的资源才会被处理
+        })
+    );
+    // bundle 分析
+    plugins.push(new BundleAnalyzerPlugin());
+    if (process.env.NODE_ENV === 'production') {
+      config.mode = 'production';
+      // 打包文件大小
+      config.performance = {
+        "maxEntrypointSize": 10000000,
+        "maxAssetSize": 30000000
+      };
+      // 代码压缩
+      config.optimization.minimize = true;
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
+      config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log'];
+      // 分chunk
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        maxInitialRequests: Infinity, // 默认为 30，调整为允许无限入口资源
+        minSize: 30000, // 30K以下的依赖不做拆分
+        cacheGroups: {
+          vendors: {
+            name: 'chunk-vendors',
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            chunks: 'initial'
+          },
+          editor: {
+            test: /[\\/]node_modules[\\/](@kangc[\\/]v-md-editor|prismjs)/,
+            name: 'chunk-editor',
+            chunks: 'all',
+          },
+          gsap: {
+            test: /[\\/]node_modules[\\/](gsap)/,
+            name: 'chunk-gsap',
+            chunks: 'all',
+          },
+        }
+      }
+      config.plugins = [...config.plugins, ...plugins];
+    }
   },
   chainWebpack: config => {
     config.plugin('html').tap(args => {
@@ -84,21 +119,6 @@ module.exports = {
     config.plugin('html').tap(args => {
       args[0].cdn = cdn
       return args
-    });
-    config.set('optimization', {
-      minimize: true,
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            compress: {
-              drop_console: true
-            }
-          }
-        }),
-        new CssMinimizerPlugin({
-          parallel: 4,
-        }),
-      ],
     });
     // 配置svg加载规则
     config.module.rules.delete("svg"); //重点:删除默认配置中处理svg,

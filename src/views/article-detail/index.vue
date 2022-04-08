@@ -414,7 +414,7 @@ export default {
     // padding-bottom: 40px;
     // border-bottom: solid 2px $divider_light;
     margin: 40px 50px 40px;
-    /deep/ .vuepress-markdown-body {
+    :deep(.vuepress-markdown-body) {
         background-color: unset;
         padding: 0;
         // font-family: msjh, Arial, sans-serif;
