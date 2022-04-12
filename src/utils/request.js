@@ -5,7 +5,7 @@ import store from '@/store'
 
 // 创建axios实例
 const service = axios.create({
-	baseURL: Config.baseURL, // api 的 base_url
+	baseURL: Config.apiURL, // api 的 base_url
 	timeout: Config.timeout // 请求超时时间
 });
 
@@ -132,7 +132,7 @@ export function put(url, param) {
  */
 export function pureRequest() {
 	const service = axios.create({
-		baseURL: Config.baseURL, // api 的 base_url
+		baseURL: Config.apiURL, // api 的 base_url
 		timeout: Config.timeout // 请求超时时间
 	});
 	return service;

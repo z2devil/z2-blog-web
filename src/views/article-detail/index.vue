@@ -95,6 +95,7 @@ import {
 import commentList from '@/components/comment/index'
 import operationBar from '@/components/operation-bar'
 import {gsap} from 'gsap'
+import Config from '/setting'
 
 export default {
     name: 'article-detial',
@@ -199,8 +200,10 @@ export default {
         this.$emitter.emit('view-leave');
     },
     methods: {
-        handleCopyCodeSuccess(code) {
-            console.log(code);
+        async handleCopyCodeSuccess(code) {
+            const content = `${code}\n作者：${Config.author}\n来源：${Config.title}\n链接：${Config.baseURL + this.$route.fullPath}\n${Config.copyRight}`;
+            await navigator.clipboard.writeText(content);
+            this.$msg('success', '已复制代码');
         },
         /**
          * 初始化
