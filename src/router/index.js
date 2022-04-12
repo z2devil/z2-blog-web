@@ -60,13 +60,13 @@ const routes = [{
 						path: '/article/:id',
 						component: articleDetail,
 						props: true,
-						beforeEnter: (to, from) => {
-							// reject the navigation
-							if (from.path !== '/article/index') {
-								return { path: to.path + '/detail', };
-							}
-							return true;
-						},
+						// beforeEnter: (to, from) => {
+						// 	// reject the navigation
+						// 	if (from.path !== '/article/index') {
+						// 		return { path: to.path + '/detail', };
+						// 	}
+						// 	return true;
+						// },
 					}
 				]
 			},

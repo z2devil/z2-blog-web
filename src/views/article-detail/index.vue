@@ -184,6 +184,17 @@ export default {
             });
         }
     },
+    beforeRouteEnter (to, from, next) {
+        if (from.path !== '/article/index') {
+            next(vm => {
+                if (!~vm.$route.path.indexOf('/detail')) {
+                    vm.$router.replace({ path: to.path + '/detail', });
+                }
+            });
+        }else {
+            next();
+        }
+    },
     beforeRouteLeave() {
         this.$emitter.emit('view-leave');
     },

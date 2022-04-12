@@ -86,6 +86,7 @@ import {
              * 登入
              */
             signIn() {
+                let that = this;
                 if (this.isSended || this.value != null) {
                     this.signLoading = true;
                     sign(this.email, this.value).then(res => {
@@ -94,7 +95,11 @@ import {
                         this.$emit('close');
                         this.$msg("success", "登入成功");
                         setTimeout(() => {
-                            location.reload();
+                            if (that.$route.path === '/404') {
+                                that.$router.back();
+                            }else {
+                                location.reload();
+                            }
                         }, 1000);
                     }).catch(err => {
                         this.signLoading = false;
