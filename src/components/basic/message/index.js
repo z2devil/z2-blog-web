@@ -1,6 +1,6 @@
 export function msg(type, text) {
-    let body = document.getElementsByTagName("body")[0];
-    let message = document.createElement("div");
+    const body = document.getElementsByTagName("body")[0];
+    const message = document.createElement("div");
     message.className = "message-box";
     message.innerHTML = `
         <span class="iconfont icon-${type}"></span>

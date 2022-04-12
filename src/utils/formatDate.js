@@ -2,14 +2,14 @@
  * 人性化时间处理 (传入时间戳)
  */
 export function beautifyTime (strDate, unit) {
-	let timestamp = new Date(strDate);
+	const timestamp = new Date(strDate);
 	let mistiming = Math.round(new Date()) - timestamp;
-	let postfix = mistiming > 0 ? '前' : '后';
+	const postfix = mistiming > 0 ? '前' : '后';
 	mistiming = Math.abs(mistiming / 1000);
-	let arrr = ['年', '个月', '周', '天', '小时', '分钟', '秒'];
-	let arrn = [31536000, 2592000, 604800, 86400, 3600, 60, 1];
+	const arrr = ['年', '个月', '周', '天', '小时', '分钟', '秒'];
+	const arrn = [31536000, 2592000, 604800, 86400, 3600, 60, 1];
 	if (unit != null) {
-		let inm = Math.floor(mistiming / arrn[unit])
+		const inm = Math.floor(mistiming / arrn[unit])
 		if (inm != 0) {
 			return inm + arrr[unit] + postfix
 		}else {
@@ -17,7 +17,7 @@ export function beautifyTime (strDate, unit) {
 		}
 	}else {
 		for (let i = 0; i < 7; i++) {
-			let inm = Math.floor(mistiming / arrn[i])
+			const inm = Math.floor(mistiming / arrn[i])
 			if (inm != 0) {
 				return inm + arrr[i] + postfix
 			}

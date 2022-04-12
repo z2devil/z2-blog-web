@@ -6,7 +6,7 @@ import {
  * 喜欢
  */
 export function like(wCate, wId) {
-    let data = {
+    const data = {
         'wcate': wCate,
         'wid': wId
     };

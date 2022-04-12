@@ -1,12 +1,12 @@
 export function confirm(config) {
-    let body = document.getElementsByTagName("body")[0];
-    let mask = document.createElement("div");
+    const body = document.getElementsByTagName("body")[0];
+    const mask = document.createElement("div");
     mask.className = "mask";
     mask.addEventListener('click', () => {
         close();
         config.fail();
     });
-    let confirm = document.createElement("div");
+    const confirm = document.createElement("div");
     confirm.className = "confirm-box";
     confirm.innerHTML = `
         <div class="title-box">
@@ -16,9 +16,9 @@ export function confirm(config) {
             <span>${config.content}</span>
         </div>
     `;
-    let optionsBox = document.createElement("div");
+    const optionsBox = document.createElement("div");
     optionsBox.className = "options-box";
-    let optionConfirm = document.createElement("div");
+    const optionConfirm = document.createElement("div");
     optionConfirm.className = "option option-confirm";
     optionConfirm.innerHTML = `
         <span>${config.optionsText[0]}</span>
@@ -27,7 +27,7 @@ export function confirm(config) {
         close();
         config.success();
     });
-    let optionCancel = document.createElement("div");
+    const optionCancel = document.createElement("div");
     optionCancel.className = "option option-cancel";
     optionCancel.innerHTML = `
         <span>${config.optionsText[1]}</span>

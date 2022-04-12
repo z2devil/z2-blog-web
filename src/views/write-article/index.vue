@@ -132,7 +132,7 @@ export default {
         }
     },
     data() {
-        let that = this;
+        const that = this;
         this.toolbar = {
             imageLink: {
                 title: '插入图片',
@@ -225,10 +225,10 @@ export default {
          * 排序后的filesData
          */
         sortFilesData() {
-            let fs = this.filesData;
-            return fs.sort(function(a, b) {
-                let x = a['id'];
-                let y = b['id'];
+            const fs = this.filesData;
+            return fs.sort((a, b) => {
+                const x = a['id'];
+                const y = b['id'];
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
             });
         },
@@ -262,7 +262,7 @@ export default {
                     }
                 }
                 // TODO将id提取出来
-                let resources = [];
+                const resources = [];
                 for (let i = 0; i < this.filesData.length; i++) {
                     const files = this.filesData[i];
                     for (let j = 0; j < files.content.length; j++) {
@@ -303,7 +303,7 @@ export default {
          * 发布
          */
         release() {
-            let that = this;
+            const that = this;
             if (!this.form.title || this.form.title.length == 0) {
                 this.$msg('error', '标题不可为空');
                 return;
@@ -321,7 +321,7 @@ export default {
                     summary: that.form.summary,
                     tags: that.form.tags,
                     func: async function({cover, summary, tags}) {
-                        let params = {
+                        const params = {
                             'title': that.form.title,
                             'content': that.form.text,
                             'summary': summary,
@@ -353,8 +353,8 @@ export default {
          * 上传文件
          */
         onUpload() {
-            let that = this;
-            let input = document.createElement("input");
+            const that = this;
+            const input = document.createElement("input");
             input.setAttribute("type", "file");
             input.setAttribute("multiple", "multiple");
             input.addEventListener("change", function(e) {
@@ -367,15 +367,14 @@ export default {
                 //         };
                 //     });
                 // };
-                let files = e.target.files;
+                const files = e.target.files;
                 if (files.length == 0) return;
                 if (files.length > 6) {
                     that.$msg("error", "不能大于6张图片");
                     files.splice(0, 6);
                 }
                 for (let i = 0; i < files.length; i++) {
-                    let file = files[i];
-                    that.uploadFile(file);
+                    that.uploadFile(files[i]);
                 }
             });
             input.click();
@@ -384,7 +383,7 @@ export default {
          * 文件列表变化
          */
         fileListChange({id, content}) {
-            let files = this.getByKey(this.filesData, 'id', id);
+            const files = this.getByKey(this.filesData, 'id', id);
             files.content = content;
         },
         /**

@@ -50,10 +50,10 @@ export default {
     activated() {
         this.screenWidth = this.onWindowResize;
         window.addEventListener('resize', this.onWindowResize);
-        let that = this;
+        const that = this;
         this.keyEvent = document.onkeydown;
         document.onkeydown = function(event) {
-            let e = event || window.event || arguments.callee.caller.arguments[0];
+            const e = event || window.event || arguments.callee.caller.arguments[0];
             if (e.keyCode == 37) {
                 that.current > 0 ? that.current-- : that.current
             }
@@ -80,7 +80,7 @@ export default {
     },
     methods: {
         onWindowResize() {
-            let box = document.querySelector('.img-preview-box');
+            const box = document.querySelector('.img-preview-box');
             if (box.clientWidth && box.clientWidth != 0) this.screenWidth = box.clientWidth;
         },
     }

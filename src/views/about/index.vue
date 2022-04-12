@@ -172,11 +172,11 @@ export default {
         }
     },
     created() {
-        let that = this;
+        const that = this;
         this.history = text.history;
         this.$nextTick(function() {
             that.bindScrollEvent();
-            let tl = gsap.timeline();
+            const tl = gsap.timeline();
             tl.to(devilClass, {
                 delay: 0,
                 duration: 0,
@@ -206,7 +206,7 @@ export default {
          * 绑定滚动事件
          */
         bindScrollEvent() {
-            let window = document.querySelector('.window');
+            const window = document.querySelector('.window');
             window.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 window.scrollLeft += e.deltaY;
@@ -216,7 +216,7 @@ export default {
          * 设置对话框
          */
         setDialog(show, content = null, point = pointType.left, speed = 100) {
-            let that = this;
+            const that = this;
             // 设置对话框内容
             function setContent(val) {
                 that.dialog.loaded = false;
@@ -279,11 +279,11 @@ export default {
          * 点击对话框
          */
         onDialog() {
-            let that = this;
+            const that = this;
             /**剧本 */
             function* drama() {
                 yield (() => {
-                    let tl = gsap.timeline();
+                    const tl = gsap.timeline();
                     tl.call(function() {
                         that.setDialog(false);
                     })
@@ -307,7 +307,7 @@ export default {
                     });
                 })();
                 yield (() => {
-                    let tl = gsap.timeline();
+                    const tl = gsap.timeline();
                     tl.call(function() {
                         that.setDialog(false);
                     })

@@ -24,7 +24,7 @@
                 </div>
             </div>
             <!-- 操作栏 -->
-            <operation-bar :write="loggedUser && loggedUser.lv == 2"
+            <operation-bar :write="loggedUser?.lv == 2"
                 @to-write="toWrite"></operation-bar>
         </div>
         <!-- 预览层 -->
@@ -93,7 +93,7 @@ export default {
         }
     },
     mounted() {
-        let that = this;
+        const that = this;
         this.$emitter.on('article-like', (id, val) => {
             for (let i = 0; i < that.page.data.length; i++) {
                 const li = that.page.data[i];
@@ -106,7 +106,7 @@ export default {
         });
     },
     activated() {
-        let that = this;
+        const that = this;
         this.$emitter.on('touch-bottom', () => {
             that.getArtcileList();
         });
@@ -134,11 +134,11 @@ export default {
             // 如果开启了弹出层，返回
             if (that.$store.getters['pl/getView'] !== null) return;
             // 如果不在页面顶部，返回
-            let scrollTop = document.documentElement.scrollTop;
+            const scrollTop = document.documentElement.scrollTop;
             if (scrollTop != 0) return;
             // 获取主要内容元素
-            let wrapper = document.querySelector(".wrapper-box");
-            let isAniming = wrapper.getAnimations().length > 0;
+            const wrapper = document.querySelector(".wrapper-box");
+            const isAniming = wrapper.getAnimations().length > 0;
             if (!isAniming) {
                 // 上滑
                 if (e.deltaY < 0) {
@@ -190,8 +190,8 @@ export default {
             }
             if (this.isLoading || !this.page.next) return;
             this.isLoading = true;
-            let page = this.page;
-            let params = {
+            const page = this.page;
+            const params = {
                 current: page.current,
                 size: page.size
             }
@@ -226,15 +226,15 @@ export default {
          */
         highlightHandle() {
             this.$nextTick(function() {
-                let regex = new RegExp(this.keyword, "gi");
-                let summaryNodes =  document.querySelectorAll(".summary");
+                const regex = new RegExp(this.keyword, "gi");
+                const summaryNodes =  document.querySelectorAll(".summary");
                 for (let i = 0; i < summaryNodes.length; i++) {
                     const node = summaryNodes[i];
                     summaryNodes[i].innerHTML = node.innerHTML.replace(regex, function(word) {
                         return `<span class='highlight-text'>${word}</span>`
                     });
                 }
-                let titleNodes =  document.querySelectorAll(".title");
+                const titleNodes =  document.querySelectorAll(".title");
                 for (let i = 0; i < titleNodes.length; i++) {
                     const node = titleNodes[i];
                     titleNodes[i].innerHTML = node.innerHTML.replace(regex, function(word) {

@@ -120,8 +120,7 @@ router.beforeEach(async (to, from, next) => {
 		next('/404');
 	}else if (to.meta.auth) {
 		const auth = await authUtils.auth();
-		console.log(auth);
-		if (auth && auth.lv >= to.meta.auth) {
+		if (auth?.lv >= to.meta.auth) {
 			next();
 		}else {
 			next('/404');

@@ -119,7 +119,7 @@
              */
             handleScroll() {
                 // 获取滚动高度
-                let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
                 this.fixed = scrollHeight < 50;
             },
             /**

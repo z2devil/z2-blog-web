@@ -166,13 +166,13 @@ import {
              * 评论
              */
             commentIt() {
-                let that = this;
+                const that = this;
                 this.$PL.show(this, {
                     name: 'input-panel',
                     data: {
                         placeholder: '回复'+'@'+this.commentData.userInfo.nickname,
                         func: async function({text}) {
-                            let params = {
+                            const params = {
                                 wcate: that.cate,
                                 wid: that.id,
                                 rid: that.commentData.id,
@@ -222,8 +222,7 @@ import {
                     return;
                 }
                 this.isLoading = true;
-                let page = this.page;
-                console.log(page)
+                const page = this.page;
                 if (init === true) {
                     page.current = 1;
                     page.next = true;
@@ -231,7 +230,6 @@ import {
                         this.commentData = res;
                     });
                 }
-                console.log(page.current)
                 getChildCommentList(this.commentData.id, page.current, page.size).then(res => {
                     this.commentData.childComments.records = init === true ? res.records : 
                         this.commentData.childComments.records.concat(res.records);

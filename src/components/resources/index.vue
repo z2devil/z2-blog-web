@@ -45,8 +45,8 @@
              * 初始化
              */
             init() {
-                let files = this.files;
-                let filesData = this.filesData;
+                const files = this.files;
+                const filesData = this.filesData;
                 // 遍历内部资源列表
                 function ergodic(outter, inners) {
                     for (let j = 0; j < inners.length; j++) {
@@ -66,7 +66,7 @@
                     // 遍历内部资源列表
                     if (!ergodic(file, this.filesData)) {
                         // 如果内部资源中没有和外部资源相同的类型，创建新的内部资源
-                        let fileData = {
+                        const fileData = {
                             type: file.type.slice(0, file.type.indexOf("/")),
                             content: []
                         };

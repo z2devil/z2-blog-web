@@ -154,13 +154,13 @@ export default {
          * 评论
          */
         commentIt() {
-            let that = this;
+            const that = this;
             this.$PL.show(this, {
                 name: 'input-panel',
                 data: {
                     placeholder: '评论该动态',
                     func: async function({text}) {
-                        let params = {
+                        const params = {
                             wcate: 1,
                             wid: that.tweetData.id,
                             content: text,

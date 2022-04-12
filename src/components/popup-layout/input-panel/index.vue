@@ -159,7 +159,7 @@ const express_sets = [
                             sel.addRange(range);
                         }
                     }
-                } else if (document.selection && document.selection.type != "Control") {
+                } else if (document.selection?.type != "Control") {
                     // IE < 9
                     document.selection.createRange().pasteHTML(html);
                 }
@@ -205,15 +205,14 @@ const express_sets = [
                     files.splice(0, 6);
                 }
                 for (let i = 0; i < files.length; i++) {
-                    let file = files[i];
-                    this.uploadFile(file);
+                    this.uploadFile(files[i]);
                 }
             },
             /**
              * 上传文件
              */
             uploadFile(file) {
-                let that = this;
+                const that = this;
                 // 获取目标id的图片
                 const getFile = function(fileId) {
                     for (let i = 0; i < that.images.length; i++) {
@@ -304,7 +303,7 @@ const express_sets = [
                 if (this.isLoading) return;
                 this.isLoading = true;
                 // 判断动态内容是否为空
-                let content = this.value.replace(/<[^>]+>/g, (item) => {
+                const content = this.value.replace(/<[^>]+>/g, (item) => {
                     return item.match(/alt=['"]?([^'"]*)['"]?/i)[1]
                 });
                 if (content == "") {
@@ -312,7 +311,7 @@ const express_sets = [
                     this.$msg("error", "内容不可为空！");
                     return;
                 }
-                let ids = [];
+                const ids = [];
                 for (let i = 0; i < this.images.length; i++) {
                     const element = this.images[i];
                     if (element.status != 1) {
@@ -322,7 +321,7 @@ const express_sets = [
                     }
                     ids.push(element.id);
                 }
-                let params = {
+                const params = {
                     text: content,
                     ids: ids
                 }

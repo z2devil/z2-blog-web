@@ -15,7 +15,7 @@ export function getTagList() {
  * 新增标签
  */
 export function addTag(name) {
-    let data = {
+    const data = {
         'name': name
     };
     return post('/tag', data);

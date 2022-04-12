@@ -29,7 +29,7 @@
         watch: {
             $route: {
                 handler() {
-                    let that = this;
+                    const that = this;
                     this.$nextTick(function() {
                         that.pagingObserver();
                     });
@@ -39,7 +39,7 @@
         },
         methods: {
             pagingObserver() {
-                let pageEnd =  document.querySelector('#page-end');
+                const pageEnd =  document.querySelector('#page-end');
                 if (!pageEnd) return;
                 if (this.touchBottomObserver) {
                     this.touchBottomObserver.disconnect();

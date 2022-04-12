@@ -29,7 +29,7 @@
             </div>
             <div class="form-item">
                 <div class="label">认证</div>
-                <div v-if="userInfo && userInfo.lv < 1"
+                <div v-if="userInfo?.lv < 1"
                     class="auth-box">
                     <input class="input"
                         type="text"
@@ -172,8 +172,8 @@ import compress from '@/utils/compress.js'
              * 处理选择的文件
              */
             handleChange({target: {files}}) {
-                let file = files[0];
-                let that = this;
+                const file = files[0];
+                const that = this;
                 // 上传结束方法
                 const uploadEnd = function(status) {
                     if (status) {
@@ -254,7 +254,7 @@ import compress from '@/utils/compress.js'
                 }
                 if (this.saveLoading) return;
                 this.saveLoading = true;
-                let params = {
+                const params = {
                     nickname: this.form[0].value,
                     email: this.form[1].value,
                     signature: this.form[2].value,

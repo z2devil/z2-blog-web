@@ -49,22 +49,22 @@
                         center
                         :left="410"
                         :like="{
-                            use: loggedUser && loggedUser.lv > 1,
+                            use: loggedUser?.lv > 1,
                             liked: articleData.isLiked,
                             count: articleData.likes
                         }"
                         @to-like="likeIt"
-                        :comment="loggedUser && loggedUser.lv > 1"
+                        :comment="loggedUser?.lv > 1"
                         @to-comment="commentIt"
                         :tools="[
                             {
-                                use: loggedUser && loggedUser.lv > 1,
+                                use: loggedUser?.lv > 1,
                                 icon: 'icon-edit',
                                 title: '编辑',
                                 event: editIt
                             },
                             {
-                                use: loggedUser && loggedUser.lv > 1,
+                                use: loggedUser?.lv > 1,
                                 icon: 'icon-trash',
                                 title: '删除',
                                 event: deleteIt
@@ -140,7 +140,7 @@ export default {
         if (listBody) {
             const rect = listBody.getBoundingClientRect();
             this.$nextTick(function() {
-                let tl = gsap.timeline();
+                const tl = gsap.timeline();
                 tl.to('.article-detail-page', {
                     delay: 0,
                     duration: 0,
@@ -235,13 +235,13 @@ export default {
          * 评论
          */
         commentIt() {
-            let that = this;
+            const that = this;
             this.$PL.show(this, {
                 name: 'input-panel',
                 data: {
                     placeholder: '评论该文章',
                     func: async function({text}) {
-                        let params = {
+                        const params = {
                             wcate: 2,
                             wid: that.id,
                             content: text,
@@ -266,7 +266,7 @@ export default {
          * 删除
          */
         deleteIt() {
-            let that = this;
+            const that = this;
             this.$confirm({
                 title: '提示',
                 content: '确定要删除该文章吗',
@@ -292,7 +292,7 @@ export default {
          * 滚动到顶部
          */
         scrollTop() {
-            let scrollTop = document.querySelector('.view-window').scrollTop;
+            const scrollTop = document.querySelector('.view-window').scrollTop;
             gsap.to('.view-window', {scrollTop: 0, duration: scrollTop/10000});
         },
         /**

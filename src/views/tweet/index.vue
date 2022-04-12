@@ -19,7 +19,7 @@
                 :records="page.data"
                 :idx="currTweetId"
                 @scroll-to="scrollTo"></time-line>
-            <operation-bar :write="loggedUser && loggedUser.lv == 2"
+            <operation-bar :write="loggedUser?.lv == 2"
                 @to-write="toWrite"></operation-bar>
         </div>
     </div>
@@ -65,7 +65,7 @@ export default {
         }
     },
     activated() {
-        let that = this;
+        const that = this;
         this.$emitter.on('touch-bottom', () => {
             that.loadMore();
         });
@@ -80,7 +80,7 @@ export default {
         loadMore() {
             if (this.isLoading || !this.page.next) return;
             this.isLoading = true;
-            let page = this.page;
+            const page = this.page;
             getTweetList(page.current, page.size).then(res => {
                 this.page.data = [].concat(this.page.data, res.records); // this.page.data.concat(res.records);
                 this.page.total += res.records.length;
@@ -121,7 +121,7 @@ export default {
          * 滚动到指定 id 的动态
          */
         scrollTo(id) {
-            let tweetDomList = document.querySelectorAll('.tweet-list-component');
+            const tweetDomList = document.querySelectorAll('.tweet-list-component');
             for (const tweetDom of tweetDomList) {
                 if (tweetDom.getAttribute('item-id') == id) {
                     this.scrollTar = tweetDom.offsetTop;

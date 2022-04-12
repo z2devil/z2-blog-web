@@ -21,7 +21,7 @@ function Auth(user, token) {
  * @param {string} token token
  */
 function setAuth(...args) {
-	let expires = Config.tokenExpires * 24 + 8 + 'h';
+	const expires = Config.tokenExpires * 24 + 8 + 'h';
 	if (args.length == 1) {
 		if (typeof(args[0]) == 'string') {
 			Cookies.set('auth', Auth(getUser(), args[0]), expires);
@@ -66,7 +66,7 @@ async function getAuth() {
  * @returns string
  */
 function getToken() {
-	let auth = Cookies.get('auth');
+	const auth = Cookies.get('auth');
 	return auth ? auth.token : null;
 }
 
@@ -75,7 +75,7 @@ function getToken() {
  * @returns object
  */
 function getUser() {
-	let auth = Cookies.get('auth');
+	const auth = Cookies.get('auth');
 	return auth ? Cookies.get('auth').user : null;
 }
 

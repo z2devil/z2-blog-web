@@ -86,7 +86,7 @@ import {
              * 登入
              */
             signIn() {
-                let that = this;
+                const that = this;
                 if (this.isSended || this.value != null) {
                     this.signLoading = true;
                     sign(this.email, this.value).then(res => {

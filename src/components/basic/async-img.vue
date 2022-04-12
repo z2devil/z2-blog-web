@@ -53,15 +53,15 @@
              * 初始化
              */
             init() {
-                let val = this.url;
+                const val = this.url;
                 if (!val) return;
                 if (val.indexOf('https://') !== -1 || val.indexOf('data:image/') !== -1) {
                     this.realUrl = val;
                 }else {
                     this.realUrl = this.$settings.downloadUrl + val + this.suffix;
                 }
-                let that = this;
-                let img = new Image();
+                const that = this;
+                const img = new Image();
                 img.src = this.realUrl;
                 img.onload = function() {
                     that.$emit('onLoaded', img);

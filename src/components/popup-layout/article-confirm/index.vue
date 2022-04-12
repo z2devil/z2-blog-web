@@ -15,12 +15,12 @@
                         <!-- 预览 -->
                         <div class="article-list-component">
                             <div class="banner">
-                                <async-img v-if="form.cover && form.cover.path && form.cover.status !== -1"
+                                <async-img v-if="form.cover?.path && form.cover.status !== -1"
                                     class="banner-img"
                                     :url="form.cover.path"
                                     suffix="?x-oss-process=image/resize,s_720"></async-img>
                                 <div class="banner-text"
-                                    :class="{'has-bg': form.cover && form.cover.path && form.cover.status !== -1}">
+                                    :class="{'has-bg': form.cover?.path && form.cover.status !== -1}">
                                     <user-info class="user-info-box"
                                         :avatar="false"
                                         :user-info="loggedUser">
@@ -175,12 +175,12 @@ import compress from '@/utils/compress.js'
             this.init();
         },
         activated() {
-            let cover = this.data.cover;
+            const cover = this.data.cover;
             if (cover) {
                 cover.progress = 1;
                 cover.status = 1;
             }
-            let tags = [];
+            const tags = [];
             for (const tag of this.data.tags) {
                 tags.push(tag.id);
             }
@@ -204,7 +204,7 @@ import compress from '@/utils/compress.js'
              * 选择标签
              */
             selectTag(id) {
-                let options = this.form.tags;
+                const options = this.form.tags;
                 if (options.indexOf(id) > -1) {
                     options.splice(options.indexOf(id), 1)
                 }else {
@@ -252,8 +252,8 @@ import compress from '@/utils/compress.js'
              * 处理选择的文件
              */
             handleChange({target: {files}}) {
-                let file = files[0];
-                let that = this;
+                const file = files[0];
+                const that = this;
                 // 上传结束方法
                 const uploadEnd = function(status) {
                     if (status) {
@@ -336,11 +336,11 @@ import compress from '@/utils/compress.js'
                     return;
                 }
                 // 进行文章发表
-                let params = {
+                const params = {
                     tags: this.form.tags,
                     summary: this.form.summary
                 }
-                if (this.form.cover && this.form.cover.status === 1) {
+                if (this.form.cover?.status === 1) {
                     params.cover = this.form.cover.id;
                 }
                 this.data.func(params).then(() => {

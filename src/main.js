@@ -54,7 +54,7 @@ import {
     show,
     hide,
 } from '@/components/popup-layout/script'
-let pl = {
+const pl = {
     'show': show,
     'hide': hide,
 };

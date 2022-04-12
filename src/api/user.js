@@ -8,7 +8,7 @@ import {
  * 发送验证码
  */
 export function sendVerifyCode(email) {
-    let data = {
+    const data = {
         email: email
     }
     return get('/auth/verify-code', data);
@@ -18,7 +18,7 @@ export function sendVerifyCode(email) {
  * 登录或注册
  */
 export function sign(email, code) {
-    let data = {
+    const data = {
         'email': email,
         'verifyCode': code
     };

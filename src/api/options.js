@@ -15,7 +15,7 @@ export function getOptions() {
  * 获取配置值
  */
 export function getValue(name, value, range) {
-    let data = {
+    const data = {
         'configName': name,
         'configValue': value,
         'configRange': range
@@ -27,7 +27,7 @@ export function getValue(name, value, range) {
  * 添加或修改配置
  */
 export function saveOrUpdateOption(name, value, range) {
-    let data = {
+    const data = {
         'configName': name,
         'configValue': value,
         'configRange': range

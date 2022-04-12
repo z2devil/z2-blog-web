@@ -21,11 +21,7 @@
         },
         methods: {
             formatDate(date) {
-                let res;
-                if (this.format == 'normal') {
-                    res = beautifyTime(date);
-                }
-                return res;
+                return this.format === 'normal' ? beautifyTime(date) : null;
             }
         }
     }

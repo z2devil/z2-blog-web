@@ -67,7 +67,7 @@
         watch: {
             userInfo: {
                 handler(val) {
-                    if (val && val.lv) this.operationList[0].use = val.lv === 2;
+                    if (val?.lv) this.operationList[0].use = val.lv === 2;
                 },
                 immediate: true,
                 deep: true

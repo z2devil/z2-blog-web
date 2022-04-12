@@ -1,12 +1,12 @@
 export default function compress(file, val, type) {
     return new Promise((resolve) => {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function(e) {
-            let image = new Image();
+            const image = new Image();
             image.src = e.target.result;
             image.onload = function() {
-                let canvas = document.createElement('canvas'),
+                const canvas = document.createElement('canvas'),
                 context = canvas.getContext('2d');
                 let width = image.width,
                 height = image.height;

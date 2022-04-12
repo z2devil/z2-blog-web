@@ -112,7 +112,7 @@ import {
                     if (this.isLoading || this.page.current === 1) return;
                 }
                 this.isLoading = true;
-                let page = this.page;
+                const page = this.page;
                 dir ? page.current++ : page.current--;
                 getCommentList(this.cate, this.id, page.current, page.size).then(res => {
                     this.page.data = res.records;

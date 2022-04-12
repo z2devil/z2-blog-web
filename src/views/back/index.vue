@@ -32,7 +32,7 @@
     //     }
     // ];
 
-    let idx = ref(0);
+    const idx = ref(0);
 
     const changeIdx = function() {
         idx.value = idx.value === 0 ? 1 : 0;

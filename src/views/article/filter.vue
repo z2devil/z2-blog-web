@@ -105,7 +105,7 @@ export default {
          * 选择筛选条件
          */
         selectOption(id) {
-            let options = this.selectedOptions;
+            const options = this.selectedOptions;
             if (options.indexOf(id) > -1) {
                 options.splice(options.indexOf(id), 1)
             }else {

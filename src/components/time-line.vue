@@ -90,15 +90,15 @@ export default {
          */
         init() {
             // 数据源
-            let records = this.records;
+            const records = this.records;
             // 处理后的数据源（预目录）
-            var passRecords = [];
+            const passRecords = [];
             // 向已有时间段添加内容
-            let that = this;
-            let pushRecord = function(record) {
-                let recordTimeAtom = new Date(record.postDate);
+            const that = this;
+            const pushRecord = function(record) {
+                const recordTimeAtom = new Date(record.postDate);
                 for (const passRecord of passRecords) {
-                    let passRecordTimeAtom = new Date(passRecord.postDate);
+                    const passRecordTimeAtom = new Date(passRecord.postDate);
                     // 如果时间相差较小
                     if (Math.abs(recordTimeAtom - passRecordTimeAtom) <= timeAtom[that.timeLevel]*1000) {
                         passRecord.include.push(record.id);
@@ -137,10 +137,10 @@ export default {
             if (e.deltaY > 0 && this.timeLevel == 0) return;
             // 数值较大时阻止时间等级变动
             for (const record of this.records) {
-                let timestamp = new Date(record.postDate);
+                const timestamp = new Date(record.postDate);
                 let mistiming = Math.round(new Date()) - timestamp;
                 mistiming = Math.abs(mistiming / 1000);
-                let newLevel = this.timeLevel + (e.deltaY < 0 ? 1 : -1)
+                const newLevel = this.timeLevel + (e.deltaY < 0 ? 1 : -1)
                 if (Math.floor(mistiming/timeAtom[newLevel]) > 9999) return;
             }
             // 时间等级变动

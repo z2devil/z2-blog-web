@@ -27,7 +27,7 @@ export default {
         }
     },
     created() {
-        let that = this;
+        const that = this;
         window.addEventListener('click', function(e) {
             if (that.eventLock) {
                 e.stopPropagation();

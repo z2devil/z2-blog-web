@@ -39,17 +39,16 @@ export default {
     },
     computed: {
         display() {
-            let res = this.$store.getters['pl/getView'] !== null;
-            return res;
+            return this.$store.getters['pl/getView'] !== null;
         },
         view() {
             return this.$store.getters['pl/getView'];
         },
     },
     created() {
-        let that = this;
+        const that = this;
         document.onkeydown = function(event) {
-            let e = event || window.event || arguments.callee.caller.arguments[0];
+            const e = event || window.event || arguments.callee.caller.arguments[0];
             if (e.keyCode == 65 && e.shiftKey) {
                 that.$PL.show(that, {
                     name: 'user-panel'
@@ -63,7 +62,7 @@ export default {
         },
         scrollFunction(e) {
             e = e || window.event;
-            e.preventDefault && e.preventDefault(); //禁止浏览器默认事件
+            e?.preventDefault(); //禁止浏览器默认事件
         }
     }
 }

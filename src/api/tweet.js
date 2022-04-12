@@ -8,7 +8,7 @@ import {
  * 获取动态列表
  */
 export function getTweetList(current, size) {
-    let data = {
+    const data = {
         'current': current,
         'size': size
     };
@@ -26,7 +26,7 @@ export function getTweet(id) {
  * 发表动态
  */
 export function addTweet(content, resources) {
-    let data = {
+    const data = {
         'content': content,
         'resources': resources
     };

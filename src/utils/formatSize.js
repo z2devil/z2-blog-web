@@ -2,8 +2,8 @@
  * 人性化文件大小处理 (传入文件大小)
  */
  export function beautifySize (size, unit) {
-	let arrr = ['GB', 'MB', 'KB', 'B', ];
-	let arrn = [
+	const arrr = ['GB', 'MB', 'KB', 'B', ];
+	const arrn = [
         1024*1024*1024,
         1024*1024,
         1024,
@@ -13,7 +13,7 @@
         return (size / arrn[unit]).toFixed(2) + arrr[unit];
 	}else {
 		for (let i = 0; i < 4; i++) {
-			let inm = Math.floor(size / arrn[i]);
+			const inm = Math.floor(size / arrn[i]);
 			if (inm != 0) {
 				return (size / arrn[i]).toFixed(2) + ' ' + arrr[i];
 			}
