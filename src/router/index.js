@@ -115,23 +115,19 @@ const router = createRouter({
  */
 
 // 前置守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
 	if (to.matched.length === 0) {
 		next('/404');
-	} else {
-		if (to.path === '/' || to.path === '/404') {
+	}else if (to.meta.auth) {
+		const auth = await authUtils.auth();
+		console.log(auth);
+		if (auth && auth.lv >= to.meta.auth) {
 			next();
-		} else {
-			if (to.meta.auth) {
-				if (authUtils.has() && authUtils.user().lv >= to.meta.auth) {
-					next();
-				} else {
-					next('/404');
-				}
-			} else {
-				next();
-			}
+		}else {
+			next('/404');
 		}
+	}else {
+		next();
 	}
 });
 

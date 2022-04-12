@@ -1,5 +1,6 @@
 import Cookies from 'vue-cookies'
 import Config from '/setting'
+import { getAuthInfo } from '@/api/user'
 
 /**
  * Auth 构造函数
@@ -49,6 +50,18 @@ function isLogged() {
 }
 
 /**
+ * 获取权限
+ */
+async function getAuth() {
+	const res = await getAuthInfo().then(r => {
+		return r;
+	}).catch(() => {
+		return 0;
+	});
+	return res;
+}
+
+/**
  * 获取 token
  * @returns string
  */
@@ -73,6 +86,7 @@ const authUtils = {
 	set: setAuth,
 	remove: removeAuth,
 	has: isLogged,
+	auth: getAuth,
 	token: getToken,
 	user: getUser,
 }

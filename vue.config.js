@@ -10,7 +10,7 @@ const externals = {
   // 'axios': 'axios',
   // 'prismjs': 'Prism',
   // 'ali-oss': 'OSS',
-  'vuedraggable': 'vuedraggable',
+  // 'vuedraggable': 'vuedraggable',
   // '@kangc/v-md-editor': 'VMdEditor',
   // '@kangc/v-md-editor/lib/preview': 'VMdPreview',
   '@kangc/v-md-editor/lib/theme/vuepress': 'VMdTheme',
@@ -31,7 +31,7 @@ const cdn = {
 		// 'https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js',
     // 'https://cdn.jsdelivr.net/npm/prismjs@1.24.1/prism.min.js',
     // 'https://cdn.jsdelivr.net/npm/ali-oss@6.16.0/lib/client.min.js',
-    'https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.umd.min.js',
+    // 'https://cdn.jsdelivr.net/npm/vuedraggable@4.1.0/dist/vuedraggable.umd.min.js',
     // 'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/base-editor.js',
     // 'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/preview.js',
     'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/theme/vuepress.js',
@@ -42,7 +42,7 @@ const cdn = {
 
 //引入插件
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+// const TerserPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 //匹配此 {RegExp} 的资源
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
@@ -94,6 +94,11 @@ module.exports = {
           editor: {
             test: /[\\/]node_modules[\\/](@kangc[\\/]v-md-editor|prismjs)/,
             name: 'chunk-editor',
+            chunks: 'all',
+          },
+          vuedraggable: {
+            test: /[\\/]node_modules[\\/](vuedraggable|sortablejs)/,
+            name: 'chunk-vuedraggable',
             chunks: 'all',
           },
           gsap: {
