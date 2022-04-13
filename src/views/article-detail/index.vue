@@ -122,7 +122,7 @@ export default {
             return beautifyTime(this.articleData.postDate);
         },
         loggedUser() {
-            return this.$auth.user();
+            return this.$auth.get('user');
         },
     },
     watch: {
@@ -221,7 +221,7 @@ export default {
          * 喜欢
          */
         likeIt() {
-            if (!this.$auth.has) return;
+            if (!this.$auth.has()) return;
             like(2, this.articleData.id).then(() => {
                 this.articleData.isLiked = !this.articleData.isLiked;
                 this.articleData.likes += this.articleData.isLiked ? 1 : -1;

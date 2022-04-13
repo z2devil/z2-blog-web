@@ -61,7 +61,7 @@ export default {
     },
     computed: {
         loggedUser() {
-            return this.$auth.user();
+            return this.$auth.get('user');
         }
     },
     activated() {

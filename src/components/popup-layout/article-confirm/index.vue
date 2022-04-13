@@ -168,7 +168,7 @@ import compress from '@/utils/compress.js'
         },
         computed: {
             loggedUser() {
-                return this.$auth.user();
+                return this.$auth.get('user');
             }
         },
         created() {

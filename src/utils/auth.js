@@ -1,94 +1,127 @@
-import Cookies from 'vue-cookies'
-import Config from '/setting'
+// import Cookies from 'vue-cookies'
+// import Config from '/setting'
 import { getAuthInfo } from '@/api/user'
 
-/**
- * Auth 构造函数
- * @param {object} user 用户
- * @param {string} token token
- * @returns object
- */
-function Auth(user, token) {
-	return {
-		'user': user,
-		'token': token,
-	}
-}
+const has = function() {
+	return JSON.parse(localStorage.getItem('auth')) ? true : false;
+};
 
-/**
- * 设置 Auth
- * @param {object} user 用户
- * @param {string} token token
- */
-function setAuth(...args) {
-	const expires = Config.tokenExpires * 24 + 8 + 'h';
-	if (args.length == 1) {
-		if (typeof(args[0]) == 'string') {
-			Cookies.set('auth', Auth(getUser(), args[0]), expires);
-		}
-		if (typeof(args[0]) == 'object') {
-			Cookies.set('auth', Auth(args[0], getToken()), expires);
-		}
+const get = function(key) {
+	const data = JSON.parse(localStorage.getItem('auth'));
+	if (data) {
+		return key ? data[key] : data;
 	}else {
-		Cookies.set('auth', Auth(args[0], args[1]), expires);
+		return null;
 	}
-}
+};
 
-/**
- * 移除 Auth
- */
-function removeAuth() {
-	Cookies.remove('auth');
-}
+const clear = function() {
+	localStorage.removeItem('auth');
+};
 
-/**
- * 是否登录
- * @returns boolean
- */
-function isLogged() {
-	return Cookies.get('auth') ? true : false;
-}
-
-/**
- * 获取权限
- */
-async function getAuth() {
-	const res = await getAuthInfo().then(r => {
-		return r;
+const update = async function(data) {
+	if (data) {
+		localStorage.setItem('auth', JSON.stringify(data));
+		return;
+	}
+	await getAuthInfo().then(res => {
+		localStorage.setItem('auth', JSON.stringify({token: get('token'), user: res}));
 	}).catch(() => {
-		return 0;
+		clear();
 	});
-	return res;
 }
 
-/**
- * 获取 token
- * @returns string
- */
-function getToken() {
-	const auth = Cookies.get('auth');
-	return auth ? auth.token : null;
+const auth = async function() {
+	await update();
+	return ~~get('user')?.['lv'];
 }
 
-/**
- * 获取已登录用户
- * @returns object
- */
-function getUser() {
-	const auth = Cookies.get('auth');
-	return auth ? Cookies.get('auth').user : null;
-}
+// /**
+//  * Auth 构造函数
+//  * @param {object} user 用户
+//  * @param {string} token token
+//  * @returns object
+//  */
+// class Auth {
+// 	constructor(user, token) {
+// 		this.user = user;
+// 		this.token = token;
+// 	}
+// }
+
+// /**
+//  * 设置 Auth
+//  * @param {object} user 用户
+//  * @param {string} token token
+//  */
+// function setAuth(...args) {
+// 	// const expires = Config.tokenExpires * 24 + 8 + 'h';
+// 	if (args.length === 1) {
+// 		if (typeof(args[0]) === 'string') {
+// 			localStorage.setItem('auth', JSON.stringify(new Auth(getUser(), args[0])));
+// 		}
+// 		if (typeof(args[0]) === 'object') {
+// 			localStorage.setItem('auth', JSON.stringify(new Auth(args[0], getToken())));
+// 		}
+// 	}else {
+// 		localStorage.setItem('auth', JSON.stringify(new Auth(args[0], args[1])));
+// 	}
+// }
+
+// /**
+//  * 移除 Auth
+//  */
+// function removeAuth() {
+// 	localStorage.removeItem('auth');
+// }
+
+// /**
+//  * 是否登录
+//  * @returns boolean
+//  */
+// function isLogged() {
+// 	return localStorage.getItem('auth');
+// }
+
+// /**
+//  * 获取权限
+//  */
+// async function getAuth() {
+// 	const res = await getAuthInfo().then(r => {
+// 		return parseInt(r.lv);
+// 	}).catch(() => {
+// 		return 0;
+// 	});
+// 	return res;
+// }
+
+// /**
+//  * 获取 token
+//  * @returns string
+//  */
+// function getToken() {
+// 	const auth = JSON.parse(localStorage.getItem('auth'));
+// 	return auth?.token;
+// }
+
+// /**
+//  * 获取已登录用户
+//  * @returns object
+//  */
+// function getUser() {
+// 	const auth = JSON.parse(localStorage.getItem('auth'));
+// 	return auth?.user;
+// }
 
 /**
  * 声明工具类对象
  */
 const authUtils = {
-	set: setAuth,
-	remove: removeAuth,
-	has: isLogged,
-	auth: getAuth,
-	token: getToken,
-	user: getUser,
+	has,
+	get,
+	clear,
+	update,
+	auth,
 }
 
 export default authUtils;

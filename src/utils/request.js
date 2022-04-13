@@ -14,7 +14,7 @@ service.interceptors.request.use(
 	config => {
 		if (authUtils.has()) {
 			// 让每个请求携带自定义token
-			config.headers['Authorization'] = authUtils.token();
+			config.headers['Authorization'] = authUtils.get('token');
 		}
 		config.headers['Content-Type'] = Config.contentType;
 		// 对参数进行qs的序列化
@@ -61,7 +61,7 @@ service.interceptors.response.use(
 			const res = error.response.data;
 			// console.log('res', res);
 			if (res.code === 401) {
-				authUtils.remove();
+				authUtils.clear();
 				if (!store.getters['pl/getView'] || store.getters['pl/getView'].name === 'user-edit') {
 					store.dispatch('pl/setView', {
 						name: 'user-panel',
@@ -77,7 +77,7 @@ service.interceptors.response.use(
 			// console.log('res', res);
 			if (res) {
 				if (res.code === 401) {
-					authUtils.remove();
+					authUtils.clear();
 					if (!store.getters['pl/getView'] || store.getters['pl/getView'].name === 'user-edit') {
 						store.dispatch('pl/setView', {
 							name: 'user-panel',

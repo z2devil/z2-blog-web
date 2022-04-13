@@ -91,7 +91,8 @@ import {
                     this.signLoading = true;
                     sign(this.email, this.value).then(res => {
                         this.signLoading = false;
-                        this.$auth.set(res.user, res.token);
+                        this.$auth.update({token: res.token, user: res.user});
+                        // this.$auth.set(res.user, res.token);
                         this.$emit('close');
                         this.$msg("success", "登入成功");
                         setTimeout(() => {

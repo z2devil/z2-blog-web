@@ -67,7 +67,7 @@
 
 <script>
 import {
-    getAuthInfo,
+    // getAuthInfo,
     modUser,
 } from '@/api/user.js'
 import {
@@ -140,26 +140,34 @@ import compress from '@/utils/compress.js'
             /**
              * 初始化
              */
-            init() {
-                getAuthInfo().then(res => {
-                    this.userInfo = res;
-                    this.$auth.set(res);
-                    for (const key in res) {
-                        if (Object.hasOwnProperty.call(res, key)) {
-                            const element = res[key];
-                            if (key === 'nickname') {
-                                this.form[0].value = element;
-                            }
-                            if (key === 'email') {
-                                this.form[1].value = element;
-                            }
-                            if (key === 'signature') {
-                                this.form[2].value = element;
-                            }
-                        }
-                        this.modified = false;
-                    }
-                });
+            async init() {
+                await this.$auth.update();
+                console.log('init');
+                this.userInfo = this.$auth.get('user');
+                this.form[0].value = this.userInfo?.['nickname'] ?? this.form[0].value;
+                this.form[1].value = this.userInfo?.['email'] ?? this.form[1].value;
+                this.form[2].value = this.userInfo?.['signature'] ?? this.form[2].value;
+                this.modified = false;
+
+                // getAuthInfo().then(res => {
+                //     this.userInfo = res;
+                //     this.$auth.set(res);
+                //     for (const key in res) {
+                //         if (Object.hasOwnProperty.call(res, key)) {
+                //             const element = res[key];
+                //             if (key === 'nickname') {
+                //                 this.form[0].value = element;
+                //             }
+                //             if (key === 'email') {
+                //                 this.form[1].value = element;
+                //             }
+                //             if (key === 'signature') {
+                //                 this.form[2].value = element;
+                //             }
+                //         }
+                //         this.modified = false;
+                //     }
+                // });
             },
             /**
              * 点击上传文件按钮
@@ -243,7 +251,7 @@ import compress from '@/utils/compress.js'
             /**
              * 保存修改信息
              */
-            save() {
+            async save() {
                 if (this.uploadLoading) {
                     this.$msg('error', '图片上传中，请稍后');
                     return;
@@ -262,13 +270,17 @@ import compress from '@/utils/compress.js'
                 if (this.avatarFile.status === 1) {
                     params.avatarPath = this.avatarFile.path;
                 }
-                modUser(params).then(() => {
-                    getAuthInfo().then(res => {
-                        this.$auth.set(res);
-                        this.$msg('success', '修改成功');
-                        this.$PL.hide(this);
-                        this.saveLoading = false;
-                    });
+                await modUser(params).then(async () => {
+                    // getAuthInfo().then(res => {
+                    //     this.$auth.set(res);
+                    //     this.$msg('success', '修改成功');
+                    //     this.$PL.hide(this);
+                    //     this.saveLoading = false;
+                    // });
+                    await this.$auth.update();
+                    this.$msg('success', '修改成功');
+                    this.$PL.hide(this);
+                    this.saveLoading = false;
                 }).catch(() => {
                     this.$msg('error', '修改失败');
                     this.saveLoading = false;

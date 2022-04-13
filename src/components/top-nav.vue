@@ -34,8 +34,8 @@
                     <div class="info-box">
                         <div class="info-content">
                             <template v-if="$auth.has()">
-                                <span class="nickname">{{ userInfo.nickname }}</span>
-                                <span class="sub-info">{{ tag[userInfo.lv] }}</span>
+                                <span class="nickname">{{ userInfo?.nickname }}</span>
+                                <span class="sub-info">{{ tag[userInfo?.lv] }}</span>
                             </template>
                             <template v-else>
                                 <span class="tip">未登录</span>
@@ -44,7 +44,7 @@
                     </div>
                     <template v-if="$auth.has()">
                         <async-img class="avatar-img"
-                            :url="userInfo.avatarPath"
+                            :url="userInfo?.avatarPath"
                             suffix="?x-oss-process=image/resize,s_42"></async-img>
                     </template>
                     <template v-else>
@@ -112,7 +112,7 @@
              * 初始化
              */
             init() {
-                this.userInfo = this.$auth.user();
+                this.userInfo = this.$auth.get('user');
             },
             /**
              * 滚动监听

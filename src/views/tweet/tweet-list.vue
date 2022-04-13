@@ -14,8 +14,8 @@
                             icon: 'icon-trash',
                             text: '删除',
                             use: $auth.has() 
-                                    && ($auth.user().id === tweetData.userInfo.id  
-                                    || $auth.user().lv === 2),
+                                    && ($auth.get('user').id === tweetData.userInfo.id  
+                                    || $auth.get('user').lv === 2),
                             callback: deleteIt
                         }
                     ]">
@@ -141,7 +141,7 @@ export default {
          * 喜欢
          */
         likeIt() {
-            if (!this.$auth.has) return;
+            if (!this.$auth.has()) return;
             like(1, this.tweetData.id).then(res => {
                 this.tweetData.likes = res;
                 this.tweetData.isLiked = !this.tweetData.isLiked;

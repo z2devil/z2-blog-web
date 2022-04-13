@@ -13,8 +13,8 @@
                         icon: 'icon-trash',
                         text: '删除',
                         use: $auth.has() 
-                                && ($auth.user().id === commentData.userInfo.id
-                                || $auth.user().lv === 2),
+                                && ($auth.get('user').id === commentData.userInfo.id
+                                || $auth.get('user').lv === 2),
                         callback: deleteIt
                     }
                 ]">
@@ -89,7 +89,7 @@ import {
              * 喜欢
              */
             likeIt() {
-                if (!this.$auth.has) return;
+                if (!this.$auth.has()) return;
                 like(0, this.commentData.id).then(res => {
                     this.commentData.likes = res;
                     this.commentData.isLiked = !this.commentData.isLiked;

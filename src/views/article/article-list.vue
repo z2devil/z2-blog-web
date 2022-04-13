@@ -79,7 +79,7 @@ export default {
          * 喜欢
          */
         likeIt() {
-            if (!this.$auth.has) return;
+            if (!this.$auth.has()) return;
             like(2, this.articleData.id).then(res => {
                 this.articleData.likes = res;
                 this.articleData.isLiked = !this.articleData.isLiked;

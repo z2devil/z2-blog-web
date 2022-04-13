@@ -74,10 +74,10 @@
             }
         },
         created() {
-            this.userInfo = this.$auth.user();
+            this.userInfo = this.$auth.get('user');
         },
         activated() {
-            this.userInfo = this.$auth.user();
+            this.userInfo = this.$auth.get('user');
         },
         emits: ['close'],
         methods: {
@@ -93,7 +93,7 @@
                 this.$msg("success", "管理平台");
             },
             logout() {
-                this.$auth.remove();
+                this.$auth.clear();
                 this.$msg("success", "退出成功");
                 this.$emit("close");
                 setTimeout(() => {
