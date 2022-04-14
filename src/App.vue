@@ -3,9 +3,9 @@
         <top-nav v-if="navShow"></top-nav>
         <router-view />
         <popup-layout ref="popupLayout"></popup-layout>
-        <a class="gov-record" href="https://beian.miit.gov.cn/" target="_blank">
-            豫ICP备2021001737号
-        </a>
+        <a class="gov-record" href="https://beian.miit.gov.cn/" target="_blank"
+            >豫ICP备2021001737号</a
+        >
     </div>
 </template>
 

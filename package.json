@@ -19,7 +19,6 @@
         "svg-sprite-loader": "^6.0.11",
         "tiny-emitter": "^2.1.0",
         "vue": "3.2.20",
-        "vue-cookies": "^1.7.4",
         "vue-router": "^4.0.12",
         "vuedraggable": "^4.1.0",
         "vuex": "^4.0.2",

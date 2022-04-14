@@ -10671,11 +10671,6 @@ vm2@^3.9.3:
   resolved "https://registry.npmmirror.com/vm2/download/vm2-3.9.5.tgz"
   integrity sha1-UogESGC0u6zkQxAfzTvdsqCqJJY=
 
-vue-cookies@^1.7.4:
-  version "1.7.4"
-  resolved "https://registry.npm.taobao.org/vue-cookies/download/vue-cookies-1.7.4.tgz"
-  integrity sha1-0kHQoEMdoHlYN2UdELTXPnyNPo0=
-
 vue-demi@*:
   version "0.12.4"
   resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.12.4.tgz#420dd17628f95f1bbce1102ad3c51074713a8049"
