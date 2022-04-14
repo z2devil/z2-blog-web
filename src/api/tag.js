@@ -1,8 +1,4 @@
-import {
-    get,
-    post,
-    dele,
-} from '@/utils/request';
+import { get, post, dele } from '@/utils/request';
 
 /**
  * 获取标签列表
@@ -16,7 +12,7 @@ export function getTagList() {
  */
 export function addTag(name) {
     const data = {
-        'name': name
+        name: name,
     };
     return post('/tag', data);
 }
@@ -25,5 +21,5 @@ export function addTag(name) {
  * 删除标签
  */
 export function deleteTag(id) {
-    return dele('/tag/'+id);
+    return dele('/tag/' + id);
 }

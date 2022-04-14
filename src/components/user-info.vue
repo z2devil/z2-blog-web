@@ -1,37 +1,35 @@
 <template>
     <div class="user-info-component">
-        <async-img v-if="avatar && userInfo.avatarPath"
-            class="user-avatar" 
+        <async-img
+            v-if="avatar && userInfo.avatarPath"
+            class="user-avatar"
             :url="userInfo.avatarPath"
             suffix="?x-oss-process=image/resize,s_32"></async-img>
-        <span class="user-name">{{userInfo.nickname}}</span>
+        <span class="user-name">{{ userInfo.nickname }}</span>
         <slot></slot>
     </div>
 </template>
 
 <script>
-    export default {
-        props: {
-            avatar: {
-                type: Boolean,
-                default: true,
-                required: false
-            },
-            userInfo: {
-                type: Object,
-                required: false,
-            },
+export default {
+    props: {
+        avatar: {
+            type: Boolean,
+            default: true,
+            required: false,
         },
-        data() {
-            return {
-                
-            }
-        }
-    }
+        userInfo: {
+            type: Object,
+            required: false,
+        },
+    },
+    data() {
+        return {};
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .user-info-component {
     display: flex;
     flex-direction: row;
@@ -51,5 +49,4 @@
     color: $text2;
     margin-right: 5px;
 }
-
 </style>

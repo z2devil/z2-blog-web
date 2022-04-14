@@ -1,8 +1,4 @@
-import {
-    get,
-    post,
-    dele,
-} from '@/utils/request';
+import { get, post, dele } from '@/utils/request';
 
 /**
  * 获取配置列表
@@ -16,9 +12,9 @@ export function getOptions() {
  */
 export function getValue(name, value, range) {
     const data = {
-        'configName': name,
-        'configValue': value,
-        'configRange': range
+        configName: name,
+        configValue: value,
+        configRange: range,
     };
     return get('/config-options/value', data);
 }
@@ -28,9 +24,9 @@ export function getValue(name, value, range) {
  */
 export function saveOrUpdateOption(name, value, range) {
     const data = {
-        'configName': name,
-        'configValue': value,
-        'configRange': range
+        configName: name,
+        configValue: value,
+        configRange: range,
     };
     return post('/config-options', data);
 }
@@ -39,5 +35,5 @@ export function saveOrUpdateOption(name, value, range) {
  * 删除配置
  */
 export function deleteOption(id) {
-    return dele('/config-options/'+id);
+    return dele('/config-options/' + id);
 }

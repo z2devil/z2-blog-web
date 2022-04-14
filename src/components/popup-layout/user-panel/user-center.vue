@@ -7,7 +7,8 @@
         <div class="content-box">
             <div class="basic-info-box">
                 <div class="basic-info">
-                    <async-img class="avatar"
+                    <async-img
+                        class="avatar"
                         :url="userInfo.avatarPath"
                         suffix="?x-oss-process=image/resize,s_72"></async-img>
                     <div class="info">
@@ -20,92 +21,91 @@
                         </div>
                     </div>
                 </div>
-                <z-button class="edit-btn"
-                    ghost
-                    round
-                    @click="toEdit">编辑个人资料</z-button>
+                <z-button class="edit-btn" ghost round @click="toEdit"
+                    >编辑个人资料</z-button
+                >
             </div>
             <div class="signature">
                 <span>{{ userInfo.signature }}</span>
             </div>
         </div>
         <div class="button-box">
-            <z-button v-for="(option, index) in options"
+            <z-button
+                v-for="(option, index) in options"
                 :key="index"
                 class="btn"
                 type="link"
-                @click="option.func">{{ option.name }}</z-button>
+                @click="option.func"
+                >{{ option.name }}</z-button
+            >
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                userInfo: {},
-                operationList: [
-                    {
-                        name: '管理平台',
-                        func: this.toManage,
-                        use: false
-                    },
-                    {
-                        name: '登出',
-                        func: this.logout,
-                        use: true
-                    }
-                ],
-                tag: ['普通用户', '管理员', '博主']
-            }
-        },
-        computed: {
-            options() {
-                return this.operationList.filter(option => option.use == true)
-            },
-        },
-        watch: {
-            userInfo: {
-                handler(val) {
-                    if (val?.lv) this.operationList[0].use = val.lv === 2;
+export default {
+    data() {
+        return {
+            userInfo: {},
+            operationList: [
+                {
+                    name: '管理平台',
+                    func: this.toManage,
+                    use: false,
                 },
-                immediate: true,
-                deep: true
-            }
+                {
+                    name: '登出',
+                    func: this.logout,
+                    use: true,
+                },
+            ],
+            tag: ['普通用户', '管理员', '博主'],
+        };
+    },
+    computed: {
+        options() {
+            return this.operationList.filter(option => option.use == true);
         },
-        created() {
-            this.userInfo = this.$auth.get('user');
-        },
-        activated() {
-            this.userInfo = this.$auth.get('user');
-        },
-        emits: ['close'],
-        methods: {
-            toEdit() {
-                this.$PL.show(this, {
-                    name: 'user-edit',
-                    data: {
-                        
-                    }
-                });
+    },
+    watch: {
+        userInfo: {
+            handler(val) {
+                if (val?.lv) this.operationList[0].use = val.lv === 2;
             },
-            toManage() {
-                this.$msg("success", "管理平台");
-            },
-            logout() {
-                this.$auth.clear();
-                this.$msg("success", "退出成功");
-                this.$emit("close");
-                setTimeout(() => {
-                    location.reload();
-                }, 1000);
-            }
-        }
-    }
+            immediate: true,
+            deep: true,
+        },
+    },
+    created() {
+        this.userInfo = this.$auth.get('user');
+    },
+    activated() {
+        this.userInfo = this.$auth.get('user');
+    },
+    emits: ['close'],
+    methods: {
+        toEdit() {
+            this.$PL.show(this, {
+                name: 'user-edit',
+                data: {},
+            });
+        },
+        toManage() {
+            this.$msg('success', '管理平台');
+        },
+        logout() {
+            this.$auth.clear();
+            this.$msg('success', '退出成功');
+            this.$emit('close');
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .title-box {
     margin-bottom: 30px;
     .main {
@@ -149,7 +149,7 @@
                     display: flex;
                     flex-direction: row;
                     align-items: center;
-                    &+.info-item {
+                    & + .info-item {
                         margin-top: 10px;
                     }
                     .tag {
@@ -203,5 +203,4 @@
         }
     }
 }
-
 </style>

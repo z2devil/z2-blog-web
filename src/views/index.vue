@@ -2,11 +2,11 @@
     <div class="page-container">
         <router-view #default="{ Component }">
             <!-- <template v-if="route.meta.root"> -->
-                <!-- <transition name="fade"> -->
-                    <keep-alive :include="['tweet-index', 'article-index']">
-                        <component :is="Component" />
-                    </keep-alive>
-                <!-- </transition> -->
+            <!-- <transition name="fade"> -->
+            <keep-alive :include="['tweet-index', 'article-index']">
+                <component :is="Component" />
+            </keep-alive>
+            <!-- </transition> -->
             <!-- </template>
             <template v-else>
                 <component :is="Component" />
@@ -19,46 +19,47 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                touchBottomObserver: null,
-                // botttomLoading: false,
-            }
-        },
-        watch: {
-            $route: {
-                handler() {
-                    const that = this;
-                    this.$nextTick(function() {
-                        that.pagingObserver();
-                    });
-                },
-                immediate: true
-            }
-        },
-        methods: {
-            pagingObserver() {
-                const pageEnd =  document.querySelector('#page-end');
-                if (!pageEnd) return;
-                if (this.touchBottomObserver) {
-                    this.touchBottomObserver.disconnect();
-                    this.touchBottomObserver = null;
-                }
-                this.touchBottomObserver = new IntersectionObserver(entries => {
-                    if (entries[0].intersectionRatio <= 0) return;
-                    // that.getArtcileList();
-                    console.log('触底');
-                    this.$emitter.emit('touch-bottom', '123');
+export default {
+    data() {
+        return {
+            touchBottomObserver: null,
+            // botttomLoading: false,
+        };
+    },
+    watch: {
+        $route: {
+            handler() {
+                const that = this;
+                this.$nextTick(function () {
+                    that.pagingObserver();
                 });
-                this.touchBottomObserver.observe(document.querySelector('#page-end'));
+            },
+            immediate: true,
+        },
+    },
+    methods: {
+        pagingObserver() {
+            const pageEnd = document.querySelector('#page-end');
+            if (!pageEnd) return;
+            if (this.touchBottomObserver) {
+                this.touchBottomObserver.disconnect();
+                this.touchBottomObserver = null;
             }
-        }
-    }
+            this.touchBottomObserver = new IntersectionObserver(entries => {
+                if (entries[0].intersectionRatio <= 0) return;
+                // that.getArtcileList();
+                console.log('触底');
+                this.$emitter.emit('touch-bottom', '123');
+            });
+            this.touchBottomObserver.observe(
+                document.querySelector('#page-end')
+            );
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 // 容器
 .page-container {
     position: relative;

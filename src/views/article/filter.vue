@@ -1,34 +1,36 @@
 <template>
     <transition name="scroll">
-        <div v-show="trigger"
-            class="filter-box">
+        <div v-show="trigger" class="filter-box">
             <div class="filter-bar">
-                <z-button class="all-btn"
+                <z-button
+                    class="all-btn"
                     :type="optionsTrigger ? 'primary' : 'normal'"
                     @click="optionsTrigger = !optionsTrigger">
                     <span class="iconfont icon-bars"></span>
                     <span>全部</span>
                 </z-button>
                 <div class="input-box">
-                    <input class="input"
+                    <input
+                        class="input"
                         type="search"
                         v-model="value"
                         maxlength="40"
                         placeholder="搜索你想要的的内容"
-                        @keydown.enter="onSearch">
+                        @keydown.enter="onSearch" />
                 </div>
-                <z-button class="search-btn"
-                    @click="onSearch">
+                <z-button class="search-btn" @click="onSearch">
                     <span class="iconfont icon-search"></span>
                 </z-button>
             </div>
             <transition name="dropdown">
-                <div v-show="optionsTrigger"
-                    class="options-box">
-                    <div v-for="(item, index) in tagList"
+                <div v-show="optionsTrigger" class="options-box">
+                    <div
+                        v-for="(item, index) in tagList"
                         :key="index"
                         class="option"
-                        :class="{ active: selectedOptions.indexOf(item.id) > -1 }"
+                        :class="{
+                            active: selectedOptions.indexOf(item.id) > -1,
+                        }"
                         @click="selectOption(item.id)">
                         <span>{{ item.name }}</span>
                     </div>
@@ -39,16 +41,14 @@
 </template>
 
 <script>
-import {
-    getTagList
-} from '@/api/tag';
+import { getTagList } from '@/api/tag';
 
 export default {
     props: {
         trigger: {
             type: Boolean,
             required: true,
-        }
+        },
     },
     data() {
         return {
@@ -57,30 +57,31 @@ export default {
             tagList: [],
             selectedOptions: [],
             value: '',
-        }
+        };
     },
     watch: {
         trigger: {
             handler(val) {
                 if (!val) return;
-                this.$nextTick(function() {
-                    document.querySelector(".input").focus();
+                this.$nextTick(function () {
+                    document.querySelector('.input').focus();
                 });
-            }
+            },
         },
         optionsTrigger: {
             handler(val) {
-                this.$nextTick(function() {
+                this.$nextTick(function () {
                     if (val) {
-                        this.optionsHeight = document.querySelector(".options-box").clientHeight;
-                    }else {
+                        this.optionsHeight =
+                            document.querySelector('.options-box').clientHeight;
+                    } else {
                         this.optionsHeight = 0;
                         this.selectedOptions = [];
                     }
                     this.onOptionsTrigger();
                 });
             },
-        }
+        },
     },
     created() {
         this.initTagList();
@@ -107,8 +108,8 @@ export default {
         selectOption(id) {
             const options = this.selectedOptions;
             if (options.indexOf(id) > -1) {
-                options.splice(options.indexOf(id), 1)
-            }else {
+                options.splice(options.indexOf(id), 1);
+            } else {
                 options.push(id);
             }
         },
@@ -116,19 +117,21 @@ export default {
          * 搜索
          */
         onSearch() {
-            this.$emit("search", {keyword: this.value.trim(), tags: this.selectedOptions});
+            this.$emit('search', {
+                keyword: this.value.trim(),
+                tags: this.selectedOptions,
+            });
         },
-    }
-}
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .filter-box {
     z-index: 10;
     position: absolute;
     width: $con_width;
-    top: $nav_height+50px;
+    top: $nav_height + 50px;
     left: 50%;
     transform: translateX(-50%);
     transition: 0.4s;
@@ -232,5 +235,4 @@ export default {
     opacity: 0;
     transform: translateY(-30px);
 }
-
 </style>

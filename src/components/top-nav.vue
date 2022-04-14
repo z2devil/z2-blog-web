@@ -1,9 +1,7 @@
 <template>
-    <div :class="['sidebar-component', {'fixed': fixed}]">
+    <div :class="['sidebar-component', { fixed: fixed }]">
         <div class="content">
-            <div id="logo"
-                :class="{'back': isBack}"
-                @click="onBack">
+            <div id="logo" :class="{ back: isBack }" @click="onBack">
                 <div class="logo-box">
                     <span class="iconfont icon-sun"></span>
                     <div class="logo-text">
@@ -17,7 +15,8 @@
                 </div>
             </div>
             <div class="nav-box">
-                <router-link class="nav-item"
+                <router-link
+                    class="nav-item"
                     v-for="(nav, index) in navList"
                     :key="index"
                     :to="nav.path + '/index'"
@@ -28,14 +27,17 @@
                     </div>
                 </router-link>
             </div>
-            <div class="user-box"
-                @click="onUserInfo">
+            <div class="user-box" @click="onUserInfo">
                 <div class="inner">
                     <div class="info-box">
                         <div class="info-content">
                             <template v-if="$auth.has()">
-                                <span class="nickname">{{ userInfo?.nickname }}</span>
-                                <span class="sub-info">{{ tag[userInfo?.lv] }}</span>
+                                <span class="nickname">{{
+                                    userInfo?.nickname
+                                }}</span>
+                                <span class="sub-info">{{
+                                    tag[userInfo?.lv]
+                                }}</span>
                             </template>
                             <template v-else>
                                 <span class="tip">未登录</span>
@@ -43,13 +45,15 @@
                         </div>
                     </div>
                     <template v-if="$auth.has()">
-                        <async-img class="avatar-img"
+                        <async-img
+                            class="avatar-img"
                             :url="userInfo?.avatarPath"
                             suffix="?x-oss-process=image/resize,s_42"></async-img>
                     </template>
                     <template v-else>
-                        <img class="avatar-img"
-                            src="../assets/images/express/幽灵.png">
+                        <img
+                            class="avatar-img"
+                            src="../assets/images/express/幽灵.png" />
                     </template>
                 </div>
             </div>
@@ -58,96 +62,96 @@
 </template>
 
 <script>
-    const defaultNavList = [
+const defaultNavList = [
         {
             name: '时间线',
             icon: 'icon-clock',
-            path: '/tweet'
+            path: '/tweet',
         },
         {
             name: '文章',
             icon: 'icon-journal',
-            path: '/article'
+            path: '/article',
         },
         {
             name: '关于我',
             icon: 'icon-person',
-            path: '/about'
+            path: '/about',
         },
     ],
     lvTags = ['普通用户', '管理员', '博主'];
 
-    export default {
-        data() {
-            return {
-                fixed: false,
-                userInfo: {},
-                navList: defaultNavList,
-                tag: lvTags,
-            }
+export default {
+    data() {
+        return {
+            fixed: false,
+            userInfo: {},
+            navList: defaultNavList,
+            tag: lvTags,
+        };
+    },
+    computed: {
+        isBack() {
+            return this.$store.getters['nav/getBack'];
         },
-        computed: {
-            isBack() {
-                return this.$store.getters['nav/getBack'];
-            },
-            current() {
-                return this.$store.getters['nav/getCurrent'];
-            }
+        current() {
+            return this.$store.getters['nav/getCurrent'];
         },
-        created() {
-            this.init();
+    },
+    created() {
+        this.init();
+    },
+    mounted() {
+        this.$nextTick(() => {
+            // 监听（绑定）滚轮滚动事件
+            window.addEventListener('scroll', this.handleScroll);
+        });
+        this.handleScroll();
+    },
+    beforeUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+    methods: {
+        /**
+         * 初始化
+         */
+        init() {
+            this.userInfo = this.$auth.get('user');
         },
-        mounted() {
-            this.$nextTick(() => {
-                // 监听（绑定）滚轮滚动事件
-                window.addEventListener("scroll", this.handleScroll);
-            });
-            this.handleScroll();
+        /**
+         * 滚动监听
+         */
+        handleScroll() {
+            // 获取滚动高度
+            const scrollHeight =
+                document.documentElement.scrollTop || document.body.scrollTop;
+            this.fixed = scrollHeight < 50;
         },
-        beforeUnmount() {
-            window.removeEventListener("scroll", this.handleScroll);
-        },
-        methods: {
-            /**
-             * 初始化
-             */
-            init() {
-                this.userInfo = this.$auth.get('user');
-            },
-            /**
-             * 滚动监听
-             */
-            handleScroll() {
-                // 获取滚动高度
-                const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
-                this.fixed = scrollHeight < 50;
-            },
-            /**
-             * 返回
-             */
-            onBack() {
-                if (this.isBack) {
-                    this.$router.back();
-                }else {
-                    this.$router.push({
-                        path: '/'
-                    });
-                }
-            },
-            /**
-             * 用户按钮
-             */
-            onUserInfo() {
-                this.$PL.show(this, {
-                    name: 'user-panel'
+        /**
+         * 返回
+         */
+        onBack() {
+            if (this.isBack) {
+                this.$router.back();
+            } else {
+                this.$router.push({
+                    path: '/',
                 });
             }
         },
-    }
+        /**
+         * 用户按钮
+         */
+        onUserInfo() {
+            this.$PL.show(this, {
+                name: 'user-panel',
+            });
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 // 响应式
 @media screen and (min-width: 801px) {
     .nav-box {
@@ -232,7 +236,7 @@
                 opacity: 0;
             }
             .back-btn {
-                transition: .2s;
+                transition: 0.2s;
                 opacity: 1;
             }
         }
@@ -242,7 +246,7 @@
             align-items: center;
             margin-right: 30px;
             cursor: pointer;
-            transition: .2s;
+            transition: 0.2s;
             .iconfont {
                 font-size: 36px;
                 color: rgb(255, 196, 69);
@@ -320,7 +324,8 @@
                 opacity: 0;
                 transition: 0.2s;
             }
-            &[active="true"], &:hover {
+            &[active='true'],
+            &:hover {
                 &::before {
                     opacity: 1;
                 }
@@ -334,14 +339,13 @@
                 }
             }
             .inner {
-
                 color: $text2;
                 transition: 0.2s;
                 .iconfont {
                     font-size: 22px;
                 }
                 .text {
-                    font-family: "Microsoft JhengHei UI";
+                    font-family: 'Microsoft JhengHei UI';
                     font-weight: normal;
                     font-size: 24px;
                 }
@@ -367,7 +371,8 @@
             opacity: 0;
             transition: 0.2s;
         }
-        &[active="true"],&:hover {
+        &[active='true'],
+        &:hover {
             &::before {
                 opacity: 1;
             }
@@ -425,5 +430,4 @@
         }
     }
 }
-
 </style>

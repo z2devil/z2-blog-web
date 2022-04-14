@@ -1,16 +1,12 @@
-import {
-    get,
-    post,
-    put
-} from '@/utils/request';
+import { get, post, put } from '@/utils/request';
 
 /**
  * 发送验证码
  */
 export function sendVerifyCode(email) {
     const data = {
-        email: email
-    }
+        email: email,
+    };
     return get('/auth/verify-code', data);
 }
 
@@ -19,8 +15,8 @@ export function sendVerifyCode(email) {
  */
 export function sign(email, code) {
     const data = {
-        'email': email,
-        'verifyCode': code
+        email: email,
+        verifyCode: code,
     };
     return post('/auth/sign', data);
 }
@@ -29,19 +25,19 @@ export function sign(email, code) {
  * 获取用户信息
  */
 export function getUserInfo(id) {
-    return get('/user/'+ id);
+    return get('/user/' + id);
 }
 
 /**
  * 获取当前用户信息
  */
- export function getAuthInfo() {
+export function getAuthInfo() {
     return get('/auth/info');
 }
 
 /**
  * 修改用户信息
  */
- export function modUser(params) {
+export function modUser(params) {
     return put('/user', params);
 }

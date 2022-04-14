@@ -1,11 +1,10 @@
 <template>
-    <div class="time-line-component"
-        ref="time-line">
+    <div class="time-line-component" ref="time-line">
         <ul class="time-line-box">
-            <div class="line-item"
-                :style="{ height: lineHeight + 'px' }"></div>
+            <div class="line-item" :style="{ height: lineHeight + 'px' }"></div>
             <transition-group name="dropdown">
-                <li v-for="(item, index) in contents"
+                <li
+                    v-for="(item, index) in contents"
                     :key="index"
                     class="time-item"
                     :class="{ active: index == current }"
@@ -19,10 +18,8 @@
 </template>
 
 <script>
-import {
-    beautifyTime
-} from '@/utils/formatDate'
-import throttle from '@/utils/throttle'
+import { beautifyTime } from '@/utils/formatDate';
+import throttle from '@/utils/throttle';
 
 const timeAtom = [31536000, 2592000, 604800, 86400, 3600, 60, 1];
 
@@ -37,7 +34,7 @@ export default {
             type: Number,
             default: 0,
             required: false,
-        }
+        },
     },
     data() {
         return {
@@ -47,13 +44,15 @@ export default {
             contents: [],
             // 时间级别
             timeLevel: 0,
-        }
+        };
     },
     computed: {
         lineHeight() {
             // return (this.contents.length > 0 ? 100 : 0) + (this.contents.length > 6 ? 6 : this.contents.length) * 43;
-            return (this.contents.length > 0 ? 100 : 0) + this.contents.length * 43;
-        }
+            return (
+                (this.contents.length > 0 ? 100 : 0) + this.contents.length * 43
+            );
+        },
     },
     watch: {
         records: {
@@ -71,8 +70,8 @@ export default {
                         return;
                     }
                 }
-            }
-        }
+            },
+        },
     },
     mounted() {
         this.addWheelEvent();
@@ -95,24 +94,27 @@ export default {
             const passRecords = [];
             // 向已有时间段添加内容
             const that = this;
-            const pushRecord = function(record) {
+            const pushRecord = function (record) {
                 const recordTimeAtom = new Date(record.postDate);
                 for (const passRecord of passRecords) {
                     const passRecordTimeAtom = new Date(passRecord.postDate);
                     // 如果时间相差较小
-                    if (Math.abs(recordTimeAtom - passRecordTimeAtom) <= timeAtom[that.timeLevel]*1000) {
+                    if (
+                        Math.abs(recordTimeAtom - passRecordTimeAtom) <=
+                        timeAtom[that.timeLevel] * 1000
+                    ) {
                         passRecord.include.push(record.id);
                         return true;
                     }
                 }
                 return false;
-            }
+            };
             // 创建新时间段
             for (const record of records) {
                 if (passRecords.length == 0 || !pushRecord(record)) {
                     passRecords.push({
                         postDate: record.postDate,
-                        include: [record.id]
+                        include: [record.id],
                     });
                 }
             }
@@ -140,19 +142,18 @@ export default {
                 const timestamp = new Date(record.postDate);
                 let mistiming = Math.round(new Date()) - timestamp;
                 mistiming = Math.abs(mistiming / 1000);
-                const newLevel = this.timeLevel + (e.deltaY < 0 ? 1 : -1)
-                if (Math.floor(mistiming/timeAtom[newLevel]) > 9999) return;
+                const newLevel = this.timeLevel + (e.deltaY < 0 ? 1 : -1);
+                if (Math.floor(mistiming / timeAtom[newLevel]) > 9999) return;
             }
             // 时间等级变动
             this.timeLevel += e.deltaY < 0 ? 1 : -1;
             this.init();
         }),
-    }
-}
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .time-line-component {
     position: fixed;
     display: flex;
@@ -167,13 +168,18 @@ export default {
     padding: 50px 0;
     overflow: hidden;
     .line-item {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         right: 5.5px;
         bottom: 0;
         width: 2px;
-        background-image: linear-gradient(to top, rgba(51, 0, 0, 0) , rgba(51, 0, 0, 0.2), rgba(51, 0, 0, 0));;
+        background-image: linear-gradient(
+            to top,
+            rgba(51, 0, 0, 0),
+            rgba(51, 0, 0, 0.2),
+            rgba(51, 0, 0, 0)
+        );
         z-index: -1;
         transition: 0.3s;
     }
@@ -197,7 +203,7 @@ export default {
         }
     }
     &::after {
-        content: "";
+        content: '';
         box-sizing: border-box;
         width: 13px;
         height: 13px;
@@ -207,10 +213,10 @@ export default {
         margin-left: 10px;
         transition: 0.1s;
     }
-    &+.time-item {
+    & + .time-item {
         margin-top: 30px;
     }
-    &.active { 
+    &.active {
         color: $highlight;
         &::after {
             border: 2px solid $highlight;
@@ -227,5 +233,4 @@ export default {
     opacity: 0;
     transform: translateY(30px);
 }
-
 </style>

@@ -3,56 +3,54 @@
         <div class="container">
             <!-- 小恶魔 -->
             <div class="devil-set">
-                <svg-img class="face"
-                    icon="devil"/>
+                <svg-img class="face" icon="devil" />
                 <transition name="fade">
-                    <div v-show="dialog.show"
+                    <div
+                        v-show="dialog.show"
                         :class="['dialog', dialog.point]"
                         @click="onDialog">
                         <span class="text">{{ dialog.content }}</span>
-                        <small v-if="dialog.loaded"
-                            style="display: inline">点我继续</small>
+                        <small v-if="dialog.loaded" style="display: inline"
+                            >点我继续</small
+                        >
                     </div>
                 </transition>
             </div>
             <!-- 介绍内容 -->
-            <transition-group 
-                name="show" 
-                tag="div"
-                class="content">
+            <transition-group name="show" tag="div" class="content">
                 <!-- 专业技能 -->
-                <div v-show="steps === 1"
-                    class="section"
-                    key="1">
-                    <div class="btn"
-                        @click="showDetail(0, 0)">
+                <div v-show="steps === 1" class="section" key="1">
+                    <div class="btn" @click="showDetail(0, 0)">
                         <span class="iconfont icon-code"></span>
                         <span class="text">编程</span>
                     </div>
-                    <div class="btn"
-                        @click="showDetail(0, 1)">
+                    <div class="btn" @click="showDetail(0, 1)">
                         <span class="iconfont icon-ruler"></span>
                         <span class="text">设计</span>
                     </div>
                 </div>
                 <!-- 光荣历史 -->
-                <div v-show="steps === 2"
-                    class="section"
-                    key="2">
+                <div v-show="steps === 2" class="section" key="2">
                     <div class="window">
                         <div class="inner">
                             <div class="time-line-box">
                                 <!-- 历史项目 -->
-                                <div v-for="(item, index) in history"
+                                <div
+                                    v-for="(item, index) in history"
                                     :key="index"
                                     class="time-point"
                                     @click="showDetail(1, index)">
                                     <!-- 信息 -->
                                     <div class="info-box">
-                                        <span class="title">{{ item.title }}</span>
-                                        <svg-img class="icon"
-                                            :icon="item.icon"/>
-                                        <span class="date">{{ item.date }}</span>
+                                        <span class="title">{{
+                                            item.title
+                                        }}</span>
+                                        <svg-img
+                                            class="icon"
+                                            :icon="item.icon" />
+                                        <span class="date">{{
+                                            item.date
+                                        }}</span>
                                     </div>
                                     <!-- 时间线 -->
                                     <div class="time-line">
@@ -74,10 +72,8 @@
         </div>
         <!-- 弹出层 -->
         <transition name="fade">
-            <div v-if="layoutShow"
-                class="layout">
-                <div class="close-btn"
-                    @click="closeDetail">
+            <div v-if="layoutShow" class="layout">
+                <div class="close-btn" @click="closeDetail">
                     <span class="iconfont icon-close"></span>
                 </div>
                 <div class="container">
@@ -85,47 +81,69 @@
                         <!-- 标题 -->
                         <div class="title-box">
                             <span class="title">{{ layoutText.title }}</span>
-                            <span v-if="layoutText.date"
-                                class="date">{{ layoutText.date }}</span>
+                            <span v-if="layoutText.date" class="date">{{
+                                layoutText.date
+                            }}</span>
                         </div>
                         <!-- 摘要 -->
-                        <p v-if="layoutText.summary"
-                            class="summary">{{ layoutText.summary }}</p>
+                        <p v-if="layoutText.summary" class="summary">
+                            {{ layoutText.summary }}
+                        </p>
                         <!-- 详情 -->
                         <div class="details">
                             <!-- 详情条目 -->
-                            <div class="detail-item"
+                            <div
+                                class="detail-item"
                                 v-for="(item, index) in layoutText.details"
                                 :key="index">
                                 <div class="item-li">
                                     <!-- 标签 -->
                                     <span class="label">{{ item.label }}</span>
                                     <!-- 多条内容 -->
-                                    <template v-if="typeof item.content === 'object'">
-                                        <template  v-for="(con, idx) in item.content"
+                                    <template
+                                        v-if="typeof item.content === 'object'">
+                                        <template
+                                            v-for="(con, idx) in item.content"
                                             :key="idx">
                                             <!-- 链接 -->
-                                            <a v-if="con.indexOf('https://') > -1 
-                                                    || con.indexOf('http://') > -1"
+                                            <a
+                                                v-if="
+                                                    con.indexOf('https://') >
+                                                        -1 ||
+                                                    con.indexOf('http://') > -1
+                                                "
                                                 class="text link"
                                                 :href="con"
-                                                target="_blank">{{ con }}</a>
+                                                target="_blank"
+                                                >{{ con }}</a
+                                            >
                                             <!-- 文字 -->
-                                            <span v-else
-                                                class="text">{{ idx+1 + '. ' + con }}</span>
+                                            <span v-else class="text">{{
+                                                idx + 1 + '. ' + con
+                                            }}</span>
                                         </template>
                                     </template>
                                     <!-- 普通单条内容 -->
                                     <template v-else>
                                         <!-- 链接 -->
-                                        <a v-if="item.content.indexOf('https://') > -1
-                                                || item.content.indexOf('http://') > -1"
+                                        <a
+                                            v-if="
+                                                item.content.indexOf(
+                                                    'https://'
+                                                ) > -1 ||
+                                                item.content.indexOf(
+                                                    'http://'
+                                                ) > -1
+                                            "
                                             class="text link"
                                             :href="item.content"
-                                            target="_blank">{{ item.content }}</a>
+                                            target="_blank"
+                                            >{{ item.content }}</a
+                                        >
                                         <!-- 文字 -->
-                                        <span v-else
-                                            class="text">{{ item.content }}</span>
+                                        <span v-else class="text">{{
+                                            item.content
+                                        }}</span>
                                     </template>
                                 </div>
                             </div>
@@ -138,13 +156,13 @@
 </template>
 
 <script>
-import {gsap, Power1, Power2} from 'gsap';
-console.log(gsap)
+import { gsap, Power1, Power2 } from 'gsap';
+console.log(gsap);
 import text from './text';
 
 const pointType = {
     left: 'point-left',
-    right: 'point-right'
+    right: 'point-right',
 };
 const devilSetClass = '.devil-set';
 const devilClass = '.face';
@@ -162,19 +180,19 @@ export default {
             layoutShow: false,
             layoutText: {},
             history: [],
-        }
+        };
     },
     watch: {
         steps: {
             handler() {
                 this.layoutShow = false;
-            }
-        }
+            },
+        },
     },
     created() {
         const that = this;
         this.history = text.history;
-        this.$nextTick(function() {
+        this.$nextTick(function () {
             that.bindScrollEvent();
             const tl = gsap.timeline();
             tl.to(devilClass, {
@@ -182,22 +200,24 @@ export default {
                 duration: 0,
                 opacity: 0,
                 scale: 0.4,
-            }).to(devilClass, {
-                delay: 0,
-                duration: .2,
-                opacity: 1,
-                scale: 1,
-                rotate: 10,
-                ease: Power2.out,
-            }).call(function() {
-                that.setDialog(true, '你好，我是中二Devil。');
-            });
+            })
+                .to(devilClass, {
+                    delay: 0,
+                    duration: 0.2,
+                    opacity: 1,
+                    scale: 1,
+                    rotate: 10,
+                    ease: Power2.out,
+                })
+                .call(function () {
+                    that.setDialog(true, '你好，我是中二Devil。');
+                });
             gsap.to(devilSetClass, {
                 top: 230,
                 duration: 1,
                 repeat: -1,
                 yoyo: true,
-                ease: Power1.easeInOut
+                ease: Power1.easeInOut,
             });
         });
     },
@@ -207,7 +227,7 @@ export default {
          */
         bindScrollEvent() {
             const window = document.querySelector('.window');
-            window.addEventListener('wheel', (e) => {
+            window.addEventListener('wheel', e => {
                 e.preventDefault();
                 window.scrollLeft += e.deltaY;
             });
@@ -225,19 +245,19 @@ export default {
                     idx = 0;
                 // 添加字符
                 function addChar() {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         if (textArr.length === 0) {
                             that.dialog.content = '';
                             return;
                         }
                         text += textArr[idx];
                         that.dialog.content = text;
-                        if (idx < textArr.length-1) {
+                        if (idx < textArr.length - 1) {
                             idx++;
                             addChar();
                         }
-                        if (idx === textArr.length-1) {
-                            setTimeout(function() {
+                        if (idx === textArr.length - 1) {
+                            setTimeout(function () {
                                 that.dialog.loaded = true;
                             }, speed);
                         }
@@ -248,27 +268,27 @@ export default {
             /**隐藏 */
             if (show === false) {
                 that.dialog.show = false;
-                return
+                return;
             }
             /**展示 */
             // 如果正在展示
             if (this.dialog.show) {
                 // 先隐藏
                 this.dialog.show = false;
-                setTimeout(function() {
+                setTimeout(function () {
                     setContent('');
                 }, 400);
                 // 再展示
-                setTimeout(function() {
+                setTimeout(function () {
                     that.dialog.show = true;
                     if (content !== null) {
                         setContent(content);
                     }
                     that.dialog.point = point;
                 }, 500);
-            }else {
+            } else {
                 setContent('');
-                setTimeout(function() {
+                setTimeout(function () {
                     that.dialog.show = show;
                     setContent(content);
                 }, 100);
@@ -284,51 +304,59 @@ export default {
             function* drama() {
                 yield (() => {
                     const tl = gsap.timeline();
-                    tl.call(function() {
+                    tl.call(function () {
                         that.setDialog(false);
                     })
-                    .to(devilSetClass, {
-                        delay: .4,
-                        duration: 0.6,
-                        marginLeft: 620,
-                        ease: "back.out(1.7)",
-                    })
-                    .to(devilClass, {
-                        delay: 0,
-                        duration: .2,
-                        rotate: -10,
-                        ease: Power2.out,
-                    })
-                    .call(function() {
-                        that.setDialog(true, '请看看我的专业技能！', pointType.right);
-                        setTimeout(() => {
-                            that.steps = 1;
-                        }, 1200);
-                    });
+                        .to(devilSetClass, {
+                            delay: 0.4,
+                            duration: 0.6,
+                            marginLeft: 620,
+                            ease: 'back.out(1.7)',
+                        })
+                        .to(devilClass, {
+                            delay: 0,
+                            duration: 0.2,
+                            rotate: -10,
+                            ease: Power2.out,
+                        })
+                        .call(function () {
+                            that.setDialog(
+                                true,
+                                '请看看我的专业技能！',
+                                pointType.right
+                            );
+                            setTimeout(() => {
+                                that.steps = 1;
+                            }, 1200);
+                        });
                 })();
                 yield (() => {
                     const tl = gsap.timeline();
-                    tl.call(function() {
+                    tl.call(function () {
                         that.setDialog(false);
                     })
-                    .to(devilSetClass, {
-                        delay: .4,
-                        duration: 0.6,
-                        marginLeft: 0,
-                        ease: "back.out(1.7)",
-                    })
-                    .to(devilClass, {
-                        delay: 0,
-                        duration: .2,
-                        rotate: 10,
-                        ease: Power2.out,
-                    })
-                    .call(function() {
-                        that.setDialog(true, '请看看我的光荣历史！', pointType.left);
-                        setTimeout(() => {
-                            that.steps = 2;
-                        }, 1200);
-                    });
+                        .to(devilSetClass, {
+                            delay: 0.4,
+                            duration: 0.6,
+                            marginLeft: 0,
+                            ease: 'back.out(1.7)',
+                        })
+                        .to(devilClass, {
+                            delay: 0,
+                            duration: 0.2,
+                            rotate: 10,
+                            ease: Power2.out,
+                        })
+                        .call(function () {
+                            that.setDialog(
+                                true,
+                                '请看看我的光荣历史！',
+                                pointType.left
+                            );
+                            setTimeout(() => {
+                                that.steps = 2;
+                            }, 1200);
+                        });
                 })();
             }
             if (!this.drama) {
@@ -356,9 +384,9 @@ export default {
          */
         closeDetail() {
             this.layoutShow = false;
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -382,7 +410,7 @@ $con_width: 820px;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, .5);
+    background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(20px);
     .close-btn {
         position: absolute;
@@ -394,14 +422,14 @@ $con_width: 820px;
         width: 42px;
         height: 42px;
         border-radius: 24px;
-        background-color: rgba(0, 0, 0, .2);
+        background-color: rgba(0, 0, 0, 0.2);
         cursor: pointer;
         transition: 0.1s;
         &:hover {
-            background-color: rgba(0, 0, 0, .4);
+            background-color: rgba(0, 0, 0, 0.4);
         }
         .iconfont {
-            font-size: 24px!important;
+            font-size: 24px !important;
             color: #fff;
         }
     }
@@ -515,8 +543,7 @@ $con_width: 820px;
         top: 0;
         @if $point == 'left' {
             right: 0;
-        }
-        @else {
+        } @else {
             left: 0;
         }
         width: 100px;
@@ -540,7 +567,7 @@ $con_width: 820px;
         color: $text3;
         animation: shining 1s alternate infinite;
         .iconfont {
-            font-size: 24px!important;
+            font-size: 24px !important;
         }
     }
     .btn {
@@ -555,9 +582,9 @@ $con_width: 820px;
         border: solid 3px transparent;
         background-color: #fff;
         cursor: pointer;
-        transition: .2s;
+        transition: 0.2s;
         .iconfont {
-            font-size: 64px!important;
+            font-size: 64px !important;
             margin-bottom: 10px;
         }
         .text {
@@ -565,15 +592,15 @@ $con_width: 820px;
             font-weight: bold;
         }
         &:first-child {
-            color: #6563FF;
+            color: #6563ff;
             &:hover {
-                border: solid 3px #6563FF;
+                border: solid 3px #6563ff;
             }
         }
         &:last-child {
-            color: #FF9B63;
+            color: #ff9b63;
             &:hover {
-                border: solid 3px #FF9B63;
+                border: solid 3px #ff9b63;
             }
         }
     }
@@ -603,8 +630,12 @@ $con_width: 820px;
                                 right: -50px;
                                 width: 50px;
                                 height: 2px;
-                                background: linear-gradient(to right, transparent $line-size, $divider $line-size);
-                                background-size: $line-size*2 100%;
+                                background: linear-gradient(
+                                    to right,
+                                    transparent $line-size,
+                                    $divider $line-size
+                                );
+                                background-size: $line-size * 2 100%;
                             }
                         }
                     }
@@ -628,7 +659,7 @@ $con_width: 820px;
                             font-size: 16px;
                             font-weight: bold;
                             color: #fff;
-                            @include stroke(rgba(0,0,0,.5));
+                            @include stroke(rgba(0, 0, 0, 0.5));
                             transition: 0.1s;
                         }
                         .icon {
@@ -641,7 +672,7 @@ $con_width: 820px;
                             font-size: 14px;
                             font-weight: bold;
                             color: #fff;
-                            @include stroke(rgba(0,0,0,.5))
+                            @include stroke(rgba(0, 0, 0, 0.5));
                         }
                     }
                     .time-line {
@@ -679,13 +710,13 @@ $con_width: 820px;
         opacity: 1;
     }
     to {
-        opacity: .2;
+        opacity: 0.2;
     }
 }
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: .4s;
+    transition: 0.4s;
 }
 .fade-enter-from,
 .fade-leave-to {
@@ -693,19 +724,18 @@ $con_width: 820px;
         transform: scale(0.8);
     }
     &.point-right {
-        transform: translateX(-100%) scale(0.8)!important;
+        transform: translateX(-100%) scale(0.8) !important;
     }
     opacity: 0;
 }
 
 .show-enter-active,
 .show-leave-active {
-    transition: .4s;
+    transition: 0.4s;
 }
 .show-enter-from,
 .show-leave-to {
     transform: translateY(50px);
     opacity: 0;
 }
-
 </style>

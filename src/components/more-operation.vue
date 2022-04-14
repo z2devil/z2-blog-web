@@ -1,6 +1,5 @@
 <template>
-    <div class="more-operation-component"
-        :active="isShow">
+    <div class="more-operation-component" :active="isShow">
         <!-- <z-button class="more-btn"
             circle
             @click="onMore">
@@ -10,19 +9,18 @@
             <slot></slot>
         </div>
         <transition name="fade">
-            <div v-if="isShow"
-                class="mask"
-                @click="isShow = false"></div>
+            <div v-if="isShow" class="mask" @click="isShow = false"></div>
         </transition>
         <transition name="list">
-            <div v-show="isShow"
+            <div
+                v-show="isShow"
                 class="popup"
                 :style="{
-                    [dir]: 0
+                    [dir]: 0,
                 }">
-                <template v-for="(item, index) in list"
-                    :key="index">
-                    <div v-if="item.use"
+                <template v-for="(item, index) in list" :key="index">
+                    <div
+                        v-if="item.use"
                         class="operation-item"
                         @click="onCallback(item.callback)">
                         <span :class="['iconfont', item.icon]"></span>
@@ -35,52 +33,51 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            dir: {
-                type: String,
-                required: false,
-                default() {
-                    return 'right';
-                }
+export default {
+    props: {
+        dir: {
+            type: String,
+            required: false,
+            default() {
+                return 'right';
             },
-            list: {
-                type: Array,
-                required: false,
-                default() {
-                    return [];
-                }
+        },
+        list: {
+            type: Array,
+            required: false,
+            default() {
+                return [];
+            },
+        },
+    },
+    data() {
+        return {
+            isShow: false,
+        };
+    },
+    methods: {
+        /**
+         * 按下更多按钮
+         */
+        onMore() {
+            if (this.$auth.has()) {
+                this.isShow = !this.isShow;
             }
         },
-        data() {
-            return {
-                isShow: false,
-            }
+        /**
+         * 触发回调函数
+         */
+        onCallback(callback) {
+            this.isShow = false;
+            setTimeout(function () {
+                callback();
+            }, 200);
         },
-        methods: {
-            /**
-             * 按下更多按钮
-             */
-            onMore() {
-                if (this.$auth.has()) {
-                    this.isShow = !this.isShow;
-                }
-            },
-            /**
-             * 触发回调函数
-             */
-            onCallback(callback) {
-                this.isShow = false;
-                setTimeout(function() {
-                    callback();
-                }, 200);
-            }
-        }
-    }
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .more-operation-component {
     position: relative;
     display: inline-block;
@@ -101,7 +98,7 @@
         flex-direction: column;
         top: 50px;
         width: 150px;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, .16);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
         background-color: #fff;
         padding: 10px 0;
         border-radius: 8px;

@@ -1,14 +1,14 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
 const app = createApp(App);
 
 /**
  * setting 相关
  */
-import settings from '/setting.js'
+import settings from '/setting.js';
 app.config.globalProperties.$settings = settings;
 
 /**
@@ -32,44 +32,37 @@ app.component('empty-info', emptyInfo);
 /**
  * message 提示框相关
  */
-import {
-    msg
-} from '@/components/basic/message/index.js'
-import '@/components/basic/message/style.scss'
+import { msg } from '@/components/basic/message/index.js';
+import '@/components/basic/message/style.scss';
 app.config.globalProperties.$msg = msg;
 
 /**
  * confirm 提示框相关
  */
- import {
-    confirm
-} from '@/components/basic/confirm/index.js'
-import '@/components/basic/confirm/style.scss'
+import { confirm } from '@/components/basic/confirm/index.js';
+import '@/components/basic/confirm/style.scss';
 app.config.globalProperties.$confirm = confirm;
 
 /**
  * popupLayout 弹出层相关
  */
-import {
-    show,
-    hide,
-} from '@/components/popup-layout/script'
+import { show, hide } from '@/components/popup-layout/script';
 const pl = {
-    'show': show,
-    'hide': hide,
+    show: show,
+    hide: hide,
 };
 app.config.globalProperties.$PL = pl;
 
 /**
  * 格式化时间相关
  */
-import formatDate from '@/components/basic/format-date'
+import formatDate from '@/components/basic/format-date';
 app.component('format-date', formatDate);
 
 /**
  * 自定义按钮相关
  */
-import zButton from '@/components/basic/z-button'
+import zButton from '@/components/basic/z-button';
 app.component('z-button', zButton);
 
 /**
@@ -108,10 +101,10 @@ app.use(VMdPreview);
 import emitter from './emitter/index.js';
 app.config.globalProperties.$emitter = emitter;
 
-import svgImg from '@/components/basic/svg-img';  //svg组件
+import svgImg from '@/components/basic/svg-img'; //svg组件
 app.component('svg-img', svgImg);
 
-import './assets/svgs'
+import './assets/svgs';
 
 /**
  * 其他

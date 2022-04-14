@@ -3,33 +3,33 @@
         <div class="container">
             <div class="wrapper-box">
                 <transition-group name="list" tag="div">
-                        <tweet-list v-for="tweet in page.data"
-                            :key="tweet.id"
-                            :tweet="tweet"
-                            :item-id="tweet.id"
-                            @view="viewTweet">
-                        </tweet-list>
+                    <tweet-list
+                        v-for="tweet in page.data"
+                        :key="tweet.id"
+                        :tweet="tweet"
+                        :item-id="tweet.id"
+                        @view="viewTweet">
+                    </tweet-list>
                 </transition-group>
                 <div class="tip">
                     <span v-if="isLoading">{{ tipOptions.inLoading }}</span>
                     <span v-if="!page.next">{{ tipOptions.noMore }}</span>
                 </div>
             </div>
-            <time-line class="time-line"
+            <time-line
+                class="time-line"
                 :records="page.data"
                 :idx="currTweetId"
                 @scroll-to="scrollTo"></time-line>
-            <operation-bar :write="loggedUser?.lv == 2"
+            <operation-bar
+                :write="loggedUser?.lv == 2"
                 @to-write="toWrite"></operation-bar>
         </div>
     </div>
 </template>
 
 <script>
-import {
-    getTweetList,
-    addTweet
-} from '@/api/tweet';
+import { getTweetList, addTweet } from '@/api/tweet';
 import timeLine from '@/components/time-line';
 import operationBar from '@/components/operation-bar';
 import tweetList from './tweet-list';
@@ -52,17 +52,17 @@ export default {
                 next: true,
             },
             tipOptions: {
-                noMore: "没有更多了",
-                inLoading: "加载中..."
+                noMore: '没有更多了',
+                inLoading: '加载中...',
             },
             // 当前动态id
-            currTweetId: 0
-        }
+            currTweetId: 0,
+        };
     },
     computed: {
         loggedUser() {
             return this.$auth.get('user');
-        }
+        },
     },
     activated() {
         const that = this;
@@ -70,7 +70,7 @@ export default {
             that.loadMore();
         });
     },
-    deactivated () {
+    deactivated() {
         this.$emitter.off('touch-bottom');
     },
     methods: {
@@ -98,17 +98,19 @@ export default {
                 data: {
                     placeholder: '书写新动态',
                     upload: true,
-                    func: async function({text, ids}) {
-                        await addTweet(text, ids).then(() => {
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 1000);
-                            return Promise.resolve();
-                        }).catch(err => {
-                            return Promise.reject(err);
-                        });
-                    }
-                }
+                    func: async function ({ text, ids }) {
+                        await addTweet(text, ids)
+                            .then(() => {
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1000);
+                                return Promise.resolve();
+                            })
+                            .catch(err => {
+                                return Promise.reject(err);
+                            });
+                    },
+                },
             });
         },
         /**
@@ -121,25 +123,26 @@ export default {
          * 滚动到指定 id 的动态
          */
         scrollTo(id) {
-            const tweetDomList = document.querySelectorAll('.tweet-list-component');
+            const tweetDomList = document.querySelectorAll(
+                '.tweet-list-component'
+            );
             for (const tweetDom of tweetDomList) {
                 if (tweetDom.getAttribute('item-id') == id) {
                     this.scrollTar = tweetDom.offsetTop;
-                    window.scrollTo({ 
-                        top: tweetDom.offsetTop - 75, 
+                    window.scrollTo({
+                        top: tweetDom.offsetTop - 75,
                         left: 0,
-                        behavior: "smooth" 
+                        behavior: 'smooth',
                     });
                     return;
                 }
             }
         },
-    }
-}
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .container {
     position: relative;
     width: $con_width;
@@ -157,5 +160,4 @@ export default {
     }
     margin-bottom: 30px;
 }
-
 </style>

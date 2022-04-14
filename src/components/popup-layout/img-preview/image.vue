@@ -1,9 +1,10 @@
 <template>
     <div>
-        <img class="image"
+        <img
+            class="image"
             :src="$settings.downloadUrl + src"
             @load="isLoading = false"
-            @click="hide">
+            @click="hide" />
         <i v-if="isLoading" class="loader"></i>
     </div>
 </template>
@@ -18,19 +19,18 @@ export default {
     },
     data() {
         return {
-            isLoading: true
-        }
+            isLoading: true,
+        };
     },
     methods: {
         hide() {
             this.$PL.hide(this);
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .image {
     max-width: 100%;
     max-height: 100%;
@@ -60,5 +60,4 @@ export default {
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
-
 </style>

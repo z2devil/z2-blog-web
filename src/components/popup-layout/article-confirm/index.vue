@@ -15,38 +15,56 @@
                         <!-- 预览 -->
                         <div class="article-list-component">
                             <div class="banner">
-                                <async-img v-if="form.cover?.path && form.cover.status !== -1"
+                                <async-img
+                                    v-if="
+                                        form.cover?.path &&
+                                        form.cover.status !== -1
+                                    "
                                     class="banner-img"
                                     :url="form.cover.path"
                                     suffix="?x-oss-process=image/resize,s_720"></async-img>
-                                <div class="banner-text"
-                                    :class="{'has-bg': form.cover?.path && form.cover.status !== -1}">
-                                    <user-info class="user-info-box"
+                                <div
+                                    class="banner-text"
+                                    :class="{
+                                        'has-bg':
+                                            form.cover?.path &&
+                                            form.cover.status !== -1,
+                                    }">
+                                    <user-info
+                                        class="user-info-box"
                                         :avatar="false"
                                         :user-info="loggedUser">
-                                        <format-date class="post-date"
+                                        <format-date
+                                            class="post-date"
                                             :date="'2021-01-01T12:00:00'"></format-date>
                                     </user-info>
                                     <span class="title">{{ data.title }}</span>
                                 </div>
                             </div>
                             <div class="content-box">
-                                <span class="summary">{{ this.form.summary }}...</span>
+                                <span class="summary"
+                                    >{{ this.form.summary }}...</span
+                                >
                             </div>
                             <div class="assess-box">
-                                <div class="assess-item"
+                                <div
+                                    class="assess-item"
                                     :class="{ active: false }">
-                                    <span class="iconfont "
-                                        :class="false ? 'icon-like-fill' : 'icon-like'"></span>
+                                    <span
+                                        class="iconfont"
+                                        :class="
+                                            false
+                                                ? 'icon-like-fill'
+                                                : 'icon-like'
+                                        "></span>
                                     <span>{{ 2333 }}</span>
                                 </div>
                                 <div class="assess-item">
-                                    <span class="iconfont icon-comment"></span><span>{{ 233 }}</span>
+                                    <span class="iconfont icon-comment"></span
+                                    ><span>{{ 233 }}</span>
                                 </div>
                                 <div class="enter-btn">
-                                    <span class="link">
-                                        查看详情
-                                    </span>
+                                    <span class="link"> 查看详情 </span>
                                 </div>
                             </div>
                         </div>
@@ -61,8 +79,9 @@
                             ref="input"
                             type="file"
                             accept="image/jpeg, image/jpg, image/png"
-                            @change="handleChange">
-                        <z-button class="upload-img-btn"
+                            @change="handleChange" />
+                        <z-button
+                            class="upload-img-btn"
                             ghost
                             :loading="uploadLoading"
                             @click="onUpload">
@@ -73,7 +92,8 @@
                 <div class="list-item">
                     <div class="label">摘要</div>
                     <div class="content">
-                        <textarea class="summary-textarea"
+                        <textarea
+                            class="summary-textarea"
                             v-model="form.summary"
                             maxlength="150"
                             rows="4"
@@ -84,23 +104,27 @@
                 <div class="list-item">
                     <div class="label">标签</div>
                     <div class="content">
-                        <div v-for="(item, index) in tagList"
+                        <div
+                            v-for="(item, index) in tagList"
                             :key="index"
                             class="tag"
                             :class="{ active: form.tags.indexOf(item.id) > -1 }"
                             @click="selectTag(item.id)">
                             <span>{{ item.name }}</span>
                         </div>
-                        <div class="tag add-tag"
+                        <div
+                            class="tag add-tag"
                             :class="{ active: editTag }"
                             @click="onEditTag">
                             <template v-if="editTag">
-                                <input class="tag-input"
+                                <input
+                                    class="tag-input"
                                     type="text"
                                     placeholder="新增标签"
                                     maxlength="15"
-                                    @keydown.enter="onSubmit"/>
-                                <span class="iconfont icon-error"
+                                    @keydown.enter="onSubmit" />
+                                <span
+                                    class="iconfont icon-error"
                                     @click.capture="cleanInput"></span>
                             </template>
                             <template v-else>
@@ -112,12 +136,9 @@
                 </div>
             </div>
             <div class="bottom-bar">
-                <z-button class="close-btn"
-                    ghost
-                    round>
-                    取消
-                </z-button>
-                <z-button class="release-btn"
+                <z-button class="close-btn" ghost round> 取消 </z-button>
+                <z-button
+                    class="release-btn"
                     type="primary"
                     round
                     :loading="relaseLoading"
@@ -131,163 +152,167 @@
 
 <script>
 import userInfo from '@/components/user-info';
-import {
-    getTagList,
-    addTag
-} from '@/api/tag';
-import {
-    pre,
-    upload,
-    add
-} from '@/api/file.js'
-import uuid from '@/utils/uuid.js'
-import compress from '@/utils/compress.js'
+import { getTagList, addTag } from '@/api/tag';
+import { pre, upload, add } from '@/api/file.js';
+import uuid from '@/utils/uuid.js';
+import compress from '@/utils/compress.js';
 
-    export default {
-        components: {
-            userInfo
+export default {
+    components: {
+        userInfo,
+    },
+    props: {
+        data: {
+            type: Object,
+            required: true,
         },
-        props: {
-            data: {
-                type: Object,
-                required: true,
-            }
-        },
-        data() {
-            return {
-                form: {
-                    cover: null,
-                    summary: '',
-                    tags: []
-                },
-                tagList: [],
-                uploadLoading: false,
-                relaseLoading: false,
-                editTag: false,
-            }
-        },
-        computed: {
-            loggedUser() {
-                return this.$auth.get('user');
-            }
-        },
-        created() {
-            this.init();
-        },
-        activated() {
-            const cover = this.data.cover;
-            if (cover) {
-                cover.progress = 1;
-                cover.status = 1;
-            }
-            const tags = [];
-            for (const tag of this.data.tags) {
-                tags.push(tag.id);
-            }
-            this.form = {
-                cover: cover,
-                summary: this.data.summary,
-                tags: tags
-            };
-        },
-        emits: ['close'],
-        methods: {
-            /**
-             * 初始化
-             */
-            init() {
-                getTagList().then(res => {
-                    this.tagList = res;
-                });
+    },
+    data() {
+        return {
+            form: {
+                cover: null,
+                summary: '',
+                tags: [],
             },
-            /**
-             * 选择标签
-             */
-            selectTag(id) {
-                const options = this.form.tags;
-                if (options.indexOf(id) > -1) {
-                    options.splice(options.indexOf(id), 1)
-                }else {
-                    options.push(id);
-                }
-            },
-            /**
-             * 新增标签
-             */
-            onEditTag() {
-                this.editTag = true;
-                this.$nextTick(function() {
-                    document.querySelector('.tag-input').focus();
-                });
-            },
-            /**
-             * 新增标签输入框按键按下回车
-             */
-            onSubmit({target: {value}}) {
-                addTag(value).then(res => {
+            tagList: [],
+            uploadLoading: false,
+            relaseLoading: false,
+            editTag: false,
+        };
+    },
+    computed: {
+        loggedUser() {
+            return this.$auth.get('user');
+        },
+    },
+    created() {
+        this.init();
+    },
+    activated() {
+        const cover = this.data.cover;
+        if (cover) {
+            cover.progress = 1;
+            cover.status = 1;
+        }
+        const tags = [];
+        for (const tag of this.data.tags) {
+            tags.push(tag.id);
+        }
+        this.form = {
+            cover: cover,
+            summary: this.data.summary,
+            tags: tags,
+        };
+    },
+    emits: ['close'],
+    methods: {
+        /**
+         * 初始化
+         */
+        init() {
+            getTagList().then(res => {
+                this.tagList = res;
+            });
+        },
+        /**
+         * 选择标签
+         */
+        selectTag(id) {
+            const options = this.form.tags;
+            if (options.indexOf(id) > -1) {
+                options.splice(options.indexOf(id), 1);
+            } else {
+                options.push(id);
+            }
+        },
+        /**
+         * 新增标签
+         */
+        onEditTag() {
+            this.editTag = true;
+            this.$nextTick(function () {
+                document.querySelector('.tag-input').focus();
+            });
+        },
+        /**
+         * 新增标签输入框按键按下回车
+         */
+        onSubmit({ target: { value } }) {
+            addTag(value)
+                .then(res => {
                     this.tagList.push({
                         id: res,
-                        name: value
+                        name: value,
                     });
                     this.editTag = false;
-                    this.$msg('success', "添加成功");
-                }).catch(err => {
+                    this.$msg('success', '添加成功');
+                })
+                .catch(err => {
                     this.$msg('error', err);
                 });
-            },
-            // 清空新增标签输入框内容
-            cleanInput(e) {
-                document.querySelector('.tag-input').value = '';
-                e.stopPropagation();
-                this.editTag = false;
-            },
-            /**
-             * 点击上传文件按钮
-             */
-            onUpload() {
-                this.$refs.input.value = '';
-                this.$refs.input.click();
-            },
-            /**
-             * 处理选择的文件
-             */
-            handleChange({target: {files}}) {
-                const file = files[0];
-                const that = this;
-                // 上传结束方法
-                const uploadEnd = function(status) {
-                    if (status) {
-                        that.form.cover.status = 1;
-                    }else {
-                        that.form.cover.status = -1;
-                        that.$msg('error', '上传失败');
-                    }
-                    that.form.cover.progress = 1;
-                    that.uploadLoading = false;
-                };
+        },
+        // 清空新增标签输入框内容
+        cleanInput(e) {
+            document.querySelector('.tag-input').value = '';
+            e.stopPropagation();
+            this.editTag = false;
+        },
+        /**
+         * 点击上传文件按钮
+         */
+        onUpload() {
+            this.$refs.input.value = '';
+            this.$refs.input.click();
+        },
+        /**
+         * 处理选择的文件
+         */
+        handleChange({ target: { files } }) {
+            const file = files[0];
+            const that = this;
+            // 上传结束方法
+            const uploadEnd = function (status) {
+                if (status) {
+                    that.form.cover.status = 1;
+                } else {
+                    that.form.cover.status = -1;
+                    that.$msg('error', '上传失败');
+                }
+                that.form.cover.progress = 1;
+                that.uploadLoading = false;
+            };
 
-                if (this.uploadLoading) return;
-                this.uploadLoading = true;
-                // 生成唯一id
-                const fileId = uuid();
-                const filesItem = {
-                    id: fileId,
-                    name: file.name,
-                    size: file.size,
-                    path: '',
-                    progress: 0,
-                    status: 0 // 0: 上传中 1: 上传成功 -1: 上传失败
-                };
-                compress(file, 720).then(res => {
-                    that.form.cover.path = res;
-                });
-                this.form.cover = filesItem;
-                // 进行上传预请求，获取policy和签名
-                pre().then(res => {
+            if (this.uploadLoading) return;
+            this.uploadLoading = true;
+            // 生成唯一id
+            const fileId = uuid();
+            const filesItem = {
+                id: fileId,
+                name: file.name,
+                size: file.size,
+                path: '',
+                progress: 0,
+                status: 0, // 0: 上传中 1: 上传成功 -1: 上传失败
+            };
+            compress(file, 720).then(res => {
+                that.form.cover.path = res;
+            });
+            this.form.cover = filesItem;
+            // 进行上传预请求，获取policy和签名
+            pre()
+                .then(res => {
                     // 新文件名
-                    const fileName = fileId + file.name.substring(file.name.lastIndexOf("."), file.name.length);
+                    const fileName =
+                        fileId +
+                        file.name.substring(
+                            file.name.lastIndexOf('.'),
+                            file.name.length
+                        );
                     // 新文件路径
-                    const filePath = that.$settings.oss_root + file.type.substring(0, file.type.indexOf("/")+1) + fileName;
+                    const filePath =
+                        that.$settings.oss_root +
+                        file.type.substring(0, file.type.indexOf('/') + 1) +
+                        fileName;
                     // oss直传参数
                     const params = {
                         policy: res.policy,
@@ -295,8 +320,8 @@ import compress from '@/utils/compress.js'
                         id: fileId,
                         name: fileName,
                         path: filePath,
-                        file: file
-                    }
+                        file: file,
+                    };
                     Promise.all([
                         // oss直传
                         upload(params),
@@ -305,60 +330,66 @@ import compress from '@/utils/compress.js'
                             name: file.name,
                             path: filePath,
                             type: file.type,
-                            size: file.size
+                            size: file.size,
+                        }),
+                    ])
+                        .then(r => {
+                            that.form.cover.path = filePath;
+                            that.form.cover.id = r[1];
+                            uploadEnd(true);
                         })
-                    ]).then(r => {
-                        that.form.cover.path = filePath;
-                        that.form.cover.id = r[1];
-                        uploadEnd(true);
-                    }).catch(() => {
-                        uploadEnd(false);
-                    });
-                }).catch(() => {
+                        .catch(() => {
+                            uploadEnd(false);
+                        });
+                })
+                .catch(() => {
                     uploadEnd(false);
                 });
-            },
-            /**
-             * 发表文章
-             */
-            release() {
-                if (this.relaseLoading) return;
-                this.relaseLoading = true;
-                // 判断标签是否为空
-                if (this.uploadLoading) {
-                    this.$msg("error", "封面正在上传！");
-                    return;
-                }
-                // 判断标签是否为空
-                if (this.form.tags.length === 0) {
+        },
+        /**
+         * 发表文章
+         */
+        release() {
+            if (this.relaseLoading) return;
+            this.relaseLoading = true;
+            // 判断标签是否为空
+            if (this.uploadLoading) {
+                this.$msg('error', '封面正在上传！');
+                return;
+            }
+            // 判断标签是否为空
+            if (this.form.tags.length === 0) {
+                this.relaseLoading = false;
+                this.$msg('error', '标签不可为空！');
+                return;
+            }
+            // 进行文章发表
+            const params = {
+                tags: this.form.tags,
+                summary: this.form.summary,
+            };
+            if (this.form.cover?.status === 1) {
+                params.cover = this.form.cover.id;
+            }
+            this.data
+                .func(params)
+                .then(() => {
                     this.relaseLoading = false;
-                    this.$msg("error", "标签不可为空！");
-                    return;
-                }
-                // 进行文章发表
-                const params = {
-                    tags: this.form.tags,
-                    summary: this.form.summary
-                }
-                if (this.form.cover?.status === 1) {
-                    params.cover = this.form.cover.id;
-                }
-                this.data.func(params).then(() => {
-                    this.relaseLoading = false;
-                    this.$msg("success", "发表成功");
+                    this.$msg('success', '发表成功');
                     this.$PL.hide(this);
                     setTimeout(() => {
                         this.$router.push({
-                            path: '/article/index'
+                            path: '/article/index',
                         });
                     }, 1000);
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.relaseLoading = false;
-                    this.$msg("error", "发表失败");
+                    this.$msg('error', '发表失败');
                 });
-            }
-        }
-    }
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -414,7 +445,7 @@ import compress from '@/utils/compress.js'
                 padding: 10px;
                 border-radius: 8px;
                 @include border(solid, 1px, $border);
-                font-family: "Microsoft YaHei", Arial, sans-serif;
+                font-family: 'Microsoft YaHei', Arial, sans-serif;
                 font-size: 15px;
                 line-height: 1.2em;
             }
@@ -580,7 +611,7 @@ import compress from '@/utils/compress.js'
         transition: 0.1s;
         .link {
             text-decoration: none;
-            color: #0A59F7;
+            color: #0a59f7;
             font-size: 14px;
             align-self: center;
             cursor: pointer;
@@ -602,5 +633,4 @@ import compress from '@/utils/compress.js'
         font-size: 16px;
     }
 }
-
 </style>

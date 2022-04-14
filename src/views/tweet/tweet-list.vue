@@ -1,26 +1,29 @@
 <template>
-    <div class="tweet-list-component"
-        :ref="'tweet-'+tweetData.id">
+    <div class="tweet-list-component" :ref="'tweet-' + tweetData.id">
         <!-- 主要内容 -->
         <div class="main">
             <div class="top-info">
-                <user-info class="user-info-box"
+                <user-info
+                    class="user-info-box"
                     :user-info="tweetData.userInfo">
-                    <format-date class="post-date"
+                    <format-date
+                        class="post-date"
                         :date="tweetData.postDate"></format-date>
                 </user-info>
-                <more-operation :list="[
+                <more-operation
+                    :list="[
                         {
                             icon: 'icon-trash',
                             text: '删除',
-                            use: $auth.has() 
-                                    && ($auth.get('user').id === tweetData.userInfo.id  
-                                    || $auth.get('user').lv === 2),
-                            callback: deleteIt
-                        }
+                            use:
+                                $auth.has() &&
+                                ($auth.get('user').id ===
+                                    tweetData.userInfo.id ||
+                                    $auth.get('user').lv === 2),
+                            callback: deleteIt,
+                        },
                     ]">
-                    <z-button class="more-btn"
-                        circle>
+                    <z-button class="more-btn" circle>
                         <span class="iconfont icon-dots"></span>
                     </z-button>
                 </more-operation>
@@ -30,32 +33,37 @@
                 <resources :files="tweetData.files"></resources>
             </div>
             <div class="assess-box">
-                <z-button class="assess-item"
+                <z-button
+                    class="assess-item"
                     round
                     :class="{ active: tweetData.isLiked }"
                     @click="likeIt">
-                    <span class="iconfont "
-                        :class="tweetData.isLiked ? 'icon-like-fill' : 'icon-like'"></span>
-                    <span>{{tweetData.likes}}</span>
+                    <span
+                        class="iconfont"
+                        :class="
+                            tweetData.isLiked ? 'icon-like-fill' : 'icon-like'
+                        "></span>
+                    <span>{{ tweetData.likes }}</span>
                 </z-button>
-                <z-button class="assess-item"
-                    round
-                    @click="commentIt">
+                <z-button class="assess-item" round @click="commentIt">
                     <span class="iconfont icon-comment"></span>
-                    <span>{{tweetData.comments}}</span>
+                    <span>{{ tweetData.comments }}</span>
                 </z-button>
                 <div class="right-box">
-                    <z-button class="assess-item enter-btn"
+                    <z-button
+                        class="assess-item enter-btn"
                         round
                         :disabled="tweetData.comments === 0"
-                        @click="onOpen = !onOpen">{{ !onOpen ? '展示评论' : '隐藏评论' }}</z-button>
+                        @click="onOpen = !onOpen"
+                        >{{ !onOpen ? '展示评论' : '隐藏评论' }}</z-button
+                    >
                 </div>
             </div>
         </div>
         <!-- 评论 -->
-        <div v-if="onOpen"
-            class="comments-box">
-            <comment-list ref="comment-list"
+        <div v-if="onOpen" class="comments-box">
+            <comment-list
+                ref="comment-list"
                 :cate="1"
                 :id="this.tweetData.id"
                 @to-comment="commentIt">
@@ -65,21 +73,14 @@
 </template>
 
 <script>
-import textContent from '@/components/text-content'
-import userInfo from '@/components/user-info'
-import resources from '@/components/resources/index'
-import commentList from '@/components/comment/index'
-import moreOperation from '@/components/more-operation'
-import {
-    like
-} from '@/api/prefer'
-import {
-    addComment
-} from '@/api/comment'
-import {
-    deleteTweet,
-    getTweet
-} from '@/api/tweet'
+import textContent from '@/components/text-content';
+import userInfo from '@/components/user-info';
+import resources from '@/components/resources/index';
+import commentList from '@/components/comment/index';
+import moreOperation from '@/components/more-operation';
+import { like } from '@/api/prefer';
+import { addComment } from '@/api/comment';
+import { deleteTweet, getTweet } from '@/api/tweet';
 
 var viewObserver;
 
@@ -89,66 +90,73 @@ export default {
         userInfo,
         resources,
         commentList,
-        moreOperation
+        moreOperation,
     },
     props: {
         tweet: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
     data() {
         return {
             tweetData: this.tweet,
             onOpen: false,
             comments: [],
-        }
+        };
     },
     watch: {
         comments: {
             handler() {
                 console.log('评论变化');
             },
-            deep: true
-        }
+            deep: true,
+        },
     },
     mounted() {
-        viewObserver = new IntersectionObserver(entries => {
-            if (entries[0].intersectionRatio < 1) return;
-            this.$emit('view', this.tweetData.id);
-        }, {threshold: 1.0});
-        viewObserver.observe(this.$refs['tweet-'+this.tweetData.id]);
+        viewObserver = new IntersectionObserver(
+            entries => {
+                if (entries[0].intersectionRatio < 1) return;
+                this.$emit('view', this.tweetData.id);
+            },
+            { threshold: 1.0 }
+        );
+        viewObserver.observe(this.$refs['tweet-' + this.tweetData.id]);
     },
     beforeUnmount() {
-        viewObserver.unobserve(this.$refs['tweet-'+this.tweetData.id]);
-    }, 
+        viewObserver.unobserve(this.$refs['tweet-' + this.tweetData.id]);
+    },
     emits: ['view'],
     methods: {
         /**
          * 删除
          */
         deleteIt() {
-            deleteTweet(this.tweetData.id).then(() => {
-                this.$msg('success', '删除成功');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
-            }).catch(() => {
-                this.$msg('error', '删除失败');
-            });
+            deleteTweet(this.tweetData.id)
+                .then(() => {
+                    this.$msg('success', '删除成功');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                })
+                .catch(() => {
+                    this.$msg('error', '删除失败');
+                });
         },
         /**
          * 喜欢
          */
         likeIt() {
             if (!this.$auth.has()) return;
-            like(1, this.tweetData.id).then(res => {
-                this.tweetData.likes = res;
-                this.tweetData.isLiked = !this.tweetData.isLiked;
-                this.$msg("success", "点赞成功")
-            }).catch(() => {
-                this.$msg("error", "点赞失败");
-            });
+            like(1, this.tweetData.id)
+                .then(res => {
+                    this.tweetData.likes = res;
+                    this.tweetData.isLiked = !this.tweetData.isLiked;
+                    this.$msg('success', '点赞成功');
+                })
+                .catch(() => {
+                    this.$msg('error', '点赞失败');
+                });
         },
         /**
          * 评论
@@ -159,34 +167,35 @@ export default {
                 name: 'input-panel',
                 data: {
                     placeholder: '评论该动态',
-                    func: async function({text}) {
+                    func: async function ({ text }) {
                         const params = {
                             wcate: 1,
                             wid: that.tweetData.id,
                             content: text,
-                        }
-                        await addComment(params).then(() => {
-                            that.onOpen = true;
-                            that.$nextTick(function() {
-                                that.$refs['comment-list'].init();
+                        };
+                        await addComment(params)
+                            .then(() => {
+                                that.onOpen = true;
+                                that.$nextTick(function () {
+                                    that.$refs['comment-list'].init();
+                                });
+                                getTweet(that.tweetData.id).then(res => {
+                                    that.tweetData.comments = res.comments;
+                                });
+                                return Promise.resolve();
+                            })
+                            .catch(err => {
+                                return Promise.reject(err);
                             });
-                            getTweet(that.tweetData.id).then(res => {
-                                that.tweetData.comments = res.comments;
-                            });
-                            return Promise.resolve();
-                        }).catch(err => {
-                            return Promise.reject(err);
-                        });
-                    }
-                }
+                    },
+                },
             });
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .tweet-list-component {
     background-color: $white;
     border-radius: 8px;
@@ -233,7 +242,7 @@ export default {
         padding: 8px 16px;
         font-size: 14px;
         background-color: rgba(0, 0, 0, 0.03);
-        &+.assess-item {
+        & + .assess-item {
             margin-left: 15px;
         }
         &:hover {
@@ -266,5 +275,4 @@ export default {
         }
     }
 }
-
 </style>

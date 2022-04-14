@@ -1,36 +1,32 @@
 <template>
     <div class="user-panel-box">
-        <user-sign v-if="!isLogged"
-            @close="$emit('close')"></user-sign>
-        <user-center v-if="isLogged"
-            @close="$emit('close')"></user-center>
+        <user-sign v-if="!isLogged" @close="$emit('close')"></user-sign>
+        <user-center v-if="isLogged" @close="$emit('close')"></user-center>
     </div>
 </template>
 
 <script>
-import userSign  from './user-sign'
-import userCenter from './user-center'
+import userSign from './user-sign';
+import userCenter from './user-center';
 
 export default {
     components: {
         userSign,
-        userCenter
+        userCenter,
     },
     data() {
         return {
-            isLogged: false
-        }
+            isLogged: false,
+        };
     },
     activated() {
         this.isLogged = this.$auth.has();
     },
     emits: ['close'],
-}
-
+};
 </script>
 
 <style lang="scss" scoped>
-
 .user-panel-box {
     box-sizing: border-box;
     position: fixed;
@@ -44,5 +40,4 @@ export default {
     padding: 40px 50px;
     z-index: 200;
 }
-
 </style>

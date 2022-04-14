@@ -1,31 +1,34 @@
 <template>
-    <draggable class="item-list"
+    <draggable
+        class="item-list"
         v-bind="dragOptions"
         v-model="items"
         @change="$emit('change', items)"
         item-key="id"
         handle=".control">
-        <template #item="{element}">
-            <div class="image-item"
+        <template #item="{ element }">
+            <div
+                class="image-item"
                 :class="{ control: element.status === 1 }"
                 @click="previewImage(element)">
-                <async-img class="image"
+                <async-img
+                    class="image"
                     :url="element.path"
                     suffix="?x-oss-process=image/resize,s_96"></async-img>
                 <span class="name">{{ element.name }}</span>
                 <template v-if="element.status === 1">
-                    <div class="remove-btn"
-                        @click.stop="removeImage(element)">
+                    <div class="remove-btn" @click.stop="removeImage(element)">
                         <span class="iconfont icon-close-fill"></span>
                     </div>
                 </template>
-                <div class="progress-bar"
-                    :class="statusText[element.status+1]">
-                    <div class="bar"
+                <div
+                    class="progress-bar"
+                    :class="statusText[element.status + 1]">
+                    <div
+                        class="bar"
                         :style="{
-                            width: element.progress * 100 + '%'
-                        }">
-                    </div>
+                            width: element.progress * 100 + '%',
+                        }"></div>
                 </div>
             </div>
         </template>
@@ -33,88 +36,86 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-import {
-    beautifySize
-} from '@/utils/formatSize'
+import draggable from 'vuedraggable';
+import { beautifySize } from '@/utils/formatSize';
 
-    export default {
-        components: {
-            draggable,
+export default {
+    components: {
+        draggable,
+    },
+    props: {
+        data: {
+            type: Array,
+            required: true,
         },
-        props: {
-            data: {
-                type: Array,
-                required: true,
+    },
+    data() {
+        return {
+            dragOptions: {
+                animation: 200,
+                group: 'image',
+                disabled: false,
+                ghostClass: 'ghost',
             },
-        },
-        data() {
-            return {
-                dragOptions: {
-                    animation: 200,
-                    group: "image",
-                    disabled: false,
-                    ghostClass: "ghost"
-                },
-                statusText: ['fail', 'uploading', 'success'],
-                items: this.data,
-            }
-        },
-        watch: {
-            data: {
-                handler(val) {
-                    this.items = val;
-                },
-                deep: true
-            }
-        },
-        emits: ['start', 'end', 'change'],
-        methods: {
-            /**
-             * 格式化size
-             */
-            formatSize(size) {
-                return beautifySize(size);
+            statusText: ['fail', 'uploading', 'success'],
+            items: this.data,
+        };
+    },
+    watch: {
+        data: {
+            handler(val) {
+                this.items = val;
             },
-            /**
-             * 点击缩略图
-             */
-            previewImage(element) {
-                let images = [], index = 0;
-                for (let i = 0; i < this.items.length; i++) {
-                    const item = this.items[i];
-                    images.push({
-                        id: item.id,
-                        path: item.path
-                    });
-                    if (element.id == item.id) {
-                        if (element.status !== 1) return;
-                        index = i;
-                    }
-                }
-                this.$PL.show(this, {
-                    name: 'img-preview',
-                    data: {
-                        images: images,
-                        index: index
-                    }
+            deep: true,
+        },
+    },
+    emits: ['start', 'end', 'change'],
+    methods: {
+        /**
+         * 格式化size
+         */
+        formatSize(size) {
+            return beautifySize(size);
+        },
+        /**
+         * 点击缩略图
+         */
+        previewImage(element) {
+            let images = [],
+                index = 0;
+            for (let i = 0; i < this.items.length; i++) {
+                const item = this.items[i];
+                images.push({
+                    id: item.id,
+                    path: item.path,
                 });
-            },
-            /**
-             * 移除图片
-             */
-            removeImage(element) {
-                for (let i = 0; i < this.items.length; i++) {
-                    const item = this.items[i];
-                    if (element.id == item.id) this.items.splice(i, 1);
+                if (element.id == item.id) {
+                    if (element.status !== 1) return;
+                    index = i;
                 }
             }
-        }
-    }
+            this.$PL.show(this, {
+                name: 'img-preview',
+                data: {
+                    images: images,
+                    index: index,
+                },
+            });
+        },
+        /**
+         * 移除图片
+         */
+        removeImage(element) {
+            for (let i = 0; i < this.items.length; i++) {
+                const item = this.items[i];
+                if (element.id == item.id) this.items.splice(i, 1);
+            }
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .item-list {
     display: flex;
     background-color: white;
@@ -140,7 +141,7 @@ import {
                 pointer-events: auto;
             }
         }
-        &+.image-item {
+        & + .image-item {
             margin-left: 5px;
         }
         .image {
@@ -213,5 +214,4 @@ import {
         }
     }
 }
-
 </style>

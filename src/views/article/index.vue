@@ -1,17 +1,22 @@
 <template>
     <div class="article-index-page">
         <!-- 筛选栏 -->
-        <filter-box :trigger="filterTrigger"
+        <filter-box
+            :trigger="filterTrigger"
             @options-trigger="onOptionsTrigger"
             @search="onSearch"></filter-box>
         <div class="container">
             <!-- 主要 -->
-            <div class="wrapper-box"
+            <div
+                class="wrapper-box"
                 :style="{
-                    marginTop: filterTrigger ? 120 + optionsHeight + 'px' : '50px'
+                    marginTop: filterTrigger
+                        ? 120 + optionsHeight + 'px'
+                        : '50px',
                 }">
                 <transition-group name="list" tag="div">
-                    <article-list v-for="article in page.data"
+                    <article-list
+                        v-for="article in page.data"
                         :key="article.id"
                         :article="article"
                         :item-id="article.id"
@@ -24,14 +29,14 @@
                 </div>
             </div>
             <!-- 操作栏 -->
-            <operation-bar :write="loggedUser?.lv == 2"
+            <operation-bar
+                :write="loggedUser?.lv == 2"
                 @to-write="toWrite"></operation-bar>
         </div>
         <!-- 预览层 -->
         <div class="view-layout">
             <transition name="fade">
-                <div v-if="viewDetail"
-                    class="view-mask"></div>
+                <div v-if="viewDetail" class="view-mask"></div>
             </transition>
             <router-view class="view-window"></router-view>
         </div>
@@ -39,12 +44,10 @@
 </template>
 
 <script>
-import {
-    getArticleList
-} from '@/api/article';
-import operationBar from '@/components/operation-bar'
-import articleList from './article-list'
-import filterBox from './filter'
+import { getArticleList } from '@/api/article';
+import operationBar from '@/components/operation-bar';
+import articleList from './article-list';
+import filterBox from './filter';
 
 export default {
     name: 'article-index',
@@ -64,15 +67,15 @@ export default {
                 next: true,
             },
             tipOptions: {
-                noMore: "没有更多了",
-                inLoading: "加载中..."
+                noMore: '没有更多了',
+                inLoading: '加载中...',
             },
             filterTrigger: false,
             optionsHeight: 0,
             keyword: '',
             tags: [],
             viewDetail: false,
-        }
+        };
     },
     computed: {
         loggedUser() {
@@ -83,14 +86,18 @@ export default {
         viewDetail: {
             handler(val) {
                 if (val) {
-                    document.removeEventListener('wheel', this.scrollEvent, { passive: false });
+                    document.removeEventListener('wheel', this.scrollEvent, {
+                        passive: false,
+                    });
                     document.querySelector('body').style.overflow = 'hidden';
-                }else {
-                    document.addEventListener("wheel", this.scrollEvent, { passive: false });
+                } else {
+                    document.addEventListener('wheel', this.scrollEvent, {
+                        passive: false,
+                    });
                     document.querySelector('body').style.overflow = '';
                 }
-            }
-        }
+            },
+        },
     },
     mounted() {
         const that = this;
@@ -114,13 +121,17 @@ export default {
             that.viewDetail = false;
         });
         // 滚动监听事件（筛选框）
-        document.addEventListener("wheel", this.scrollEvent, { passive: false });
+        document.addEventListener('wheel', this.scrollEvent, {
+            passive: false,
+        });
     },
     deactivated() {
         this.$emitter.off('touch-bottom');
         this.$emitter.off('view-leave');
         // 卸载滚动监听事件
-        document.removeEventListener('wheel', this.scrollEvent, { passive: false });
+        document.removeEventListener('wheel', this.scrollEvent, {
+            passive: false,
+        });
     },
     beforeUnmount() {
         this.$emitter.off('article-like');
@@ -137,27 +148,30 @@ export default {
             const scrollTop = document.documentElement.scrollTop;
             if (scrollTop != 0) return;
             // 获取主要内容元素
-            const wrapper = document.querySelector(".wrapper-box");
+            const wrapper = document.querySelector('.wrapper-box');
             const isAniming = wrapper.getAnimations().length > 0;
             if (!isAniming) {
                 // 上滑
                 if (e.deltaY < 0) {
                     if (that.filterTrigger) return;
                     that.filterTrigger = true;
-                    wrapper.animate([
-                        { marginTop: '50px' },
-                        { marginTop: 120 + this.optionsHeight + 'px' }
-                    ], {
-                        duration: 400,
-                        easing: 'ease'
-                    });
+                    wrapper.animate(
+                        [
+                            { marginTop: '50px' },
+                            { marginTop: 120 + this.optionsHeight + 'px' },
+                        ],
+                        {
+                            duration: 400,
+                            easing: 'ease',
+                        }
+                    );
                 }
                 // 下滑
                 if (e.deltaY > 0) {
                     if (that.filterTrigger) e.preventDefault();
                     that.filterTrigger = false;
                 }
-            }else {
+            } else {
                 e.preventDefault();
             }
         },
@@ -170,7 +184,7 @@ export default {
         /**
          * 搜索
          */
-        onSearch({keyword, tags}) {
+        onSearch({ keyword, tags }) {
             this.keyword = keyword;
             this.tags = tags;
             this.getArtcileList('init');
@@ -186,15 +200,15 @@ export default {
                     total: 0,
                     data: [],
                     next: true,
-                }
+                };
             }
             if (this.isLoading || !this.page.next) return;
             this.isLoading = true;
             const page = this.page;
             const params = {
                 current: page.current,
-                size: page.size
-            }
+                size: page.size,
+            };
             if (this.keyword != '') params.keyword = this.keyword;
             if (this.tags.length != 0) params.tags = this.tags;
             getArticleList(params).then(res => {
@@ -212,7 +226,7 @@ export default {
         toDetail(id) {
             this.viewDetail = true;
             this.$router.push({
-                path: '/article/'+id
+                path: '/article/' + id,
             });
         },
         /**
@@ -225,30 +239,35 @@ export default {
          * 搜索结果高亮处理
          */
         highlightHandle() {
-            this.$nextTick(function() {
-                const regex = new RegExp(this.keyword, "gi");
-                const summaryNodes =  document.querySelectorAll(".summary");
+            this.$nextTick(function () {
+                const regex = new RegExp(this.keyword, 'gi');
+                const summaryNodes = document.querySelectorAll('.summary');
                 for (let i = 0; i < summaryNodes.length; i++) {
                     const node = summaryNodes[i];
-                    summaryNodes[i].innerHTML = node.innerHTML.replace(regex, function(word) {
-                        return `<span class='highlight-text'>${word}</span>`
-                    });
+                    summaryNodes[i].innerHTML = node.innerHTML.replace(
+                        regex,
+                        function (word) {
+                            return `<span class='highlight-text'>${word}</span>`;
+                        }
+                    );
                 }
-                const titleNodes =  document.querySelectorAll(".title");
+                const titleNodes = document.querySelectorAll('.title');
                 for (let i = 0; i < titleNodes.length; i++) {
                     const node = titleNodes[i];
-                    titleNodes[i].innerHTML = node.innerHTML.replace(regex, function(word) {
-                        return `<span class='highlight-text'>${word}</span>`
-                    });
+                    titleNodes[i].innerHTML = node.innerHTML.replace(
+                        regex,
+                        function (word) {
+                            return `<span class='highlight-text'>${word}</span>`;
+                        }
+                    );
                 }
             });
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .article-index-page {
     position: relative;
     overflow: hidden;
@@ -309,5 +328,4 @@ export default {
 .fade-leave-to {
     opacity: 0;
 }
-
 </style>

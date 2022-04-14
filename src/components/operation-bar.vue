@@ -1,38 +1,45 @@
 <template>
-    <div class="operation-bar-component"
+    <div
+        class="operation-bar-component"
         :style="{
-            'margin-left': center ? `calc(50% + ${left}px + 30px)` : `calc(${left}px + 30px)`,
-            'z-index': zIndex
+            'margin-left': center
+                ? `calc(50% + ${left}px + 30px)`
+                : `calc(${left}px + 30px)`,
+            'z-index': zIndex,
         }">
-        <z-button v-if="like.use"
+        <z-button
+            v-if="like.use"
             class="option like-btn"
             type="primary"
             circle
             title="喜欢"
             @click="$emit('to-like')">
             <div class="inner">
-                <span class="iconfont"
+                <span
+                    class="iconfont"
                     :class="like.liked ? 'icon-like-fill' : 'icon-like'"></span>
                 <span class="count">{{ like.count }}</span>
             </div>
         </z-button>
-        <z-button v-if="comment"
+        <z-button
+            v-if="comment"
             class="option comment-btn"
             circle
             title="评论"
             @click="$emit('to-comment')">
             <span class="iconfont icon-comment"></span>
         </z-button>
-        <z-button v-if="write"
+        <z-button
+            v-if="write"
             class="option write-btn"
             circle
             title="写内容"
             @click="$emit('to-write')">
             <span class="iconfont icon-edit"></span>
         </z-button>
-        <template v-for="(tool, index) in tools"
-            :key="index">
-            <z-button v-if="tool.use"
+        <template v-for="(tool, index) in tools" :key="index">
+            <z-button
+                v-if="tool.use"
                 class="option"
                 circle
                 :title="tool.title"
@@ -40,14 +47,16 @@
                 <span :class="['iconfont', tool.icon]"></span>
             </z-button>
         </template>
-        <z-button v-if="typeof top == 'boolean' && top"
+        <z-button
+            v-if="typeof top == 'boolean' && top"
             class="option top-btn"
             circle
             title="回到顶部"
             @click="toTop">
             <span class="iconfont icon-angle-double-up"></span>
         </z-button>
-        <z-button v-if="typeof top == 'function'"
+        <z-button
+            v-if="typeof top == 'function'"
             class="option top-btn"
             circle
             title="回到顶部"
@@ -72,9 +81,9 @@ export default {
                 return {
                     use: false,
                     liked: false,
-                    count: 0
-                }
-            }
+                    count: 0,
+                };
+            },
         },
         /**
          * 评论
@@ -82,7 +91,7 @@ export default {
         comment: {
             type: Boolean,
             required: false,
-            default: false
+            default: false,
         },
         /**
          * 写
@@ -90,7 +99,7 @@ export default {
         write: {
             type: Boolean,
             required: false,
-            default: false
+            default: false,
         },
         /**
          * z轴
@@ -100,7 +109,7 @@ export default {
             require: false,
             default() {
                 return '';
-            }
+            },
         },
         /**
          * 回到顶部
@@ -108,7 +117,7 @@ export default {
         top: {
             type: [Boolean, Function],
             required: false,
-            default: true
+            default: true,
         },
         /**
          * 居中
@@ -116,7 +125,7 @@ export default {
         center: {
             type: Boolean,
             required: false,
-            default: false
+            default: false,
         },
         /**
          * 左边距
@@ -124,7 +133,7 @@ export default {
         left: {
             type: Number,
             required: false,
-            default: 720
+            default: 720,
         },
         /**
          * 附加工具
@@ -133,33 +142,36 @@ export default {
             type: Array,
             required: false,
             default() {
-                return []
-            }
-        }
+                return [];
+            },
+        },
     },
     data() {
         return {
-            operations: ['like', 'comment', 'write', 'top']
-        }
+            operations: ['like', 'comment', 'write', 'top'],
+        };
     },
     setup() {
         let isTopping = false;
-        const checkWheel = function() {
+        const checkWheel = function () {
             isTopping = false;
         };
         onMounted(() => {
             document.addEventListener('wheel', checkWheel, { passive: true });
         });
         onBeforeUnmount(() => {
-            document.removeEventListener('wheel', checkWheel), { passive: true };
+            document.removeEventListener('wheel', checkWheel),
+                { passive: true };
         });
         /**
          * 回到顶端
          */
-        const toTop = function() {
+        const toTop = function () {
             isTopping = true;
-            const scroll = function() {
-                const i = document.documentElement.scrollTop || document.body.scrollTop;
+            const scroll = function () {
+                const i =
+                    document.documentElement.scrollTop ||
+                    document.body.scrollTop;
                 if (i > 0 && isTopping) {
                     window.requestAnimationFrame(scroll);
                     window.scrollTo(0, i - i / 8);
@@ -169,11 +181,10 @@ export default {
         };
         return { toTop };
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-
 .operation-bar-component {
     position: fixed;
     display: flex;
@@ -196,7 +207,8 @@ export default {
                 }
             }
         }
-        &.comment-btn, &.write-btn {
+        &.comment-btn,
+        &.write-btn {
             color: $highlight;
             &:hover {
                 color: $highlight_hover;
@@ -207,6 +219,4 @@ export default {
         }
     }
 }
-
-
 </style>

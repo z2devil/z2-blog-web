@@ -1,16 +1,12 @@
-import {
-    get,
-    post,
-    dele,
-} from '@/utils/request';
+import { get, post, dele } from '@/utils/request';
 
 /**
  * 获取动态列表
  */
 export function getTweetList(current, size) {
     const data = {
-        'current': current,
-        'size': size
+        current: current,
+        size: size,
     };
     return get('/tweet', data);
 }
@@ -19,7 +15,7 @@ export function getTweetList(current, size) {
  * 获取动态
  */
 export function getTweet(id) {
-    return get('/tweet/'+ id);
+    return get('/tweet/' + id);
 }
 
 /**
@@ -27,8 +23,8 @@ export function getTweet(id) {
  */
 export function addTweet(content, resources) {
     const data = {
-        'content': content,
-        'resources': resources
+        content: content,
+        resources: resources,
     };
     return post('/tweet', data);
 }
@@ -37,5 +33,5 @@ export function addTweet(content, resources) {
  * 删除动态
  */
 export function deleteTweet(id) {
-    return dele('/tweet/'+id);
+    return dele('/tweet/' + id);
 }

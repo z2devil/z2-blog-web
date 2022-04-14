@@ -6,25 +6,28 @@
         </div>
         <div class="content-box">
             <div class="input-box">
-                <input class="input"
+                <input
+                    class="input"
                     type="text"
                     maxlength="50"
                     v-model="value"
                     :placeholder="tips"
-                    autofocus>
+                    autofocus />
             </div>
         </div>
         <div class="button-box">
-            <z-button class="btn send-btn" 
+            <z-button
+                class="btn send-btn"
                 ghost
                 round
                 :loading="sendLoading"
                 @click="sendCode">
                 {{ btnText }}
             </z-button>
-            <z-button class="btn sign-btn"
+            <z-button
+                class="btn sign-btn"
                 type="primary"
-                :class="{active: isSended}"
+                :class="{ active: isSended }"
                 circle
                 :disabled="!isSended"
                 :loading="signLoading"
@@ -36,84 +39,84 @@
 </template>
 
 <script>
-import {
-    sendVerifyCode,
-    sign,
-} from '@/api/user'
+import { sendVerifyCode, sign } from '@/api/user';
 
-    export default {
-        data() {
-            return {
-                isSended: false,
-                value: '',
-                email: '',
-                sendLoading: false,
-                signLoading: false,
-                btnText: '发送验证码',
-                tips: '请输入邮箱',
-                timmer: 0,
+export default {
+    data() {
+        return {
+            isSended: false,
+            value: '',
+            email: '',
+            sendLoading: false,
+            signLoading: false,
+            btnText: '发送验证码',
+            tips: '请输入邮箱',
+            timmer: 0,
+        };
+    },
+    watch: {
+        value(val) {
+            if (!this.isSended) {
+                this.email = val;
             }
         },
-        watch: {
-            value(val) {
-                if (!this.isSended) {
-                    this.email = val;
-                }
-            }
-        },
-        emits: ['close'],
-        methods: {
-            /**
-             * 发送验证码
-             */
-            sendCode() {
-                if (this.email !== '') {
-                    this.sendLoading = true;
-                    sendVerifyCode(this.email).then(() => {
+    },
+    emits: ['close'],
+    methods: {
+        /**
+         * 发送验证码
+         */
+        sendCode() {
+            if (this.email !== '') {
+                this.sendLoading = true;
+                sendVerifyCode(this.email)
+                    .then(() => {
                         this.sendLoading = false;
                         this.isSended = true;
                         this.value = '';
-                        this.btnText = '重新发送验证码'
+                        this.btnText = '重新发送验证码';
                         this.tips = '请输入验证码';
-                        this.$msg("success", "发送成功");
-                    }).catch(err => {
+                        this.$msg('success', '发送成功');
+                    })
+                    .catch(err => {
                         this.sendLoading = false;
-                        this.$msg("error", err);
+                        this.$msg('error', err);
                     });
-                }
-            },
-            /**
-             * 登入
-             */
-            signIn() {
-                const that = this;
-                if (this.isSended || this.value != null) {
-                    this.signLoading = true;
-                    sign(this.email, this.value).then(res => {
+            }
+        },
+        /**
+         * 登入
+         */
+        signIn() {
+            const that = this;
+            if (this.isSended || this.value != null) {
+                this.signLoading = true;
+                sign(this.email, this.value)
+                    .then(res => {
                         this.signLoading = false;
-                        this.$auth.update({token: res.token, user: res.user});
+                        this.$auth.update({ token: res.token, user: res.user });
                         // this.$auth.set(res.user, res.token);
                         this.$emit('close');
-                        this.$msg("success", "登入成功");
+                        this.$msg('success', '登入成功');
                         setTimeout(() => {
                             if (that.$route.path === '/404') {
                                 that.$router.back();
-                            }else {
+                            } else {
                                 location.reload();
                             }
                         }, 1000);
-                    }).catch(err => {
+                    })
+                    .catch(err => {
                         this.signLoading = false;
-                        this.$msg("error", err);
+                        this.$msg('error', err);
                     });
-                }
             }
-        }
-    }
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .button-box {
     .btn {
         margin-left: 20px;
@@ -165,5 +168,4 @@ import {
         border-color: $highlight;
     }
 }
-
 </style>

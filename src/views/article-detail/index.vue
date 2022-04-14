@@ -1,57 +1,67 @@
 <template>
     <div class="article-detail-page">
         <div class="article-detail-inner">
-            <div v-if="$route.path.indexOf('/detail') === -1"
+            <div
+                v-if="$route.path.indexOf('/detail') === -1"
                 class="view-mask"
                 @click="leave"></div>
             <div class="container">
                 <!-- 横幅 -->
                 <div class="banner">
-                    <async-img v-if="articleData.cover"
+                    <async-img
+                        v-if="articleData.cover"
                         class="banner-img"
                         :url="articleData.cover.path"
                         suffix="?x-oss-process=image/resize,s_820"></async-img>
-                    <div class="banner-text"
-                        :class="{'has-bg': articleData.cover}">
+                    <div
+                        class="banner-text"
+                        :class="{ 'has-bg': articleData.cover }">
                         <div class="main-title">
                             {{ articleData.title }}
                         </div>
                         <div class="tags-box">
-                            <div v-for="tag in articleData.tags"
+                            <div
+                                v-for="tag in articleData.tags"
                                 :key="tag.id"
                                 class="tag">
                                 <span class="text">{{ tag.name }}</span>
                             </div>
                         </div>
                         <div class="other-info">
-                            <span class="author">{{ articleData.userInfo.nickname }}</span>
+                            <span class="author">{{
+                                articleData.userInfo.nickname
+                            }}</span>
                             <span class="date">{{ postDate }}</span>
                         </div>
                     </div>
                 </div>
                 <!-- 主要内容 -->
                 <div class="wrapper-box">
-                    <v-md-preview :text="articleData.content" 
-                        @copy-code-success="handleCopyCodeSuccess"></v-md-preview>
+                    <v-md-preview
+                        :text="articleData.content"
+                        @copy-code-success="
+                            handleCopyCodeSuccess
+                        "></v-md-preview>
                 </div>
                 <!-- 评论区 -->
                 <div class="comments-box">
-                    <comment-list ref="comment-list"
+                    <comment-list
+                        ref="comment-list"
                         :cate="2"
                         :id="id"
                         @to-comment="commentIt">
                     </comment-list>
                 </div>
-                <teleport to='body'>
+                <teleport to="body">
                     <!-- 操作栏 -->
-                    <operation-bar 
+                    <operation-bar
                         :z-index="52"
                         center
                         :left="410"
                         :like="{
                             use: loggedUser?.lv > 1,
                             liked: articleData.isLiked,
-                            count: articleData.likes
+                            count: articleData.likes,
                         }"
                         @to-like="likeIt"
                         :comment="loggedUser?.lv > 1"
@@ -61,16 +71,20 @@
                                 use: loggedUser?.lv > 1,
                                 icon: 'icon-edit',
                                 title: '编辑',
-                                event: editIt
+                                event: editIt,
                             },
                             {
                                 use: loggedUser?.lv > 1,
                                 icon: 'icon-trash',
                                 title: '删除',
-                                event: deleteIt
+                                event: deleteIt,
                             },
                         ]"
-                        :top="$route.path.indexOf('/detail') === -1 ? scrollTop : true">
+                        :top="
+                            $route.path.indexOf('/detail') === -1
+                                ? scrollTop
+                                : true
+                        ">
                     </operation-bar>
                 </teleport>
             </div>
@@ -79,43 +93,34 @@
 </template>
 
 <script>
-import {
-    getArticleDetail,
-    deleteArticle,
-} from '@/api/article.js'
-import {
-    beautifyTime
-} from '@/utils/formatDate.js'
-import {
-    like
-} from '@/api/prefer'
-import { 
-    addComment
-} from '@/api/comment'
-import commentList from '@/components/comment/index'
-import operationBar from '@/components/operation-bar'
-import {gsap} from 'gsap'
-import Config from '/setting'
+import { getArticleDetail, deleteArticle } from '@/api/article.js';
+import { beautifyTime } from '@/utils/formatDate.js';
+import { like } from '@/api/prefer';
+import { addComment } from '@/api/comment';
+import commentList from '@/components/comment/index';
+import operationBar from '@/components/operation-bar';
+import { gsap } from 'gsap';
+import Config from '/setting';
 
 export default {
     name: 'article-detial',
     components: {
         commentList,
-        operationBar
+        operationBar,
     },
     props: {
         id: {
             type: [String, Number],
-            require: true
-        }
+            require: true,
+        },
     },
     data() {
         return {
             // 文章数据
             articleData: {
-                userInfo: {}
+                userInfo: {},
             },
-        }
+        };
     },
     computed: {
         postDate() {
@@ -132,67 +137,69 @@ export default {
                     this.init();
                 }
             },
-            immediate: true
-        }
+            immediate: true,
+        },
     },
     created() {
-        const listBody = document.querySelector(`.article-list-component[mark="${this.id}"]`);
+        const listBody = document.querySelector(
+            `.article-list-component[mark="${this.id}"]`
+        );
         if (listBody) {
             const rect = listBody.getBoundingClientRect();
-            this.$nextTick(function() {
+            this.$nextTick(function () {
                 const tl = gsap.timeline();
                 tl.to('.article-detail-page', {
                     delay: 0,
                     duration: 0,
-                    left: rect.left, 
+                    left: rect.left,
                     top: rect.top,
-                    width: rect.width, 
+                    width: rect.width,
                     height: rect.height,
                     opacity: 0,
                     'border-radius': 8,
-                    overflow: 'hidden'
+                    overflow: 'hidden',
                 })
-                .to('.article-detail-page', {
-                    duration: 0.2,
-                    opacity: 1,
-                    ease: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                })
-                .to('.article-detail-page', {
-                    duration: 0.1, 
-                    left: rect.left - 50, 
-                    width: rect.width + 100, 
-                    ease: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                })
-                .to('.article-detail-page', {
-                    duration: 0.3, 
-                    top: 0,
-                    height: '100%',
-                    ease: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                })
-                .to('.article-detail-page', {
-                    duration: 0, 
-                    left: 0, 
-                    width: '100%', 
-                    'border-radius': 0,
-                    overflow: ''
-                })
-                .from('body>.operation-bar-component', {
-                    duration: 0.2,
-                    x: -20, 
-                    opacity: 0,
-                    ease: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                });
+                    .to('.article-detail-page', {
+                        duration: 0.2,
+                        opacity: 1,
+                        ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                    })
+                    .to('.article-detail-page', {
+                        duration: 0.1,
+                        left: rect.left - 50,
+                        width: rect.width + 100,
+                        ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                    })
+                    .to('.article-detail-page', {
+                        duration: 0.3,
+                        top: 0,
+                        height: '100%',
+                        ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                    })
+                    .to('.article-detail-page', {
+                        duration: 0,
+                        left: 0,
+                        width: '100%',
+                        'border-radius': 0,
+                        overflow: '',
+                    })
+                    .from('body>.operation-bar-component', {
+                        duration: 0.2,
+                        x: -20,
+                        opacity: 0,
+                        ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                    });
             });
         }
     },
-    beforeRouteEnter (to, from, next) {
+    beforeRouteEnter(to, from, next) {
         if (from.path !== '/article/index') {
             next(vm => {
                 if (!~vm.$route.path.indexOf('/detail')) {
-                    vm.$router.replace({ path: to.path + '/detail', });
+                    vm.$router.replace({ path: to.path + '/detail' });
                 }
             });
-        }else {
+        } else {
             next();
         }
     },
@@ -201,7 +208,11 @@ export default {
     },
     methods: {
         async handleCopyCodeSuccess(code) {
-            const content = `${code}\n作者：${Config.author}\n来源：${Config.title}\n链接：${Config.baseURL + this.$route.fullPath}\n${Config.copyRight}`;
+            const content = `${code}\n作者：${Config.author}\n来源：${
+                Config.title
+            }\n链接：${Config.baseURL + this.$route.fullPath}\n${
+                Config.copyRight
+            }`;
             await navigator.clipboard.writeText(content);
             this.$msg('success', '已复制代码');
         },
@@ -209,27 +220,35 @@ export default {
          * 初始化
          */
         init() {
-            getArticleDetail(this.id).then(res => {
-                this.articleData = res;
-            }).catch(() => {
-                this.$router.replace({
-                    path: '/404'
+            getArticleDetail(this.id)
+                .then(res => {
+                    this.articleData = res;
+                })
+                .catch(() => {
+                    this.$router.replace({
+                        path: '/404',
+                    });
                 });
-            });
         },
         /**
          * 喜欢
          */
         likeIt() {
             if (!this.$auth.has()) return;
-            like(2, this.articleData.id).then(() => {
-                this.articleData.isLiked = !this.articleData.isLiked;
-                this.articleData.likes += this.articleData.isLiked ? 1 : -1;
-                this.$emitter.emit("article-like", this.articleData.id, this.articleData.isLiked ? 1 : -1);
-                this.$msg("success", "点赞成功");
-            }).catch(() => {
-                this.$msg("error", "点赞失败");
-            });
+            like(2, this.articleData.id)
+                .then(() => {
+                    this.articleData.isLiked = !this.articleData.isLiked;
+                    this.articleData.likes += this.articleData.isLiked ? 1 : -1;
+                    this.$emitter.emit(
+                        'article-like',
+                        this.articleData.id,
+                        this.articleData.isLiked ? 1 : -1
+                    );
+                    this.$msg('success', '点赞成功');
+                })
+                .catch(() => {
+                    this.$msg('error', '点赞失败');
+                });
         },
         /**
          * 评论
@@ -240,27 +259,29 @@ export default {
                 name: 'input-panel',
                 data: {
                     placeholder: '评论该文章',
-                    func: async function({text}) {
+                    func: async function ({ text }) {
                         const params = {
                             wcate: 2,
                             wid: that.id,
                             content: text,
-                        }
-                        await addComment(params).then(() => {
-                            that.$refs['comment-list'].init();
-                            return Promise.resolve();
-                        }).catch(err => {
-                            return Promise.reject(err);
-                        });
-                    }
-                }
+                        };
+                        await addComment(params)
+                            .then(() => {
+                                that.$refs['comment-list'].init();
+                                return Promise.resolve();
+                            })
+                            .catch(err => {
+                                return Promise.reject(err);
+                            });
+                    },
+                },
             });
         },
         /**
          * 编辑
          */
         editIt() {
-            this.$router.push('/article/write?id='+this.id);
+            this.$router.push('/article/write?id=' + this.id);
         },
         /**
          * 删除
@@ -272,20 +293,22 @@ export default {
                 content: '确定要删除该文章吗',
                 optionsText: ['确定', '取消'],
                 success: () => {
-                    deleteArticle(that.id).then(() => {
-                        that.$msg('success', '删除成功');
-                        that.$store.commit('setEventLock', true);
-                        setTimeout(function() {
-                            that.$store.commit('setEventLock', false);
-                            that.$router.go(-1);
-                        }, 1000);
-                    }).catch(() => {
-                        that.$msg('error', '删除失败');
-                    });
+                    deleteArticle(that.id)
+                        .then(() => {
+                            that.$msg('success', '删除成功');
+                            that.$store.commit('setEventLock', true);
+                            setTimeout(function () {
+                                that.$store.commit('setEventLock', false);
+                                that.$router.go(-1);
+                            }, 1000);
+                        })
+                        .catch(() => {
+                            that.$msg('error', '删除失败');
+                        });
                 },
                 fail: () => {
                     console.log('取消');
-                }
+                },
             });
         },
         /**
@@ -293,16 +316,19 @@ export default {
          */
         scrollTop() {
             const scrollTop = document.querySelector('.view-window').scrollTop;
-            gsap.to('.view-window', {scrollTop: 0, duration: scrollTop/10000});
+            gsap.to('.view-window', {
+                scrollTop: 0,
+                duration: scrollTop / 10000,
+            });
         },
         /**
          * 离开当前组件
          */
         leave() {
             this.$router.go(-1);
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -439,5 +465,4 @@ export default {
     padding: 50px;
     background-color: rgba(0, 0, 0, 0.03);
 }
-
 </style>

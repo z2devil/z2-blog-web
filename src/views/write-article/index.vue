@@ -2,80 +2,88 @@
     <div class="write-article-page">
         <!-- 顶部栏 -->
         <div class="top-bar">
-            <div class="btn close-btn"
-                @click="back">
+            <div class="btn close-btn" @click="back">
                 <span class="iconfont icon-arrow-left"></span>
                 <span class="btn-text">返回</span>
             </div>
-            <input class="title-input"
+            <input
+                class="title-input"
                 type="text"
                 v-model="form.title"
                 placeholder="请输入标题（30字以内）"
-                maxLength="30" >
-            <div class="btn release-btn"
-                @click="release">
+                maxLength="30" />
+            <div class="btn release-btn" @click="release">
                 <span class="iconfont icon-success"></span>
                 <span class="btn-text">发布</span>
             </div>
         </div>
         <!-- 编辑器 -->
         <div class="editor-container">
-            <v-md-editor v-model="form.text"
+            <v-md-editor
+                v-model="form.text"
                 height="100%"
                 :toc-nav-position-right="true"
                 :toolbar="toolbar"
                 :left-toolbar="leftToolbarOpt"
-                :right-toolbar="rightToolbarOpt"
-                ></v-md-editor>
+                :right-toolbar="rightToolbarOpt"></v-md-editor>
             <transition name="fade">
-                <div v-if="filesShow"
-                    class="files-view-box">
+                <div v-if="filesShow" class="files-view-box">
                     <div class="wrapper">
-                        <div v-for="files in filesData" 
+                        <div
+                            v-for="files in filesData"
                             :key="files"
                             class="files-item">
                             <!-- <template v-if="files.content.length > 0"> -->
-                                <div class="title-box">
-                                    <span>{{ files.title }}</span>
-                                </div>
-                                <div class="content">
-                                    <fileList :id="files.id"
-                                        :data="files.content"
-                                        :group="files.type"
-                                        @start="dragOptions.group = files.type; trashShow = true"
-                                        @end="dragOptions.group = ''; trashShow = false"
-                                        @change="fileListChange"/>
-                                </div>
+                            <div class="title-box">
+                                <span>{{ files.title }}</span>
+                            </div>
+                            <div class="content">
+                                <fileList
+                                    :id="files.id"
+                                    :data="files.content"
+                                    :group="files.type"
+                                    @start="
+                                        dragOptions.group = files.type;
+                                        trashShow = true;
+                                    "
+                                    @end="
+                                        dragOptions.group = '';
+                                        trashShow = false;
+                                    "
+                                    @change="fileListChange" />
+                            </div>
                             <!-- </template> -->
                         </div>
-                        <div v-if="filesData.length === 0" 
-                            class="empty-box">
-                            <empty-info tip="暂时没有文件哦"
+                        <div v-if="filesData.length === 0" class="empty-box">
+                            <empty-info
+                                tip="暂时没有文件哦"
                                 :btn="{
                                     use: true,
                                     text: '上传文件',
-                                    callback: onUpload
-                                }"
-                                ></empty-info>
+                                    callback: onUpload,
+                                }"></empty-info>
                         </div>
                         <div class="close-btn">
-                            <z-button class="btn"
+                            <z-button
+                                class="btn"
                                 circle
                                 @click="filesShow = !filesShow">
                                 <span class="iconfont icon-error"></span>
                             </z-button>
                         </div>
                         <transition name="fade">
-                            <div v-if="trashShow"
-                                class="trash">
+                            <div v-if="trashShow" class="trash">
                                 <div class="background"></div>
                                 <span class="iconfont icon-error"></span>
-                                <draggable class="draggable-list"
+                                <draggable
+                                    class="draggable-list"
                                     v-bind="dragOptions"
                                     v-model="trashData"
                                     item-key="id">
-                                    <template #item="{element}">
-                                        <span style="display: none">{{element}}</span>
+                                    <template #item="{ element }">
+                                        <span style="display: none">{{
+                                            element
+                                        }}</span>
                                     </template>
                                 </draggable>
                             </div>
@@ -87,11 +95,17 @@
         <!-- 底部栏 -->
         <div class="bottom-box">
             <div class="bottom-bar">
-                <div class="files-info"
-                    @click="filesShow = !filesShow">
-                    <span v-if="!isUploading && filesNum == 0">当前没有附件</span>
-                    <span v-if="isUploading"><span class="iconfont icon-loading"></span>正在上传中...</span>
-                    <span v-if="!isUploading && filesNum > 0">当前已有{{ filesNum }}个附件</span>
+                <div class="files-info" @click="filesShow = !filesShow">
+                    <span v-if="!isUploading && filesNum == 0"
+                        >当前没有附件</span
+                    >
+                    <span v-if="isUploading"
+                        ><span class="iconfont icon-loading"></span
+                        >正在上传中...</span
+                    >
+                    <span v-if="!isUploading && filesNum > 0"
+                        >当前已有{{ filesNum }}个附件</span
+                    >
                 </div>
                 <div class="word-num">
                     <span>{{ wordsNum }} 字数</span>
@@ -102,20 +116,12 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-import fileList from '@/components/file-list/index.vue'
-import uuid from '@/utils/uuid.js'
-import compress from '@/utils/compress.js'
-import {
-    pre,
-    upload,
-    add
-} from '@/api/file.js'
-import {
-    addArticle,
-    getArticleDetail,
-    modArticle
-} from '@/api/article.js'
+import draggable from 'vuedraggable';
+import fileList from '@/components/file-list/index.vue';
+import uuid from '@/utils/uuid.js';
+import compress from '@/utils/compress.js';
+import { pre, upload, add } from '@/api/file.js';
+import { addArticle, getArticleDetail, modArticle } from '@/api/article.js';
 
 export default {
     components: {
@@ -128,8 +134,8 @@ export default {
             require: false,
             default() {
                 return 0;
-            }
-        }
+            },
+        },
     },
     data() {
         const that = this;
@@ -160,7 +166,8 @@ export default {
         };
         return {
             // md-editor 工具栏
-            leftToolbarOpt: 'undo redo | h bold italic strikethrough quote | ul ol table hr code | link imageLink imageUpload',
+            leftToolbarOpt:
+                'undo redo | h bold italic strikethrough quote | ul ol table hr code | link imageLink imageUpload',
             rightToolbarOpt: 'preview toc',
             // 发表文章表单
             form: {
@@ -184,17 +191,17 @@ export default {
                 {
                     id: 0,
                     name: '图片',
-                    type: 'image'
+                    type: 'image',
                 },
                 {
                     id: 1,
                     name: '视频',
-                    type: 'video'
+                    type: 'video',
                 },
                 {
                     id: 2,
                     name: '音频',
-                    type: 'audio'
+                    type: 'audio',
                 },
             ],
             // 文件数据
@@ -208,11 +215,11 @@ export default {
                 animation: 200,
                 group: '',
                 disabled: false,
-                ghostClass: "ghost"
+                ghostClass: 'ghost',
             },
             // 垃圾桶数据
             trashData: [],
-        }
+        };
     },
     computed: {
         /**
@@ -229,7 +236,7 @@ export default {
             return fs.sort((a, b) => {
                 const x = a['id'];
                 const y = b['id'];
-                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+                return x < y ? -1 : x > y ? 1 : 0;
             });
         },
         /**
@@ -242,7 +249,7 @@ export default {
                 res += files.content.length;
             }
             return res;
-        }
+        },
     },
     watch: {
         /**
@@ -267,13 +274,13 @@ export default {
                     const files = this.filesData[i];
                     for (let j = 0; j < files.content.length; j++) {
                         const file = files.content[j];
-                        if(file.status == 1) resources.push(file.id);
+                        if (file.status == 1) resources.push(file.id);
                     }
                 }
                 this.form.resources = resources;
             },
-            deep: true
-        }
+            deep: true,
+        },
     },
     beforeCreate() {
         this.$store.commit('nav/setShow', false);
@@ -287,7 +294,7 @@ export default {
             this.form.cover = res.cover;
             this.form.summary = res.summary;
             this.form.tags = res.tags;
-        })
+        });
     },
     beforeUnmount() {
         this.$store.commit('nav/setShow', true);
@@ -320,33 +327,36 @@ export default {
                     cover: that.form.cover,
                     summary: that.form.summary,
                     tags: that.form.tags,
-                    func: async function({cover, summary, tags}) {
+                    func: async function ({ cover, summary, tags }) {
                         const params = {
-                            'title': that.form.title,
-                            'content': that.form.text,
-                            'summary': summary,
-                            'wordsNum': that.wordsNum,
-                            'resources': that.form.resources,
-                            'cover': cover,
-                            'tags': tags
-                        }
+                            title: that.form.title,
+                            content: that.form.text,
+                            summary: summary,
+                            wordsNum: that.wordsNum,
+                            resources: that.form.resources,
+                            cover: cover,
+                            tags: tags,
+                        };
                         if (that.id === 0) {
-                            await addArticle(params).then(() => {
-                                return Promise.resolve();
-                            }).catch(err => {
-                                return Promise.reject(err);
-                            });
-                        }else {
+                            await addArticle(params)
+                                .then(() => {
+                                    return Promise.resolve();
+                                })
+                                .catch(err => {
+                                    return Promise.reject(err);
+                                });
+                        } else {
                             params.id = that.id;
-                            await modArticle(params).then(() => {
-                                return Promise.resolve();
-                            }).catch(err => {
-                                return Promise.reject(err);
-                            });
+                            await modArticle(params)
+                                .then(() => {
+                                    return Promise.resolve();
+                                })
+                                .catch(err => {
+                                    return Promise.reject(err);
+                                });
                         }
-                        
-                    }
-                }
+                    },
+                },
             });
         },
         /**
@@ -354,10 +364,10 @@ export default {
          */
         onUpload() {
             const that = this;
-            const input = document.createElement("input");
-            input.setAttribute("type", "file");
-            input.setAttribute("multiple", "multiple");
-            input.addEventListener("change", function(e) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('multiple', 'multiple');
+            input.addEventListener('change', function (e) {
                 // const callback = function(params) {
                 //     editor.insert(function () {
                 //         const prefix = '\n![' + params.desc + '](';
@@ -370,7 +380,7 @@ export default {
                 const files = e.target.files;
                 if (files.length == 0) return;
                 if (files.length > 6) {
-                    that.$msg("error", "不能大于6张图片");
+                    that.$msg('error', '不能大于6张图片');
                     files.splice(0, 6);
                 }
                 for (let i = 0; i < files.length; i++) {
@@ -382,7 +392,7 @@ export default {
         /**
          * 文件列表变化
          */
-        fileListChange({id, content}) {
+        fileListChange({ id, content }) {
             const files = this.getByKey(this.filesData, 'id', id);
             files.content = content;
         },
@@ -391,8 +401,10 @@ export default {
          */
         getByKey(arr, key, val) {
             for (const item of arr) {
-                if (Object.prototype.hasOwnProperty.call(item, key)
-                    && item[key] == val) {
+                if (
+                    Object.prototype.hasOwnProperty.call(item, key) &&
+                    item[key] == val
+                ) {
                     return item;
                 }
             }
@@ -421,7 +433,7 @@ export default {
                 size: file.size,
                 path: '',
                 progress: 0,
-                status: 0 // 0: 上传中 1: 上传成功 -1: 上传失败
+                status: 0, // 0: 上传中 1: 上传成功 -1: 上传失败
             };
             const typeObj = that.getByKey(that.fileTypes, 'type', fileType);
             let files;
@@ -430,12 +442,12 @@ export default {
                 if (files) {
                     // 插入到filesData
                     files.content.push(filesItem);
-                }else {
+                } else {
                     that.filesData.push({
                         id: typeObj.id,
                         title: typeObj.name,
                         type: typeObj.type,
-                        content: [ filesItem ]
+                        content: [filesItem],
                     });
                     files = that.getByKey(that.filesData, 'type', fileType);
                 }
@@ -444,17 +456,17 @@ export default {
                         that.getByKey(files.content, 'id', fileId).path = res;
                     });
                 }
-            }else {
+            } else {
                 files = that.getByKey(that.filesData, 'type', 'other');
                 if (files) {
                     // 插入到filesData
                     files.content.push(filesItem);
-                }else {
+                } else {
                     that.filesData.push({
                         id: 999,
                         title: '其他',
                         type: 'other',
-                        content: [ filesItem ]
+                        content: [filesItem],
                     });
                     files = that.getByKey(that.filesData, 'type', 'other');
                 }
@@ -462,63 +474,76 @@ export default {
             this.isUploading = true;
             // *****************以下为请求部分*****************
             // 进行上传预请求，获取policy和签名
-            pre().then(res => {
-                // 新文件名
-                const fileName = fileId + file.name.substring(file.name.lastIndexOf("."), file.name.length);
-                // 新文件路径
-                const filePath = that.$settings.oss_root + file.type.substring(0, file.type.indexOf("/")+1) + fileName;
-                // oss直传参数
-                const params = {
-                    policy: res.policy,
-                    signature: res.signature,
-                    id: fileId,
-                    name: fileName,
-                    path: filePath,
-                    file: file
-                }
-                // oss直传上传进度函数
-                const callback = async function(e) {
-                    if (e.lengthComputable) {
-                        const f = that.getByKey(files.content, 'id', e.id);
-                        if (f) f.progress = e.loaded / e.total;
-                    }
-                };
-                Promise.all([
-                    // oss直传
-                    upload(params, callback),
-                    // 服务器数据库新增数据
-                    add({
-                        name: file.name,
+            pre()
+                .then(res => {
+                    // 新文件名
+                    const fileName =
+                        fileId +
+                        file.name.substring(
+                            file.name.lastIndexOf('.'),
+                            file.name.length
+                        );
+                    // 新文件路径
+                    const filePath =
+                        that.$settings.oss_root +
+                        file.type.substring(0, file.type.indexOf('/') + 1) +
+                        fileName;
+                    // oss直传参数
+                    const params = {
+                        policy: res.policy,
+                        signature: res.signature,
+                        id: fileId,
+                        name: fileName,
                         path: filePath,
-                        type: file.type,
-                        size: file.size
-                    })
-                ]).then(r => {
-                    that.uploadEnd(files, fileId, 1);
-                    // 换成oss缩略图
-                    that.getByKey(files.content, 'id', fileId).path = filePath;
-                    // 换成数据库中的id
-                    that.getByKey(files.content, 'id', fileId).id = r[1];
-                    // 编辑器中插入图片
-                    // insertImage({
-                    //     url: that.$settings.downloadUrl +filePath,
-                    //     desc: file.name,
-                    //     width: 'auto',
-                    //     height: 'auto',
-                    // });
-                }).catch(() => {
+                        file: file,
+                    };
+                    // oss直传上传进度函数
+                    const callback = async function (e) {
+                        if (e.lengthComputable) {
+                            const f = that.getByKey(files.content, 'id', e.id);
+                            if (f) f.progress = e.loaded / e.total;
+                        }
+                    };
+                    Promise.all([
+                        // oss直传
+                        upload(params, callback),
+                        // 服务器数据库新增数据
+                        add({
+                            name: file.name,
+                            path: filePath,
+                            type: file.type,
+                            size: file.size,
+                        }),
+                    ])
+                        .then(r => {
+                            that.uploadEnd(files, fileId, 1);
+                            // 换成oss缩略图
+                            that.getByKey(files.content, 'id', fileId).path =
+                                filePath;
+                            // 换成数据库中的id
+                            that.getByKey(files.content, 'id', fileId).id =
+                                r[1];
+                            // 编辑器中插入图片
+                            // insertImage({
+                            //     url: that.$settings.downloadUrl +filePath,
+                            //     desc: file.name,
+                            //     width: 'auto',
+                            //     height: 'auto',
+                            // });
+                        })
+                        .catch(() => {
+                            that.uploadEnd(files, fileId, -1);
+                        });
+                })
+                .catch(() => {
                     that.uploadEnd(files, fileId, -1);
                 });
-            }).catch(() => {
-                that.uploadEnd(files, fileId, -1);
-            });
         },
-    }
-}
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .write-article-page {
     position: fixed;
     display: flex;
@@ -613,7 +638,8 @@ export default {
         // 代码框
         .v-md-pre-wrapper {
             // 滚动条（任意写一个样式即可修改其他伪元素样式）
-            &::-webkit-scrollbar, &::-webkit-scrollbar-track {
+            &::-webkit-scrollbar,
+            &::-webkit-scrollbar-track {
                 background-color: transparent;
             }
             // 滚动条滑块
@@ -648,7 +674,6 @@ export default {
                     color: $text1;
                 }
                 .content {
-
                 }
             }
             .empty-box {
@@ -661,7 +686,7 @@ export default {
                 left: 50%;
                 transform: translate(-50%, -50%);
                 font-size: 18px;
-                color: rgba(0,0,0,0.6);
+                color: rgba(0, 0, 0, 0.6);
                 .tip {
                     margin-bottom: 50px;
                 }
@@ -741,7 +766,7 @@ export default {
         height: 100%;
         font-size: 13px;
         cursor: pointer;
-        &>span {
+        & > span {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -775,5 +800,4 @@ export default {
 .fade-leave-to {
     opacity: 0;
 }
-
 </style>

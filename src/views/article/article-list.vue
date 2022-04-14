@@ -1,17 +1,18 @@
 <template>
-    <div class="article-list-component"
-        :mark="articleData.id">
+    <div class="article-list-component" :mark="articleData.id">
         <div class="banner">
-            <async-img v-if="articleData.cover"
+            <async-img
+                v-if="articleData.cover"
                 class="banner-img"
                 :url="articleData.cover.path"
                 suffix="?x-oss-process=image/resize,s_720"></async-img>
-            <div class="banner-text"
-                :class="{'has-bg': articleData.cover}">
-                <user-info class="user-info-box"
+            <div class="banner-text" :class="{ 'has-bg': articleData.cover }">
+                <user-info
+                    class="user-info-box"
                     :avatar="false"
                     :user-info="articleData.userInfo">
-                    <format-date class="post-date"
+                    <format-date
+                        class="post-date"
                         :date="articleData.postDate"></format-date>
                 </user-info>
                 <span class="title">{{ articleData.title }}</span>
@@ -21,22 +22,26 @@
             <span class="summary">{{ articleData.summary }}...</span>
         </div>
         <div class="assess-box">
-            <z-button class="assess-item"
+            <z-button
+                class="assess-item"
                 round
                 :class="{ active: articleData.isLiked }"
                 @click="likeIt">
-                <span class="iconfont "
-                    :class="articleData.isLiked ? 'icon-like-fill' : 'icon-like'"></span>
-                <span>{{articleData.likes}}</span>
+                <span
+                    class="iconfont"
+                    :class="
+                        articleData.isLiked ? 'icon-like-fill' : 'icon-like'
+                    "></span>
+                <span>{{ articleData.likes }}</span>
             </z-button>
-            <z-button class="assess-item"
-                round>
-                <span class="iconfont icon-comment"></span><span>{{articleData.comments}}</span>
+            <z-button class="assess-item" round>
+                <span class="iconfont icon-comment"></span
+                ><span>{{ articleData.comments }}</span>
             </z-button>
             <div class="right-box">
-                <z-button class="assess-item enter-btn"
-                    round
-                    @click="toDetail">查看详情</z-button>
+                <z-button class="assess-item enter-btn" round @click="toDetail"
+                    >查看详情</z-button
+                >
                 <!-- <router-link class="assess-item enter-btn"
                     :to="'/article/'+articleData.id">
                     查看详情
@@ -47,10 +52,8 @@
 </template>
 
 <script>
-import userInfo from '@/components/user-info'
-import {
-    like
-} from '@/api/prefer'
+import userInfo from '@/components/user-info';
+import { like } from '@/api/prefer';
 
 export default {
     components: {
@@ -60,12 +63,12 @@ export default {
         article: {
             type: Object,
             required: true,
-        }
+        },
     },
     data() {
         return {
-            articleData: this.article
-        }
+            articleData: this.article,
+        };
     },
     emits: ['to-detail'],
     methods: {
@@ -80,20 +83,21 @@ export default {
          */
         likeIt() {
             if (!this.$auth.has()) return;
-            like(2, this.articleData.id).then(res => {
-                this.articleData.likes = res;
-                this.articleData.isLiked = !this.articleData.isLiked;
-                this.$msg("success", "点赞成功")
-            }).catch(() => {
-                this.$msg("error", "点赞失败");
-            });
-        }
-    }
-}
+            like(2, this.articleData.id)
+                .then(res => {
+                    this.articleData.likes = res;
+                    this.articleData.isLiked = !this.articleData.isLiked;
+                    this.$msg('success', '点赞成功');
+                })
+                .catch(() => {
+                    this.$msg('error', '点赞失败');
+                });
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .article-list-component {
     position: relative;
     background-color: $white;
@@ -179,7 +183,7 @@ export default {
         padding: 8px 16px;
         font-size: 14px;
         background-color: rgba(0, 0, 0, 0.03);
-        &+.assess-item {
+        & + .assess-item {
             margin-left: 15px;
         }
         &:hover {
@@ -213,5 +217,4 @@ export default {
         }
     }
 }
-
 </style>

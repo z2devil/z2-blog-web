@@ -1,15 +1,15 @@
 <template>
     <teleport to="body">
         <transition name="fade">
-            <div v-if="display" 
-                class="mask"
-                @click="hide"></div>
+            <div v-if="display" class="mask" @click="hide"></div>
         </transition>
-        <transition name="zoom"
+        <transition
+            name="zoom"
             @after-enter="keep = true"
             @after-leave="keep = false">
             <keep-alive>
-                <component :is="view ? view.name : null"
+                <component
+                    :is="view ? view.name : null"
                     :data="view ? view.data : null"
                     @close="hide"></component>
             </keep-alive>
@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import userPanel from "./user-panel/index";
-import userEdit from "./user-edit/index";
-import imgPreview from "./img-preview/index";
-import inputPanel from "./input-panel/index";
-import articleConfirm from "./article-confirm/index";
+import userPanel from './user-panel/index';
+import userEdit from './user-edit/index';
+import imgPreview from './img-preview/index';
+import inputPanel from './input-panel/index';
+import articleConfirm from './article-confirm/index';
 
 export default {
     components: {
@@ -34,8 +34,8 @@ export default {
     },
     data() {
         return {
-            keep: false
-        }
+            keep: false,
+        };
     },
     computed: {
         display() {
@@ -47,11 +47,12 @@ export default {
     },
     created() {
         const that = this;
-        document.onkeydown = function(event) {
-            const e = event || window.event || arguments.callee.caller.arguments[0];
+        document.onkeydown = function (event) {
+            const e =
+                event || window.event || arguments.callee.caller.arguments[0];
             if (e.keyCode == 65 && e.shiftKey) {
                 that.$PL.show(that, {
-                    name: 'user-panel'
+                    name: 'user-panel',
                 });
             }
         };
@@ -63,13 +64,12 @@ export default {
         scrollFunction(e) {
             e = e || window.event;
             e?.preventDefault(); //禁止浏览器默认事件
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .mask {
     z-index: 100;
     position: fixed;
@@ -112,5 +112,4 @@ export default {
     opacity: 0;
     transform: translate(-50%, -50%) translateY(30px);
 }
-
 </style>

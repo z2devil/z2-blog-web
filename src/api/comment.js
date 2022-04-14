@@ -1,18 +1,14 @@
-import {
-    get,
-    post,
-    dele,
-} from '@/utils/request';
+import { get, post, dele } from '@/utils/request';
 
 /**
  * 获取评论列表
  */
 export function getCommentList(wCate, wId, current, size) {
     let data = {
-        'wCate': wCate,
-        'wId': wId,
-        'current': current,
-        'size': size
+        wCate: wCate,
+        wId: wId,
+        current: current,
+        size: size,
     };
     return get('/comment', data);
 }
@@ -22,17 +18,17 @@ export function getCommentList(wCate, wId, current, size) {
  */
 export function getChildCommentList(id, current, size) {
     let data = {
-        'current': current,
-        'size': size
+        current: current,
+        size: size,
     };
-    return get('/comment/child/'+id, data);
+    return get('/comment/child/' + id, data);
 }
 
 /**
  * 获取评论
  */
 export function getComment(id) {
-    return get('/comment/'+ id);
+    return get('/comment/' + id);
 }
 
 /**
@@ -46,5 +42,5 @@ export function addComment(data) {
  * 删除评论
  */
 export function deleteComment(id) {
-    return dele('/comment/'+id);
+    return dele('/comment/' + id);
 }

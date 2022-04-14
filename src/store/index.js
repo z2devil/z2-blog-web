@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
 /**
  * 弹出层模块
@@ -7,15 +7,15 @@ const popupLayoutModule = {
     namespaced: true,
     state: {
         view: null,
-        history: []
+        history: [],
     },
     getters: {
-        getView (state) {
+        getView(state) {
             return state.view;
         },
     },
     mutations: {
-        setView (state, val) {
+        setView(state, val) {
             // 开
             if (val !== null) {
                 if (val.type) {
@@ -23,34 +23,34 @@ const popupLayoutModule = {
                         state.history = [];
                         state.view = val;
                     }
-                }else {
+                } else {
                     state.history.push(val);
                     state.view = val;
                 }
-            // 关
-            }else {
+                // 关
+            } else {
                 if (state.history.length > 0) {
                     state.history.pop();
                 }
                 if (state.history.length === 0) {
                     state.view = null;
-                }else {
-                    state.view = state.history[state.history.length-1];
+                } else {
+                    state.view = state.history[state.history.length - 1];
                 }
             }
         },
     },
     actions: {
-        setView ({commit}, val) {
+        setView({ commit }, val) {
             commit('setView', val);
         },
     },
-}
+};
 
 /**
  * 顶部导航模块
  */
- const topNavModule = {
+const topNavModule = {
     namespaced: true,
     state: {
         show: true,
@@ -58,28 +58,28 @@ const popupLayoutModule = {
         current: -1,
     },
     getters: {
-        getShow (state) {
+        getShow(state) {
             return state.show;
         },
-        getBack (state) {
+        getBack(state) {
             return state.back;
         },
-        getCurrent (state) {
+        getCurrent(state) {
             return state.current;
         },
     },
     mutations: {
-        setShow (state, val) {
+        setShow(state, val) {
             state.show = val;
         },
-        setBack (state, val) {
+        setBack(state, val) {
             state.back = val;
         },
-        setCurrent (state, val) {
+        setCurrent(state, val) {
             state.current = val;
         },
-    }
-}
+    },
+};
 
 export default createStore({
     strict: true,
@@ -87,19 +87,18 @@ export default createStore({
         eventLock: false,
     },
     getters: {
-        getEventLock (state) {
+        getEventLock(state) {
             return state.eventLock;
         },
     },
     mutations: {
-        setEventLock (state, val) {
+        setEventLock(state, val) {
             state.eventLock = val;
         },
     },
-    actions: {
-    },
+    actions: {},
     modules: {
         pl: popupLayoutModule,
         nav: topNavModule,
-    }
-})
+    },
+});

@@ -11,18 +11,16 @@
 </template>
 
 <script>
-    // import { useMouse } from '@vueuse/core'
-    export default {
-        data() {
-            return {
-
-            }
-        },
-        setup() {
-            // const { x, y } = useMouse({ touch: false });
-            // return { x, y };
-        }
-    }
+// import { useMouse } from '@vueuse/core'
+export default {
+    data() {
+        return {};
+    },
+    setup() {
+        // const { x, y } = useMouse({ touch: false });
+        // return { x, y };
+    },
+};
 </script>
 
 <style scoped>

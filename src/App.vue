@@ -1,22 +1,22 @@
 <template>
     <div id="main">
         <top-nav v-if="navShow"></top-nav>
-        <router-view/>
+        <router-view />
         <popup-layout ref="popupLayout"></popup-layout>
-        <a class="gov-record"
-            href="https://beian.miit.gov.cn/"
-            target="_blank">豫ICP备2021001737号-1</a>
+        <a class="gov-record" href="https://beian.miit.gov.cn/" target="_blank">
+            豫ICP备2021001737号
+        </a>
     </div>
 </template>
 
 <script>
-import topNav from '@/components/top-nav'
-import popupLayout from '@/components/popup-layout/index'
+import topNav from '@/components/top-nav';
+import popupLayout from '@/components/popup-layout/index';
 
 export default {
     components: {
         'top-nav': topNav,
-        popupLayout
+        popupLayout,
     },
     computed: {
         navShow() {
@@ -24,17 +24,21 @@ export default {
         },
         eventLock() {
             return this.$store.getters['getEventLock'];
-        }
+        },
     },
     created() {
         const that = this;
-        window.addEventListener('click', function(e) {
-            if (that.eventLock) {
-                e.stopPropagation();
-            }
-        }, true);
-    }
-}
+        window.addEventListener(
+            'click',
+            function (e) {
+                if (that.eventLock) {
+                    e.stopPropagation();
+                }
+            },
+            true
+        );
+    },
+};
 </script>
 
 <style lang="scss">
@@ -46,7 +50,8 @@ export default {
 }
 
 // 滚动条（任意写一个样式即可修改其他伪元素样式）
-::-webkit-scrollbar, ::-webkit-scrollbar-track {
+::-webkit-scrollbar,
+::-webkit-scrollbar-track {
     width: 6px;
     height: 6px;
     background-color: transparent;
@@ -62,7 +67,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: $back;
-    font-family: "Microsoft YaHei", Arial, sans-serif;
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
     color: $text1;
 }
 
@@ -95,5 +100,4 @@ ul {
         color: rgba($color: #000, $alpha: 0.3);
     }
 }
-
 </style>

@@ -1,28 +1,30 @@
 <template>
-    <div class="img-preview-box"
+    <div
+        class="img-preview-box"
         :style="{
-            '--btn-width': btn_width+'px',
+            '--btn-width': btn_width + 'px',
         }">
-        <div class="images-row"
+        <div
+            class="images-row"
             :style="{
-                transform: 'translateX(' + (-screenWidth*current) + 'px)'
+                transform: 'translateX(' + -screenWidth * current + 'px)',
             }">
-            <div v-for="(image, index) in data.images"
+            <div
+                v-for="(image, index) in data.images"
                 :key="index"
                 class="image-box"
                 :style="{
-                    width: (screenWidth-btn_width*2)+'px'
+                    width: screenWidth - btn_width * 2 + 'px',
                 }">
-                <async-img class="image"
-                    :url="image.path"></async-img>
+                <async-img class="image" :url="image.path"></async-img>
             </div>
         </div>
-        <div class="btn pre-btn-box"
-            @click="current > 0 ? current-- : current">
+        <div class="btn pre-btn-box" @click="current > 0 ? current-- : current">
             <span class="iconfont"></span>
         </div>
-        <div class="btn next-btn-box"
-            @click="current < data.images.length-1 ? current++ : current">
+        <div
+            class="btn next-btn-box"
+            @click="current < data.images.length - 1 ? current++ : current">
             <span class="iconfont"></span>
         </div>
     </div>
@@ -36,13 +38,13 @@ export default {
         data: {
             type: Object,
             required: true,
-        }
+        },
     },
     data() {
         return {
             current: 0,
             screenWidth: 0,
-        }
+        };
     },
     beforeCreate() {
         this.btn_width = btn_width;
@@ -52,13 +54,16 @@ export default {
         window.addEventListener('resize', this.onWindowResize);
         const that = this;
         this.keyEvent = document.onkeydown;
-        document.onkeydown = function(event) {
-            const e = event || window.event || arguments.callee.caller.arguments[0];
+        document.onkeydown = function (event) {
+            const e =
+                event || window.event || arguments.callee.caller.arguments[0];
             if (e.keyCode == 37) {
-                that.current > 0 ? that.current-- : that.current
+                that.current > 0 ? that.current-- : that.current;
             }
             if (e.keyCode == 39) {
-                that.current < that.data.images.length-1 ? that.current++ : that.current
+                that.current < that.data.images.length - 1
+                    ? that.current++
+                    : that.current;
             }
         };
     },
@@ -69,26 +74,26 @@ export default {
     watch: {
         data: {
             handler(val) {
-                this.$nextTick(function() {
+                this.$nextTick(function () {
                     this.onWindowResize();
                 });
                 this.current = val.index;
             },
             deep: true,
-            immediate: true
-        }
+            immediate: true,
+        },
     },
     methods: {
         onWindowResize() {
             const box = document.querySelector('.img-preview-box');
-            if (box.clientWidth && box.clientWidth != 0) this.screenWidth = box.clientWidth;
+            if (box.clientWidth && box.clientWidth != 0)
+                this.screenWidth = box.clientWidth;
         },
-    }
-}
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .img-preview-box {
     $btn-width: var(--btn-width);
     position: fixed;
@@ -135,13 +140,20 @@ export default {
         }
         &.pre-btn-box {
             left: 0;
-            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
+            background-image: linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.3),
+                rgba(0, 0, 0, 0)
+            );
         }
         &.next-btn-box {
             right: 0;
-            background-image: linear-gradient(to left, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
+            background-image: linear-gradient(
+                to left,
+                rgba(0, 0, 0, 0.3),
+                rgba(0, 0, 0, 0)
+            );
         }
     }
 }
-
 </style>

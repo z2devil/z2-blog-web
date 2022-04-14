@@ -1,9 +1,4 @@
-import {
-    get,
-    post,
-    dele,
-    put
-} from '@/utils/request';
+import { get, post, dele, put } from '@/utils/request';
 
 /**
  * 获取文章列表
@@ -19,14 +14,14 @@ export function getArticleList(params) {
  * 获取文章
  */
 export function getArticle(id) {
-    return get('/article/'+ id);
+    return get('/article/' + id);
 }
 
 /**
  * 获取文章详情
  */
- export function getArticleDetail(id) {
-    return get('/article/detail/'+ id);
+export function getArticleDetail(id) {
+    return get('/article/detail/' + id);
 }
 
 /**
@@ -39,7 +34,7 @@ export function addArticle(params) {
 /**
  * 编辑文章
  */
- export function modArticle(params) {
+export function modArticle(params) {
     return put('/article', params);
 }
 
@@ -47,5 +42,5 @@ export function addArticle(params) {
  * 删除文章
  */
 export function deleteArticle(id) {
-    return dele('/article/'+id);
+    return dele('/article/' + id);
 }

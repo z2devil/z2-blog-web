@@ -1,10 +1,12 @@
 <template>
     <div class="images-container-component">
-        <div :class="['inner', 'columns-'+columns]">
-            <div v-for="(image, index) in images"
+        <div :class="['inner', 'columns-' + columns]">
+            <div
+                v-for="(image, index) in images"
                 :key="image.id"
                 class="image-box">
-                <async-img class="image"
+                <async-img
+                    class="image"
                     :url="image.path"
                     :suffix="'?x-oss-process=image/resize,s_' + size"
                     @click="previewImage(index)"></async-img>
@@ -14,66 +16,66 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            images: {
-                type: Array,
-                default() {
-                    return []
-                },
-                required: false,
+export default {
+    props: {
+        images: {
+            type: Array,
+            default() {
+                return [];
+            },
+            required: false,
+        },
+    },
+    data() {
+        return {
+            columns: 0,
+        };
+    },
+    computed: {
+        size() {
+            if (this.columns > 1) {
+                return 248 - 40 * this.columns;
+            } else {
+                return 800;
             }
         },
-        data() {
-            return {
-                columns: 0,
-            }
-        },
-        computed: {
-            size() {
-                if (this.columns > 1) {
-                    return 248 - (40 * this.columns);
-                }else {
-                    return 800;
-                }
-            }
-        },
-        created() {
-            const size = this.images.length;
-            switch (size) {
-                case 0:
-                case 1:
-                    this.columns = 1;
-                    break;
+    },
+    created() {
+        const size = this.images.length;
+        switch (size) {
+            case 0:
+            case 1:
+                this.columns = 1;
+                break;
 
-                case 2:
-                    this.columns = 2;
-                    break;
+            case 2:
+                this.columns = 2;
+                break;
 
-                case 4:
-                    this.columns = 2;
-                    break;
-            
-                default:
-                    this.columns = 3;
-                    break;
-            }
-        },
-        methods: {
-            /**
-             * 预览图片
-             */
-            previewImage(index) {
-                this.$PL.show(this, {
-                    name: 'img-preview',
-                    data: {
-                        images: this.images,
-                        index: index
-                    }
-                });
-            }
+            case 4:
+                this.columns = 2;
+                break;
+
+            default:
+                this.columns = 3;
+                break;
         }
-    }
+    },
+    methods: {
+        /**
+         * 预览图片
+         */
+        previewImage(index) {
+            this.$PL.show(this, {
+                name: 'img-preview',
+                data: {
+                    images: this.images,
+                    index: index,
+                },
+            });
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -125,5 +127,4 @@
         }
     }
 }
-
 </style>
