@@ -23,7 +23,7 @@ module.exports = {
     //单参数箭头函数参数周围使用圆括号 eg: (x) => x
     arrowParens: 'avoid',
     // 在HTML、Vue和JSX中强制每行单个属性。
-    singleAttributePerLine: true,
+    singleAttributePerLine: false,
     // requirePragma: true,
     // insertPragma: true,
 };

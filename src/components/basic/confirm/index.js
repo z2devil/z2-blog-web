@@ -1,13 +1,13 @@
 export function confirm(config) {
-    const body = document.getElementsByTagName("body")[0];
-    const mask = document.createElement("div");
-    mask.className = "mask";
+    const body = document.getElementsByTagName('body')[0];
+    const mask = document.createElement('div');
+    mask.className = 'mask';
     mask.addEventListener('click', () => {
         close();
         config.fail();
     });
-    const confirm = document.createElement("div");
-    confirm.className = "confirm-box";
+    const confirm = document.createElement('div');
+    confirm.className = 'confirm-box';
     confirm.innerHTML = `
         <div class="title-box">
             <span>${config.title}</span>
@@ -16,10 +16,10 @@ export function confirm(config) {
             <span>${config.content}</span>
         </div>
     `;
-    const optionsBox = document.createElement("div");
-    optionsBox.className = "options-box";
-    const optionConfirm = document.createElement("div");
-    optionConfirm.className = "option option-confirm";
+    const optionsBox = document.createElement('div');
+    optionsBox.className = 'options-box';
+    const optionConfirm = document.createElement('div');
+    optionConfirm.className = 'option option-confirm';
     optionConfirm.innerHTML = `
         <span>${config.optionsText[0]}</span>
     `;
@@ -27,8 +27,8 @@ export function confirm(config) {
         close();
         config.success();
     });
-    const optionCancel = document.createElement("div");
-    optionCancel.className = "option option-cancel";
+    const optionCancel = document.createElement('div');
+    optionCancel.className = 'option option-cancel';
     optionCancel.innerHTML = `
         <span>${config.optionsText[1]}</span>
     `;
@@ -48,8 +48,8 @@ export function confirm(config) {
     function close() {
         mask.style.opacity = 0;
         confirm.style.opacity = 0;
-        confirm.style.transform = "translate(-50%, -50%) translateY(-30px)";
-        setTimeout(function() {
+        confirm.style.transform = 'translate(-50%, -50%) translateY(-30px)';
+        setTimeout(function () {
             mask.remove();
             confirm.remove();
         }, 400);

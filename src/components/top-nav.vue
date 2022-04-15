@@ -3,14 +3,14 @@
         <div class="content">
             <div id="logo" :class="{ back: isBack }" @click="onBack">
                 <div class="logo-box">
-                    <span class="iconfont icon-sun"></span>
+                    <span class="iconfont icon-sun" />
                     <div class="logo-text">
                         <span class="main">中二Devil</span>
                         <span class="sub">的个人网站</span>
                     </div>
                 </div>
                 <div class="back-btn">
-                    <span class="iconfont icon-arrow-left"></span>
+                    <span class="iconfont icon-arrow-left" />
                     <span class="text">返回</span>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                     :to="nav.path + '/index'"
                     :active="current === index">
                     <div class="inner">
-                        <span :class="['iconfont', nav.icon]"></span>
+                        <span :class="['iconfont', nav.icon]" />
                         <span class="text">{{ nav.name }}</span>
                     </div>
                 </router-link>
@@ -48,7 +48,7 @@
                         <async-img
                             class="avatar-img"
                             :url="userInfo?.avatarPath"
-                            suffix="?x-oss-process=image/resize,s_42"></async-img>
+                            suffix="?x-oss-process=image/resize,s_42" />
                     </template>
                     <template v-else>
                         <img

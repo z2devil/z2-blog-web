@@ -9,7 +9,7 @@
                     class="image"
                     :url="image.path"
                     :suffix="'?x-oss-process=image/resize,s_' + size"
-                    @click="previewImage(index)"></async-img>
+                    @click="previewImage(index)" />
             </div>
         </div>
     </div>

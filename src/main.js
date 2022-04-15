@@ -21,13 +21,13 @@ app.config.globalProperties.$auth = authUtils;
  * 图片相关
  */
 import asyncImg from '@/components/basic/async-img.vue';
-app.component('async-img', asyncImg);
+app.component('AsyncImg', asyncImg);
 
 /**
  * 空数据提示相关
  */
 import emptyInfo from '@/components/basic/empty-info.vue';
-app.component('empty-info', emptyInfo);
+app.component('EmptyInfo', emptyInfo);
 
 /**
  * message 提示框相关
@@ -57,13 +57,13 @@ app.config.globalProperties.$PL = pl;
  * 格式化时间相关
  */
 import formatDate from '@/components/basic/format-date';
-app.component('format-date', formatDate);
+app.component('FormatDate', formatDate);
 
 /**
  * 自定义按钮相关
  */
 import zButton from '@/components/basic/z-button';
-app.component('z-button', zButton);
+app.component('ZButton', zButton);
 
 /**
  * vue-md-editor
@@ -102,7 +102,10 @@ import emitter from './emitter/index.js';
 app.config.globalProperties.$emitter = emitter;
 
 import svgImg from '@/components/basic/svg-img'; //svg组件
-app.component('svg-img', svgImg);
+app.component('SvgImg', svgImg);
+
+import skeleton from '@/components/skeleton';
+app.use(skeleton);
 
 import './assets/svgs';
 

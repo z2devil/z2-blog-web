@@ -8,15 +8,15 @@
             <async-img
                 class="avatar-img"
                 :url="avatarPath"
-                suffix="?x-oss-process=image/resize,s_96"></async-img>
+                suffix="?x-oss-process=image/resize,s_96" />
             <z-button
                 class="upload-img-btn"
                 ghost
                 round
                 :loding="uploadLoading"
-                @click="onUpload"
-                >上传新头像</z-button
-            >
+                @click="onUpload">
+                上传新头像
+            </z-button>
         </div>
         <div class="form-box">
             <div
@@ -42,7 +42,7 @@
                         v-model="authValue"
                         :maxlength="12"
                         placeholder="请输入邀请码" />
-                    <z-button class="auth-btn" type="link">进行认证</z-button>
+                    <z-button class="auth-btn" type="link"> 进行认证 </z-button>
                 </div>
                 <div v-else class="tip">
                     <span>{{ authTag[userInfo.lv] }}</span>
@@ -55,7 +55,7 @@
                 type="link"
                 :loading="saveLoading"
                 @click="save">
-                <span class="iconfont icon-arrow-left"></span>
+                <span class="iconfont icon-arrow-left" />
                 <span>保存并返回</span>
             </z-button>
         </div>

@@ -12,7 +12,7 @@
                 </keep-alive>
             </template>
             <!-- <component :is="coms[idx].com"></component> -->
-            <z-button @click="changeIdx">切换</z-button>
+            <z-button @click="changeIdx"> 切换 </z-button>
         </div>
     </div>
 </template>
@@ -44,9 +44,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-* {
-    // cursor: none!important;
-}
+// * {
+// cursor: none!important;
+// }
 .container {
     width: $con_width;
     padding-top: $nav_height;

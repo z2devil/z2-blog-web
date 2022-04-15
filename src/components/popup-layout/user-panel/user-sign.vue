@@ -32,7 +32,7 @@
                 :disabled="!isSended"
                 :loading="signLoading"
                 @click="signIn">
-                <span class="iconfont icon-arrow-right"></span>
+                <span class="iconfont icon-arrow-right" />
             </z-button>
         </div>
     </div>

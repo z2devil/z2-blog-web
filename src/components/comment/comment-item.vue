@@ -2,79 +2,106 @@
     <div class="comment-item">
         <!-- 左侧头像栏 -->
         <div class="left-side">
-            <img class="user-avatar" 
-                :src="$settings.downloadUrl + commentData.userInfo.avatarPath 
-                + '?x-oss-process=image/resize,s_36'">
-            <div class="line"></div>
+            <img
+                class="user-avatar"
+                :src="
+                    $settings.downloadUrl +
+                    commentData.userInfo.avatarPath +
+                    '?x-oss-process=image/resize,s_36'
+                " />
+            <div class="line" />
         </div>
         <!-- 主体部分 -->
         <div class="body">
             <!-- 顶部信息 -->
             <div class="top-info">
-                <span class="user-name">{{ commentData.userInfo.nickname }}</span>
+                <span class="user-name">{{
+                    commentData.userInfo.nickname
+                }}</span>
                 <span class="post-date">{{ formatDate }}</span>
-                <more-operation dir="left"
+                <more-operation
+                    dir="left"
                     :list="[
                         {
                             icon: 'icon-trash',
                             text: '删除',
-                            use: $auth.has() 
-                                    && ($auth.get('user').id === commentData.userInfo.id  
-                                    || $auth.get('user').lv === 2),
-                            callback: deleteIt
-                        }
+                            use:
+                                $auth.has() &&
+                                ($auth.get('user').id ===
+                                    commentData.userInfo.id ||
+                                    $auth.get('user').lv === 2),
+                            callback: deleteIt,
+                        },
                     ]">
-                    <span class="more-btn iconfont icon-dots"></span>
+                    <span class="more-btn iconfont icon-dots" />
                 </more-operation>
             </div>
             <!-- 评论内容 -->
             <div class="content">
-                <text-content :text="commentData.content"></text-content>
+                <text-content :text="commentData.content" />
             </div>
             <!-- 评价信息 -->
             <div class="assess-box">
-                <div class="assess-item"
+                <div
+                    class="assess-item"
                     :class="{ active: commentData.isLiked }"
                     @click="likeIt">
-                    <span class="iconfont "
-                        :class="commentData.isLiked ? 'icon-like-fill' : 'icon-like'"></span>
+                    <span
+                        class="iconfont"
+                        :class="
+                            commentData.isLiked ? 'icon-like-fill' : 'icon-like'
+                        " />
                     <span>{{ commentData.likes }}</span>
                 </div>
-                <div class="assess-item"
-                    @click="commentIt">
-                    <span class="iconfont icon-comment"></span>
+                <div class="assess-item" @click="commentIt">
+                    <span class="iconfont icon-comment" />
                     <span>{{ commentData.comments }}</span>
                 </div>
             </div>
             <!-- 子评论 -->
-            <div v-if="commentData.childComments.total > 0" 
+            <div
+                v-if="commentData.childComments.total > 0"
                 class="child-comments">
                 <div class="child-comments-list">
-                    <child-comment-item v-for="comment in 
-                            (isShowMore ? commentData.childComments.records 
-                            : commentData.childComments.records.slice(0, 3))"
+                    <child-comment-item
+                        v-for="comment in isShowMore
+                            ? commentData.childComments.records
+                            : commentData.childComments.records.slice(0, 3)"
                         :key="comment.id"
                         :data="comment"
-                        @init="initChildren">
-                    </child-comment-item>
+                        @init="initChildren" />
                 </div>
                 <div class="bottom-bar">
-                    <div v-if="isShowMore === true"
+                    <div
+                        v-if="isShowMore === true"
                         class="btn hide-btn"
                         @click="hideMore">
                         <span>收起</span>
                     </div>
-                    <div v-if="isShowMore === false"
+                    <div
+                        v-if="isShowMore === false"
                         class="btn show-btn"
                         @click="showMore">
                         <span>展开</span>
                     </div>
-                    <div v-if="(!isShowMore && commentData.childComments.records.length > 3)
-                            || commentData.childComments.total - commentData.childComments.records.length > 0"
+                    <div
+                        v-if="
+                            (!isShowMore &&
+                                commentData.childComments.records.length > 3) ||
+                            commentData.childComments.total -
+                                commentData.childComments.records.length >
+                                0
+                        "
                         class="btn more-btn"
                         @click="loadMoreChildren">
-                        <span>还有{{ commentData.childComments.total - (isShowMore ?
-                                commentData.childComments.records.length : 3) }}条回复，查看更多</span>
+                        <span
+                            >还有{{
+                                commentData.childComments.total -
+                                (isShowMore
+                                    ? commentData.childComments.records.length
+                                    : 3)
+                            }}条回复，查看更多</span
+                        >
                     </div>
                 </div>
             </div>
@@ -83,103 +110,106 @@
 </template>
 
 <script>
-import textContent from '../text-content'
-import childCommentItem from './child-comment-item'
-import moreOperation from '@/components/more-operation'
+import textContent from '../text-content';
+import childCommentItem from './child-comment-item';
+import moreOperation from '@/components/more-operation';
+import { beautifyTime } from '@/utils/formatDate';
+import { like } from '@/api/prefer';
 import {
-    beautifyTime
-} from '@/utils/formatDate'
-import {
-    like
-} from '@/api/prefer'
-import { 
     addComment,
     getChildCommentList,
     getComment,
-    deleteComment
-} from '@/api/comment'
+    deleteComment,
+} from '@/api/comment';
 
-    export default {
-        components: {
-            textContent,
-            childCommentItem,
-            moreOperation
+export default {
+    components: {
+        textContent,
+        childCommentItem,
+        moreOperation,
+    },
+    props: {
+        cate: {
+            type: [Number, String],
+            required: true,
         },
-        props: {
-            cate: {
-                type: [Number, String],
-                required: true
+        id: {
+            type: [Number, String],
+            required: true,
+        },
+        data: {
+            type: Object,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            commentData: this.data,
+            isShowMore: null,
+            isLoading: false,
+            page: {
+                current: this.data.childComments.current + 1,
+                size: 4,
+                total: this.data.childComments.total,
+                next: this.data.childComments.total > 4,
             },
-            id: {
-                type: [Number, String],
-                required: true
-            },
-            data: {
-                type: Object,
-            }
+        };
+    },
+    computed: {
+        formatDate() {
+            return beautifyTime(this.commentData.postDate);
         },
-        data() {
-            return {
-                commentData: this.data,
-                isShowMore: null,
-                isLoading: false,
-                page: {
-                    current: this.data.childComments.current+1,
-                    size: 4,
-                    total: this.data.childComments.total,
-                    next: this.data.childComments.total > 4,
-                },
-            }
-        },
-        computed: {
-            formatDate() {
-                return beautifyTime(this.commentData.postDate);
-            }
-        },
-        emits: ['init'],
-        methods: {
-            /**
-             * 删除
-             */
-            deleteIt() {
-                deleteComment(this.commentData.id).then(() => {
+    },
+    emits: ['init'],
+    methods: {
+        /**
+         * 删除
+         */
+        deleteIt() {
+            deleteComment(this.commentData.id)
+                .then(() => {
                     this.$msg('success', '删除成功');
                     this.$emit('init');
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.$msg('error', '删除失败');
                 });
-            },
-            /**
-             * 喜欢
-             */
-            likeIt() {
-                if (!this.$auth.has()) return;
-                like(0, this.commentData.id).then(res => {
+        },
+        /**
+         * 喜欢
+         */
+        likeIt() {
+            if (!this.$auth.has()) return;
+            like(0, this.commentData.id)
+                .then(res => {
                     this.commentData.likes = res;
                     this.commentData.isLiked = !this.commentData.isLiked;
-                    this.$msg("success", "点赞成功")
-                }).catch(() => {
-                    this.$msg("error", "点赞失败");
+                    this.$msg('success', '点赞成功');
+                })
+                .catch(() => {
+                    this.$msg('error', '点赞失败');
                 });
-            },
-            /**
-             * 评论
-             */
-            commentIt() {
-                const that = this;
-                this.$PL.show(this, {
-                    name: 'input-panel',
-                    data: {
-                        placeholder: '回复'+'@'+this.commentData.userInfo.nickname,
-                        func: async function({text}) {
-                            const params = {
-                                wcate: that.cate,
-                                wid: that.id,
-                                rid: that.commentData.id,
-                                pid: that.commentData.id,
-                                content: text,
-                            }
-                            await addComment(params).then(() => {
+        },
+        /**
+         * 评论
+         */
+        commentIt() {
+            const that = this;
+            this.$PL.show(this, {
+                name: 'input-panel',
+                data: {
+                    placeholder:
+                        '回复' + '@' + this.commentData.userInfo.nickname,
+                    func: async function ({ text }) {
+                        const params = {
+                            wcate: that.cate,
+                            wid: that.id,
+                            rid: that.commentData.id,
+                            pid: that.commentData.id,
+                            content: text,
+                        };
+                        await addComment(params)
+                            .then(() => {
                                 // getComment(that.commentData.id).then(res => {
                                 //     console.log(res);
                                 //     that.loadMoreChildren(true);
@@ -187,69 +217,81 @@ import {
                                 // });
                                 that.loadMoreChildren(true);
                                 return Promise.resolve();
-                            }).catch(err => {
+                            })
+                            .catch(err => {
                                 return Promise.reject(err);
                             });
-                        }
-                    }
-                });
-            },
-            /**
-             * 隐藏更多
-             */
-            hideMore() {
-                this.isShowMore = false;
-            },
-            /**
-             * 显示更多
-             */
-            showMore() {
+                    },
+                },
+            });
+        },
+        /**
+         * 隐藏更多
+         */
+        hideMore() {
+            this.isShowMore = false;
+        },
+        /**
+         * 显示更多
+         */
+        showMore() {
+            this.isShowMore = true;
+        },
+        /**
+         * 初始化
+         */
+        initChildren() {
+            this.loadMoreChildren(true);
+        },
+        /**
+         * 加载更多评论
+         */
+        loadMoreChildren(init) {
+            if (this.isLoading) return;
+            if (
+                init !== true &&
+                (!this.page.next || this.isShowMore === false)
+            ) {
                 this.isShowMore = true;
-            },
-            /**
-             * 初始化
-             */
-            initChildren() {
-                this.loadMoreChildren(true);
-            },
-            /**
-             * 加载更多评论
-             */
-            loadMoreChildren(init) {
-                if (this.isLoading) return;
-                if (init !== true && (!this.page.next || this.isShowMore === false)) {
-                    this.isShowMore = true;
-                    return;
-                }
-                this.isLoading = true;
-                const page = this.page;
-                if (init === true) {
-                    page.current = 1;
-                    page.next = true;
-                    getComment(this.commentData.id).then(res => {
-                        this.commentData = res;
-                    });
-                }
-                getChildCommentList(this.commentData.id, page.current, page.size).then(res => {
-                    this.commentData.childComments.records = init === true ? res.records : 
-                        this.commentData.childComments.records.concat(res.records);
-                    // this.page.total += res.records.length;
-                    if (init === true) {
-                        this.isShowMore = null;
-                    }else {
-                        this.isShowMore = true;
-                    }
-                    page.current++;
-                    if (page.total == this.commentData.childComments.records.length) page.next = false;
-                    this.isLoading = false;
+                return;
+            }
+            this.isLoading = true;
+            const page = this.page;
+            if (init === true) {
+                page.current = 1;
+                page.next = true;
+                getComment(this.commentData.id).then(res => {
+                    this.commentData = res;
                 });
             }
-        }
-    }
+            getChildCommentList(
+                this.commentData.id,
+                page.current,
+                page.size
+            ).then(res => {
+                this.commentData.childComments.records =
+                    init === true
+                        ? res.records
+                        : this.commentData.childComments.records.concat(
+                              res.records
+                          );
+                // this.page.total += res.records.length;
+                if (init === true) {
+                    this.isShowMore = null;
+                } else {
+                    this.isShowMore = true;
+                }
+                page.current++;
+                if (page.total == this.commentData.childComments.records.length)
+                    page.next = false;
+                this.isLoading = false;
+            });
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .comment-item {
     box-sizing: content-box;
     display: flex;
@@ -266,8 +308,12 @@ import {
             left: 0;
             width: 2px;
             height: 30px;
-            background: linear-gradient(to bottom, transparent $line-size, rgba(#000, 0.1) $line-size);
-            background-size: 100% $line-size*2;
+            background: linear-gradient(
+                to bottom,
+                transparent $line-size,
+                rgba(#000, 0.1) $line-size
+            );
+            background-size: 100% $line-size * 2;
         }
     }
 }
@@ -380,5 +426,4 @@ import {
         }
     }
 }
-
 </style>

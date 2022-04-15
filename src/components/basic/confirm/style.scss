@@ -69,7 +69,7 @@
         &:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
-        &+.option {
+        & + .option {
             border-left: solid 0.5px rgba(0, 0, 0, 0.05);
         }
         &.option-confirm {

@@ -5,7 +5,7 @@
             :src="$settings.downloadUrl + src"
             @load="isLoading = false"
             @click="hide" />
-        <i v-if="isLoading" class="loader"></i>
+        <i v-if="isLoading" class="loader" />
     </div>
 </template>
 

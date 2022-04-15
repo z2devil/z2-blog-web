@@ -16,16 +16,16 @@
                 :style="{
                     width: screenWidth - btn_width * 2 + 'px',
                 }">
-                <async-img class="image" :url="image.path"></async-img>
+                <async-img class="image" :url="image.path" />
             </div>
         </div>
         <div class="btn pre-btn-box" @click="current > 0 ? current-- : current">
-            <span class="iconfont"></span>
+            <span class="iconfont" />
         </div>
         <div
             class="btn next-btn-box"
             @click="current < data.images.length - 1 ? current++ : current">
-            <span class="iconfont"></span>
+            <span class="iconfont" />
         </div>
     </div>
 </template>

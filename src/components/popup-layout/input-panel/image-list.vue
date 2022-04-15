@@ -14,11 +14,11 @@
                 <async-img
                     class="image"
                     :url="element.path"
-                    suffix="?x-oss-process=image/resize,s_96"></async-img>
+                    suffix="?x-oss-process=image/resize,s_96" />
                 <span class="name">{{ element.name }}</span>
                 <template v-if="element.status === 1">
                     <div class="remove-btn" @click.stop="removeImage(element)">
-                        <span class="iconfont icon-close-fill"></span>
+                        <span class="iconfont icon-close-fill" />
                     </div>
                 </template>
                 <div
@@ -28,7 +28,7 @@
                         class="bar"
                         :style="{
                             width: element.progress * 100 + '%',
-                        }"></div>
+                        }" />
                 </div>
             </div>
         </template>

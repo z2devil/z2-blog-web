@@ -2,7 +2,7 @@
     <div class="resources-component">
         <div v-for="(fileData, index) in filesData" :key="index">
             <div v-if="fileData.type == 'image'" class="images-box">
-                <images-container :images="fileData.content"></images-container>
+                <images-container :images="fileData.content" />
             </div>
         </div>
     </div>

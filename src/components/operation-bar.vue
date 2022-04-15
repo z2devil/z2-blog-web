@@ -17,7 +17,7 @@
             <div class="inner">
                 <span
                     class="iconfont"
-                    :class="like.liked ? 'icon-like-fill' : 'icon-like'"></span>
+                    :class="like.liked ? 'icon-like-fill' : 'icon-like'" />
                 <span class="count">{{ like.count }}</span>
             </div>
         </z-button>
@@ -27,7 +27,7 @@
             circle
             title="评论"
             @click="$emit('to-comment')">
-            <span class="iconfont icon-comment"></span>
+            <span class="iconfont icon-comment" />
         </z-button>
         <z-button
             v-if="write"
@@ -35,7 +35,7 @@
             circle
             title="写内容"
             @click="$emit('to-write')">
-            <span class="iconfont icon-edit"></span>
+            <span class="iconfont icon-edit" />
         </z-button>
         <template v-for="(tool, index) in tools" :key="index">
             <z-button
@@ -44,7 +44,7 @@
                 circle
                 :title="tool.title"
                 @click="tool.event">
-                <span :class="['iconfont', tool.icon]"></span>
+                <span :class="['iconfont', tool.icon]" />
             </z-button>
         </template>
         <z-button
@@ -53,7 +53,7 @@
             circle
             title="回到顶部"
             @click="toTop">
-            <span class="iconfont icon-angle-double-up"></span>
+            <span class="iconfont icon-angle-double-up" />
         </z-button>
         <z-button
             v-if="typeof top == 'function'"
@@ -61,7 +61,7 @@
             circle
             title="回到顶部"
             @click="top">
-            <span class="iconfont icon-angle-double-up"></span>
+            <span class="iconfont icon-angle-double-up" />
         </z-button>
     </div>
 </template>
@@ -151,6 +151,7 @@ export default {
             operations: ['like', 'comment', 'write', 'top'],
         };
     },
+    emits: ['to-like', 'to-comment', 'to-write'],
     setup() {
         let isTopping = false;
         const checkWheel = function () {

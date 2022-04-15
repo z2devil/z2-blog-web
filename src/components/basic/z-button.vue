@@ -1,77 +1,74 @@
 <template>
-    <button :class="[
+    <button
+        :class="[
             'z-button',
-            type == 'normal' ? 'type-normal' : 'type-'+type,
+            type == 'normal' ? 'type-normal' : 'type-' + type,
             {
                 'is-disabled': disabled,
                 'is-round': round,
                 'is-circle': circle,
                 'is-ghost': ghost,
                 'is-loading': loading,
-            }
+            },
         ]"
         :disabled="disabled || loading"
         @click="handleClick">
-        <i v-if="loading" class="loader"></i>
-        <div class="inner"
-            :style="{opacity: loading ? 0 : 1}">
-            <slot></slot>
+        <i v-if="loading" class="loader" />
+        <div class="inner" :style="{ opacity: loading ? 0 : 1 }">
+            <slot />
         </div>
     </button>
 </template>
 
 <script>
-import throttle from "@/utils/throttle"
+import throttle from '@/utils/throttle';
 
 export default {
     props: {
         type: {
             type: String,
             default: 'normal',
-            required: false
+            required: false,
         },
         disabled: {
             type: Boolean,
             default: false,
-            required: false
+            required: false,
         },
         circle: {
             type: Boolean,
             default: false,
-            required: false
+            required: false,
         },
         round: {
             type: Boolean,
             default: false,
-            required: false
+            required: false,
         },
         ghost: {
             type: Boolean,
             default: false,
-            required: false
+            required: false,
         },
         loading: {
             type: Boolean,
             default: false,
-            required: false
-        }
+            required: false,
+        },
     },
     data() {
-        return {
-
-        }
+        return {};
     },
     emits: ['click'],
     methods: {
-        handleClick: throttle(function(evt) {
+        handleClick: throttle(function (evt) {
             this.$emit('click', evt);
-        })
-    }
-}
+        }),
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .z-button {
     position: relative;
     display: flex;
@@ -188,5 +185,4 @@ export default {
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
-
 </style>

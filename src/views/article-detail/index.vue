@@ -4,7 +4,7 @@
             <div
                 v-if="$route.path.indexOf('/detail') === -1"
                 class="view-mask"
-                @click="leave"></div>
+                @click="leave" />
             <div class="container">
                 <!-- 横幅 -->
                 <div class="banner">
@@ -12,7 +12,7 @@
                         v-if="articleData.cover"
                         class="banner-img"
                         :url="articleData.cover.path"
-                        suffix="?x-oss-process=image/resize,s_820"></async-img>
+                        suffix="?x-oss-process=image/resize,s_820" />
                     <div
                         class="banner-text"
                         :class="{ 'has-bg': articleData.cover }">
@@ -39,9 +39,7 @@
                 <div class="wrapper-box">
                     <v-md-preview
                         :text="articleData.content"
-                        @copy-code-success="
-                            handleCopyCodeSuccess
-                        "></v-md-preview>
+                        @copy-code-success="handleCopyCodeSuccess" />
                 </div>
                 <!-- 评论区 -->
                 <div class="comments-box">
@@ -49,8 +47,7 @@
                         ref="comment-list"
                         :cate="2"
                         :id="id"
-                        @to-comment="commentIt">
-                    </comment-list>
+                        @to-comment="commentIt" />
                 </div>
                 <teleport to="body">
                     <!-- 操作栏 -->
@@ -84,8 +81,7 @@
                             $route.path.indexOf('/detail') === -1
                                 ? scrollTop
                                 : true
-                        ">
-                    </operation-bar>
+                        " />
                 </teleport>
             </div>
         </div>
@@ -103,7 +99,7 @@ import { gsap } from 'gsap';
 import Config from '/setting';
 
 export default {
-    name: 'article-detial',
+    name: 'ArticleDetial',
     components: {
         commentList,
         operationBar,
@@ -111,7 +107,7 @@ export default {
     props: {
         id: {
             type: [String, Number],
-            require: true,
+            required: true,
         },
     },
     data() {

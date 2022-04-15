@@ -1,34 +1,36 @@
 <template>
-    <draggable class="draggable-list"
+    <draggable
+        class="draggable-list"
         v-bind="dragOptions"
         v-model="items"
         @start="$emit('start')"
         @end="$emit('end')"
-        @change="$emit('change', {id: id , content: items})"
+        @change="$emit('change', { id: id, content: items })"
         item-key="id"
         handle=".control">
-        <template #item="{element}">
+        <template #item="{ element }">
             <div class="item-outter">
-                <div class="progress"
-                    :class="statusText[element.status+1]">
-                    <div class="bar"
+                <div class="progress" :class="statusText[element.status + 1]">
+                    <div
+                        class="bar"
                         :style="{
-                            width: element.progress * 100 + '%'
-                        }"></div>
+                            width: element.progress * 100 + '%',
+                        }" />
                 </div>
-                <div class="file-item"
-                    @click="onClickItem(element)">
-                    <div class="icon"
+                <div class="file-item" @click="onClickItem(element)">
+                    <div
+                        class="icon"
                         :style="{
-                            cursor: group == 'image' ? 'zoom-in' : ''
+                            cursor: group == 'image' ? 'zoom-in' : '',
                         }"
                         @click.stop="onClickIcon(element)">
                         <template v-if="group == 'image'">
-                            <async-img :url="element.path"
-                                suffix="?x-oss-process=image/resize,s_48"></async-img>
+                            <async-img
+                                :url="element.path"
+                                suffix="?x-oss-process=image/resize,s_48" />
                         </template>
                         <template v-else>
-                            <span :class="['iconfont', 'icon-file-'+group]"></span>
+                            <span :class="['iconfont', 'icon-file-' + group]" />
                         </template>
                     </div>
                     <div class="info">
@@ -36,7 +38,7 @@
                         <span class="size">{{ formatSize(element.size) }}</span>
                     </div>
                     <div class="control">
-                        <span class="iconfont icon-bars"></span>
+                        <span class="iconfont icon-bars" />
                     </div>
                 </div>
             </div>
@@ -45,10 +47,8 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-import {
-    beautifySize
-} from '@/utils/formatSize'
+import draggable from 'vuedraggable';
+import { beautifySize } from '@/utils/formatSize';
 
 export default {
     props: {
@@ -80,9 +80,9 @@ export default {
                 animation: 200,
                 group: this.group,
                 disabled: false,
-                ghostClass: "ghost"
+                ghostClass: 'ghost',
             };
-        }
+        },
     },
     emits: ['start', 'end', 'change'],
     methods: {
@@ -99,7 +99,9 @@ export default {
             if (this.group !== 'image' || element.status !== 1) return;
             const that = this;
             try {
-                await navigator.clipboard.writeText(this.$settings.downloadUrl+element.path);
+                await navigator.clipboard.writeText(
+                    this.$settings.downloadUrl + element.path
+                );
                 that.$msg('success', '已复制图片路径');
             } catch (err) {
                 that.$msg('success', '图片路径复制失败');
@@ -110,12 +112,13 @@ export default {
          */
         onClickIcon(element) {
             if (this.group !== 'image' || element.status !== 1) return;
-            let images = [], index = 0;
+            let images = [],
+                index = 0;
             for (let i = 0; i < this.items.length; i++) {
                 const item = this.items[i];
                 images.push({
                     id: item.id,
-                    path: item.path
+                    path: item.path,
                 });
                 if (element.id == item.id) index = i;
             }
@@ -123,12 +126,12 @@ export default {
                 name: 'img-preview',
                 data: {
                     images: images,
-                    index: index
-                }
+                    index: index,
+                },
             });
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>

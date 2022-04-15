@@ -6,7 +6,7 @@
                     class="all-btn"
                     :type="optionsTrigger ? 'primary' : 'normal'"
                     @click="optionsTrigger = !optionsTrigger">
-                    <span class="iconfont icon-bars"></span>
+                    <span class="iconfont icon-bars" />
                     <span>全部</span>
                 </z-button>
                 <div class="input-box">
@@ -19,7 +19,7 @@
                         @keydown.enter="onSearch" />
                 </div>
                 <z-button class="search-btn" @click="onSearch">
-                    <span class="iconfont icon-search"></span>
+                    <span class="iconfont icon-search" />
                 </z-button>
             </div>
             <transition name="dropdown">

@@ -1,6 +1,6 @@
 <template>
     <div class="page-container">
-        <router-view #default="{ Component }">
+        <router-view v-slot="{ Component }">
             <!-- <template v-if="route.meta.root"> -->
             <!-- <transition name="fade"> -->
             <keep-alive :include="['tweet-index', 'article-index']">
@@ -12,7 +12,7 @@
                 <component :is="Component" />
             </template> -->
             <!-- 页面底部 -->
-            <div id="page-end"></div>
+            <div id="page-end" />
         </router-view>
         <!-- <router-view></router-view> -->
     </div>

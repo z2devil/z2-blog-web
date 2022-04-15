@@ -2,9 +2,9 @@
     <div class="none-network-page">
         <img :src="require('/src/assets/images/tip/none_network.png')" />
         <h1>肥肠抱歉，您访问的页面不见了</h1>
-        <z-button type="primary" round @click="$router.push('/')"
-            >回到首页</z-button
-        >
+        <z-button type="primary" round @click="$router.push('/')">
+            回到首页
+        </z-button>
     </div>
 </template>
 

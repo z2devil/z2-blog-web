@@ -14,17 +14,14 @@ import store from '@/store';
 // const index = () => import('@/views/index');
 
 const index = () => import(/* webpackChunkName: "index" */ '@/views/index');
-
 const tweetIndex = () =>
     import(/* webpackChunkName: "tweet" */ '@/views/tweet/index');
-
 const articleIndex = () =>
     import(/* webpackChunkName: "article" */ '@/views/article/index');
 const articleDetail = () =>
     import(/* webpackChunkName: "article" */ '@/views/article-detail/index');
 const articleWrite = () =>
     import(/* webpackChunkName: "article" */ '@/views/write-article/index');
-
 const aboutIndex = () =>
     import(/* webpackChunkName: "other" */ '@/views/about/index');
 // const mapIndex = () => import( /* webpackChunkName: "other" */ '@/views/map/index');

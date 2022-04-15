@@ -8,8 +8,7 @@
                         :key="tweet.id"
                         :tweet="tweet"
                         :item-id="tweet.id"
-                        @view="viewTweet">
-                    </tweet-list>
+                        @view="viewTweet" />
                 </transition-group>
                 <div class="tip">
                     <span v-if="isLoading">{{ tipOptions.inLoading }}</span>
@@ -20,10 +19,8 @@
                 class="time-line"
                 :records="page.data"
                 :idx="currTweetId"
-                @scroll-to="scrollTo"></time-line>
-            <operation-bar
-                :write="loggedUser?.lv == 2"
-                @to-write="toWrite"></operation-bar>
+                @scroll-to="scrollTo" />
+            <operation-bar :write="loggedUser?.lv == 2" @to-write="toWrite" />
         </div>
     </div>
 </template>
@@ -35,7 +32,7 @@ import operationBar from '@/components/operation-bar';
 import tweetList from './tweet-list';
 
 export default {
-    name: 'tweet-index',
+    name: 'TweetIndex',
     components: {
         timeLine,
         operationBar,

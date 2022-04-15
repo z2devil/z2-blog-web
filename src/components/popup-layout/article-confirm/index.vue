@@ -22,7 +22,7 @@
                                     "
                                     class="banner-img"
                                     :url="form.cover.path"
-                                    suffix="?x-oss-process=image/resize,s_720"></async-img>
+                                    suffix="?x-oss-process=image/resize,s_720" />
                                 <div
                                     class="banner-text"
                                     :class="{
@@ -36,7 +36,7 @@
                                         :user-info="loggedUser">
                                         <format-date
                                             class="post-date"
-                                            :date="'2021-01-01T12:00:00'"></format-date>
+                                            :date="'2021-01-01T12:00:00'" />
                                     </user-info>
                                     <span class="title">{{ data.title }}</span>
                                 </div>
@@ -56,12 +56,13 @@
                                             false
                                                 ? 'icon-like-fill'
                                                 : 'icon-like'
-                                        "></span>
+                                        " />
                                     <span>{{ 2333 }}</span>
                                 </div>
                                 <div class="assess-item">
-                                    <span class="iconfont icon-comment"></span
-                                    ><span>{{ 233 }}</span>
+                                    <span class="iconfont icon-comment" /><span
+                                        >{{ 233 }}</span
+                                    >
                                 </div>
                                 <div class="enter-btn">
                                     <span class="link"> 查看详情 </span>
@@ -98,7 +99,7 @@
                             maxlength="150"
                             rows="4"
                             placeholder="这里填写摘要"
-                            spellcheck="false"></textarea>
+                            spellcheck="false" />
                     </div>
                 </div>
                 <div class="list-item">
@@ -125,10 +126,10 @@
                                     @keydown.enter="onSubmit" />
                                 <span
                                     class="iconfont icon-error"
-                                    @click.capture="cleanInput"></span>
+                                    @click.capture="cleanInput" />
                             </template>
                             <template v-else>
-                                <span class="iconfont icon-add"></span>
+                                <span class="iconfont icon-add" />
                                 <span>新增标签</span>
                             </template>
                         </div>

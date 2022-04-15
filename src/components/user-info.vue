@@ -4,9 +4,9 @@
             v-if="avatar && userInfo.avatarPath"
             class="user-avatar"
             :url="userInfo.avatarPath"
-            suffix="?x-oss-process=image/resize,s_32"></async-img>
+            suffix="?x-oss-process=image/resize,s_32" />
         <span class="user-name">{{ userInfo.nickname }}</span>
-        <slot></slot>
+        <slot />
     </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
         },
         userInfo: {
             type: Object,
-            required: false,
+            required: true,
         },
     },
     data() {

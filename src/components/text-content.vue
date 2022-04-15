@@ -1,6 +1,6 @@
 <template>
     <div class="text-content">
-        <pre class="pre" v-html="passText" width="500"></pre>
+        <pre class="pre" v-html="passText" width="500" />
     </div>
 </template>
 

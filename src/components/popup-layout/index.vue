@@ -1,7 +1,7 @@
 <template>
     <teleport to="body">
         <transition name="fade">
-            <div v-if="display" class="mask" @click="hide"></div>
+            <div v-if="display" class="mask" @click="hide" />
         </transition>
         <transition
             name="zoom"
@@ -11,7 +11,7 @@
                 <component
                     :is="view ? view.name : null"
                     :data="view ? view.data : null"
-                    @close="hide"></component>
+                    @close="hide" />
             </keep-alive>
         </transition>
     </teleport>

@@ -1,7 +1,7 @@
 <template>
     <div class="user-panel-box">
-        <user-sign v-if="!isLogged" @close="$emit('close')"></user-sign>
-        <user-center v-if="isLogged" @close="$emit('close')"></user-center>
+        <user-sign v-if="!isLogged" @close="$emit('close')" />
+        <user-center v-if="isLogged" @close="$emit('close')" />
     </div>
 </template>
 

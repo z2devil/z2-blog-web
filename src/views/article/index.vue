@@ -4,7 +4,7 @@
         <filter-box
             :trigger="filterTrigger"
             @options-trigger="onOptionsTrigger"
-            @search="onSearch"></filter-box>
+            @search="onSearch" />
         <div class="container">
             <!-- 主要 -->
             <div
@@ -20,8 +20,7 @@
                         :key="article.id"
                         :article="article"
                         :item-id="article.id"
-                        @to-detail="toDetail">
-                    </article-list>
+                        @to-detail="toDetail" />
                 </transition-group>
                 <div class="tip">
                     <span v-if="isLoading">{{ tipOptions.inLoading }}</span>
@@ -29,16 +28,14 @@
                 </div>
             </div>
             <!-- 操作栏 -->
-            <operation-bar
-                :write="loggedUser?.lv == 2"
-                @to-write="toWrite"></operation-bar>
+            <operation-bar :write="loggedUser?.lv == 2" @to-write="toWrite" />
         </div>
         <!-- 预览层 -->
         <div class="view-layout">
             <transition name="fade">
-                <div v-if="viewDetail" class="view-mask"></div>
+                <div v-if="viewDetail" class="view-mask" />
             </transition>
-            <router-view class="view-window"></router-view>
+            <router-view class="view-window" />
         </div>
     </div>
 </template>
@@ -50,7 +47,7 @@ import articleList from './article-list';
 import filterBox from './filter';
 
 export default {
-    name: 'article-index',
+    name: 'ArticleIndex',
     components: {
         operationBar,
         articleList,

@@ -1,47 +1,47 @@
 <template>
     <div class="empty-info-component">
-        <img class="image" 
-            :src="require('/src/assets/images/tip/empty_data.png')">
+        <img
+            class="image"
+            :src="require('/src/assets/images/tip/empty_data.png')" />
         <span class="text">{{ tip }}</span>
-        <z-button v-if="btn.use"
+        <z-button
+            v-if="btn.use"
             class="button"
             type="primary"
             round
-            @click="btn.callback">{{ btn.text }}</z-button>
+            @click="btn.callback">
+            {{ btn.text }}
+        </z-button>
     </div>
 </template>
 
 <script>
-    export default {
-        props: {
-            tip: {
-                type: String,
-                required: false,
-                default() {
-                    return '暂时没有数据哦';
-                }
-            },
-            btn: {
-                type: Object,
-                required: false,
-                default() {
-                    return {
-                        use: false,
-                        text: '做点什么',
-                        callback: null
-                    };
-                }
+export default {
+    props: {
+        tip: {
+            type: String,
+            required: false,
+            default() {
+                return '暂时没有数据哦';
             },
         },
-        data() {
-            return {
-                
-            }
+        btn: {
+            type: Object,
+            required: false,
+            default() {
+                return {
+                    use: false,
+                    text: '做点什么',
+                    callback: null,
+                };
+            },
         },
-        methods: {
-
-        },
-    }
+    },
+    data() {
+        return {};
+    },
+    methods: {},
+};
 </script>
 
 <style lang="scss" scoped>
@@ -69,5 +69,4 @@
         margin-top: 20px;
     }
 }
-
 </style>

@@ -3,7 +3,7 @@
         <!-- 顶部栏 -->
         <div class="top-bar">
             <div class="btn close-btn" @click="back">
-                <span class="iconfont icon-arrow-left"></span>
+                <span class="iconfont icon-arrow-left" />
                 <span class="btn-text">返回</span>
             </div>
             <input
@@ -13,7 +13,7 @@
                 placeholder="请输入标题（30字以内）"
                 maxLength="30" />
             <div class="btn release-btn" @click="release">
-                <span class="iconfont icon-success"></span>
+                <span class="iconfont icon-success" />
                 <span class="btn-text">发布</span>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 :toc-nav-position-right="true"
                 :toolbar="toolbar"
                 :left-toolbar="leftToolbarOpt"
-                :right-toolbar="rightToolbarOpt"></v-md-editor>
+                :right-toolbar="rightToolbarOpt" />
             <transition name="fade">
                 <div v-if="filesShow" class="files-view-box">
                     <div class="wrapper">
@@ -61,20 +61,20 @@
                                     use: true,
                                     text: '上传文件',
                                     callback: onUpload,
-                                }"></empty-info>
+                                }" />
                         </div>
                         <div class="close-btn">
                             <z-button
                                 class="btn"
                                 circle
                                 @click="filesShow = !filesShow">
-                                <span class="iconfont icon-error"></span>
+                                <span class="iconfont icon-error" />
                             </z-button>
                         </div>
                         <transition name="fade">
                             <div v-if="trashShow" class="trash">
-                                <div class="background"></div>
-                                <span class="iconfont icon-error"></span>
+                                <div class="background" />
+                                <span class="iconfont icon-error" />
                                 <draggable
                                     class="draggable-list"
                                     v-bind="dragOptions"
@@ -100,8 +100,8 @@
                         >当前没有附件</span
                     >
                     <span v-if="isUploading"
-                        ><span class="iconfont icon-loading"></span
-                        >正在上传中...</span
+                        ><span
+                            class="iconfont icon-loading" />正在上传中...</span
                     >
                     <span v-if="!isUploading && filesNum > 0"
                         >当前已有{{ filesNum }}个附件</span
@@ -672,8 +672,6 @@ export default {
                     font-weight: bold;
                     margin-bottom: 20px;
                     color: $text1;
-                }
-                .content {
                 }
             }
             .empty-box {

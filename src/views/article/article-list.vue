@@ -5,7 +5,7 @@
                 v-if="articleData.cover"
                 class="banner-img"
                 :url="articleData.cover.path"
-                suffix="?x-oss-process=image/resize,s_720"></async-img>
+                suffix="?x-oss-process=image/resize,s_720" />
             <div class="banner-text" :class="{ 'has-bg': articleData.cover }">
                 <user-info
                     class="user-info-box"
@@ -13,7 +13,7 @@
                     :user-info="articleData.userInfo">
                     <format-date
                         class="post-date"
-                        :date="articleData.postDate"></format-date>
+                        :date="articleData.postDate" />
                 </user-info>
                 <span class="title">{{ articleData.title }}</span>
             </div>
@@ -31,17 +31,18 @@
                     class="iconfont"
                     :class="
                         articleData.isLiked ? 'icon-like-fill' : 'icon-like'
-                    "></span>
+                    " />
                 <span>{{ articleData.likes }}</span>
             </z-button>
             <z-button class="assess-item" round>
-                <span class="iconfont icon-comment"></span
-                ><span>{{ articleData.comments }}</span>
+                <span class="iconfont icon-comment" /><span>{{
+                    articleData.comments
+                }}</span>
             </z-button>
             <div class="right-box">
-                <z-button class="assess-item enter-btn" round @click="toDetail"
-                    >查看详情</z-button
-                >
+                <z-button class="assess-item enter-btn" round @click="toDetail">
+                    查看详情
+                </z-button>
                 <!-- <router-link class="assess-item enter-btn"
                     :to="'/article/'+articleData.id">
                     查看详情

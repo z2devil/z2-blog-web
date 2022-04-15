@@ -7,31 +7,37 @@
                 suffix="?x-oss-process=image/resize,s_24"></async-img> -->
             <span class="user-name">{{ commentData.userInfo.nickname }}</span>
             <span class="post-date">{{ formatDate }}</span>
-            <more-operation dir="left"
+            <more-operation
+                dir="left"
                 :list="[
                     {
                         icon: 'icon-trash',
                         text: '删除',
-                        use: $auth.has() 
-                                && ($auth.get('user').id === commentData.userInfo.id
-                                || $auth.get('user').lv === 2),
-                        callback: deleteIt
-                    }
+                        use:
+                            $auth.has() &&
+                            ($auth.get('user').id === commentData.userInfo.id ||
+                                $auth.get('user').lv === 2),
+                        callback: deleteIt,
+                    },
                 ]">
-                <span class="more-btn iconfont icon-dots"></span>
+                <span class="more-btn iconfont icon-dots" />
             </more-operation>
         </div>
         <!-- 评论内容 -->
         <div class="content">
-            <text-content :text="commentData.content"></text-content>
+            <text-content :text="commentData.content" />
         </div>
         <!-- 评价信息 -->
         <div class="assess-box">
-            <div class="assess-item"
+            <div
+                class="assess-item"
                 :class="{ active: commentData.isLiked }"
                 @click="likeIt">
-                <span class="iconfont "
-                    :class="commentData.isLiked ? 'icon-like-fill' : 'icon-like'"></span>
+                <span
+                    class="iconfont"
+                    :class="
+                        commentData.isLiked ? 'icon-like-fill' : 'icon-like'
+                    " />
                 <span>{{ commentData.likes }}</span>
             </div>
         </div>
@@ -39,76 +45,73 @@
 </template>
 
 <script>
-import textContent from '../text-content'
-import moreOperation from '@/components/more-operation'
-import {
-    beautifyTime
-} from '@/utils/formatDate'
-import {
-    like
-} from '@/api/prefer'
-import {
-    deleteComment
-} from '@/api/comment'
+import textContent from '../text-content';
+import moreOperation from '@/components/more-operation';
+import { beautifyTime } from '@/utils/formatDate';
+import { like } from '@/api/prefer';
+import { deleteComment } from '@/api/comment';
 
-    export default {
-        components: {
-            textContent,
-            moreOperation
+export default {
+    components: {
+        textContent,
+        moreOperation,
+    },
+    props: {
+        data: {
+            type: Object,
+            required: true,
         },
-        props: {
-            data: {
-                type: Object,
-                required: true
-            }
+    },
+    data() {
+        return {
+            commentData: this.data,
+        };
+    },
+    computed: {
+        formatDate() {
+            return beautifyTime(this.commentData.postDate);
         },
-        data() {
-            return {
-                commentData: this.data
-            }
-        },
-        computed: {
-            formatDate() {
-                return beautifyTime(this.commentData.postDate);
-            }
-        },
-        emits: ['init'],
-        methods: {
-            /**
-             * 删除
-             */
-            deleteIt() {
-                deleteComment(this.commentData.id).then(() => {
+    },
+    emits: ['init'],
+    methods: {
+        /**
+         * 删除
+         */
+        deleteIt() {
+            deleteComment(this.commentData.id)
+                .then(() => {
                     this.$msg('success', '删除成功');
                     this.$emit('init');
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.$msg('error', '删除失败');
                 });
-            },
-            /**
-             * 喜欢
-             */
-            likeIt() {
-                if (!this.$auth.has()) return;
-                like(0, this.commentData.id).then(res => {
+        },
+        /**
+         * 喜欢
+         */
+        likeIt() {
+            if (!this.$auth.has()) return;
+            like(0, this.commentData.id)
+                .then(res => {
                     this.commentData.likes = res;
                     this.commentData.isLiked = !this.commentData.isLiked;
-                    this.$msg("success", "点赞成功")
-                }).catch(() => {
-                    this.$msg("error", "点赞失败");
+                    this.$msg('success', '点赞成功');
+                })
+                .catch(() => {
+                    this.$msg('error', '点赞失败');
                 });
-            },
-        }
-    }
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-
 .child-comment-item {
     position: relative;
     display: flex;
     flex-direction: column;
-    &+.child-comment-item {
+    & + .child-comment-item {
         margin-top: 10px;
     }
     &::before {
@@ -203,5 +206,4 @@ import {
         }
     }
 }
-
 </style>

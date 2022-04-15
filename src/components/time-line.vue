@@ -1,7 +1,7 @@
 <template>
     <div class="time-line-component" ref="time-line">
         <ul class="time-line-box">
-            <div class="line-item" :style="{ height: lineHeight + 'px' }"></div>
+            <div class="line-item" :style="{ height: lineHeight + 'px' }" />
             <transition-group name="dropdown">
                 <li
                     v-for="(item, index) in contents"

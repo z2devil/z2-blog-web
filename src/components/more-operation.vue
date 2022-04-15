@@ -6,10 +6,10 @@
             <span class="iconfont icon-dots"></span>
         </z-button> -->
         <div @click="onMore">
-            <slot></slot>
+            <slot />
         </div>
         <transition name="fade">
-            <div v-if="isShow" class="mask" @click="isShow = false"></div>
+            <div v-if="isShow" class="mask" @click="isShow = false" />
         </transition>
         <transition name="list">
             <div
@@ -23,7 +23,7 @@
                         v-if="item.use"
                         class="operation-item"
                         @click="onCallback(item.callback)">
-                        <span :class="['iconfont', item.icon]"></span>
+                        <span :class="['iconfont', item.icon]" />
                         <span class="text">{{ item.text }}</span>
                     </div>
                 </template>

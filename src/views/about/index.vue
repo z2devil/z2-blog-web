@@ -21,11 +21,11 @@
                 <!-- 专业技能 -->
                 <div v-show="steps === 1" class="section" key="1">
                     <div class="btn" @click="showDetail(0, 0)">
-                        <span class="iconfont icon-code"></span>
+                        <span class="iconfont icon-code" />
                         <span class="text">编程</span>
                     </div>
                     <div class="btn" @click="showDetail(0, 1)">
-                        <span class="iconfont icon-ruler"></span>
+                        <span class="iconfont icon-ruler" />
                         <span class="text">设计</span>
                     </div>
                 </div>
@@ -54,8 +54,8 @@
                                     </div>
                                     <!-- 时间线 -->
                                     <div class="time-line">
-                                        <div class="point"></div>
-                                        <div class="line"></div>
+                                        <div class="point" />
+                                        <div class="line" />
                                     </div>
                                 </div>
                             </div>
@@ -63,9 +63,9 @@
                     </div>
                     <!-- 提示信息 -->
                     <div class="tip-info">
-                        <span class="iconfont icon-angle-left"></span>
+                        <span class="iconfont icon-angle-left" />
                         <span>请滚动滑轮</span>
-                        <span class="iconfont icon-angle-right"></span>
+                        <span class="iconfont icon-angle-right" />
                     </div>
                 </div>
             </transition-group>
@@ -74,7 +74,7 @@
         <transition name="fade">
             <div v-if="layoutShow" class="layout">
                 <div class="close-btn" @click="closeDetail">
-                    <span class="iconfont icon-close"></span>
+                    <span class="iconfont icon-close" />
                 </div>
                 <div class="container">
                     <div class="inner">

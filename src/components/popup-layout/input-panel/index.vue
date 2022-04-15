@@ -11,12 +11,12 @@
                 @keyup="updateValue($event)"
                 @blur="getblur"
                 @dragstart="$event.preventDefault()"
-                @dragover="$event.preventDefault()"></div>
+                @dragover="$event.preventDefault()" />
         </div>
         <!-- 图片展示 -->
         <transition name="dropdown">
             <div class="images-box-outter" v-if="images.length > 0">
-                <image-list :data="images" @change="imagesChange"></image-list>
+                <image-list :data="images" @change="imagesChange" />
             </div>
         </transition>
         <!-- 底部操作栏 -->
@@ -24,20 +24,23 @@
             <div class="tool-box">
                 <!-- 弹出表情下拉框按钮 -->
                 <z-button class="btn expression-btn" @click="onExpressTrigger">
-                    <span class="iconfont icon-grin"></span>
+                    <span class="iconfont icon-grin" />
                 </z-button>
                 <!-- 上传图片按钮 -->
                 <z-button
                     v-if="data.upload"
                     class="btn image-btn"
                     @click="onUpload">
-                    <span class="iconfont icon-image"></span>
+                    <span class="iconfont icon-image" />
                 </z-button>
             </div>
             <!-- 发表动态按钮 -->
-            <z-button class="btn send-btn" :loading="isLoading" @click="release"
-                >发表</z-button
-            >
+            <z-button
+                class="btn send-btn"
+                :loading="isLoading"
+                @click="release">
+                发表
+            </z-button>
         </div>
         <!-- 表情下拉框 -->
         <transition name="dropdown">

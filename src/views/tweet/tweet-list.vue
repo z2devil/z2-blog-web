@@ -6,9 +6,7 @@
                 <user-info
                     class="user-info-box"
                     :user-info="tweetData.userInfo">
-                    <format-date
-                        class="post-date"
-                        :date="tweetData.postDate"></format-date>
+                    <format-date class="post-date" :date="tweetData.postDate" />
                 </user-info>
                 <more-operation
                     :list="[
@@ -24,13 +22,13 @@
                         },
                     ]">
                     <z-button class="more-btn" circle>
-                        <span class="iconfont icon-dots"></span>
+                        <span class="iconfont icon-dots" />
                     </z-button>
                 </more-operation>
             </div>
             <div class="content-box">
-                <text-content :text="tweetData.content"></text-content>
-                <resources :files="tweetData.files"></resources>
+                <text-content :text="tweetData.content" />
+                <resources :files="tweetData.files" />
             </div>
             <div class="assess-box">
                 <z-button
@@ -42,11 +40,11 @@
                         class="iconfont"
                         :class="
                             tweetData.isLiked ? 'icon-like-fill' : 'icon-like'
-                        "></span>
+                        " />
                     <span>{{ tweetData.likes }}</span>
                 </z-button>
                 <z-button class="assess-item" round @click="commentIt">
-                    <span class="iconfont icon-comment"></span>
+                    <span class="iconfont icon-comment" />
                     <span>{{ tweetData.comments }}</span>
                 </z-button>
                 <div class="right-box">
@@ -54,9 +52,9 @@
                         class="assess-item enter-btn"
                         round
                         :disabled="tweetData.comments === 0"
-                        @click="onOpen = !onOpen"
-                        >{{ !onOpen ? '展示评论' : '隐藏评论' }}</z-button
-                    >
+                        @click="onOpen = !onOpen">
+                        {{ !onOpen ? '展示评论' : '隐藏评论' }}
+                    </z-button>
                 </div>
             </div>
         </div>
@@ -66,8 +64,7 @@
                 ref="comment-list"
                 :cate="1"
                 :id="this.tweetData.id"
-                @to-comment="commentIt">
-            </comment-list>
+                @to-comment="commentIt" />
         </div>
     </div>
 </template>

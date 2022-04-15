@@ -10,7 +10,7 @@
                     <async-img
                         class="avatar"
                         :url="userInfo.avatarPath"
-                        suffix="?x-oss-process=image/resize,s_72"></async-img>
+                        suffix="?x-oss-process=image/resize,s_72" />
                     <div class="info">
                         <div class="info-item">
                             <span class="tag">{{ tag[userInfo.lv] }}</span>
@@ -21,9 +21,9 @@
                         </div>
                     </div>
                 </div>
-                <z-button class="edit-btn" ghost round @click="toEdit"
-                    >编辑个人资料</z-button
-                >
+                <z-button class="edit-btn" ghost round @click="toEdit">
+                    编辑个人资料
+                </z-button>
             </div>
             <div class="signature">
                 <span>{{ userInfo.signature }}</span>
@@ -35,9 +35,9 @@
                 :key="index"
                 class="btn"
                 type="link"
-                @click="option.func"
-                >{{ option.name }}</z-button
-            >
+                @click="option.func">
+                {{ option.name }}
+            </z-button>
         </div>
     </div>
 </template>
