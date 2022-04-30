@@ -3,7 +3,7 @@
         <router-view v-slot="{ Component }">
             <!-- <template v-if="route.meta.root"> -->
             <!-- <transition name="fade"> -->
-            <keep-alive :include="['tweet-index', 'article-index']">
+            <keep-alive :include="['TweetIndex', 'ArticleIndex']">
                 <component :is="Component" />
             </keep-alive>
             <!-- </transition> -->

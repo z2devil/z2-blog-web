@@ -101,7 +101,7 @@ app.use(VMdPreview);
 import emitter from './emitter/index.js';
 app.config.globalProperties.$emitter = emitter;
 
-import svgImg from '@/components/basic/svg-img'; //svg组件
+import svgImg from '@/components/basic/svg-img';
 app.component('SvgImg', svgImg);
 
 import skeleton from '@/components/skeleton';

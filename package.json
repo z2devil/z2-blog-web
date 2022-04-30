@@ -10,7 +10,7 @@
     "dependencies": {
         "@kangc/v-md-editor": "^2.3.7",
         "ali-oss": "^6.16.0",
-        "axios": "^0.21.1",
+        "axios": "0.26.1",
         "core-js": "^3.6.5",
         "eslint-config-prettier": "^8.5.0",
         "gsap": "^3.9.0",

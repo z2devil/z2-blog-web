@@ -1,12 +1,12 @@
 <template>
     <div class="skeleton">
-        <template v-if="!content">
-            <div>
-                {{ content }}
-            </div>
+        <template v-if="custom">
+            <slot></slot>
         </template>
         <template v-else>
-            <skeleton-item v-for="i in 5" :key="i" />
+            <skeleton-item width="70%" />
+            <skeleton-item v-for="i in 3" :key="i" />
+            <skeleton-item width="35%" />
         </template>
     </div>
 </template>
@@ -14,10 +14,10 @@
 <script setup>
 import skeletonItem from './skeleton-item';
 defineProps({
-    content: {
-        type: String,
+    custom: {
+        type: Boolean,
         required: false,
-        default: 'normal',
+        default: false,
     },
 });
 </script>

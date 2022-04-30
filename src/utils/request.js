@@ -136,10 +136,10 @@ export function put(url, param) {
 /**
  * 纯净 request（供 oss 上传使用）
  */
-export function pureRequest() {
+export function pureRequest(options) {
     const service = axios.create({
-        baseURL: Config.apiURL, // api 的 base_url
-        timeout: Config.timeout, // 请求超时时间
+        baseURL: options?.baseURL ?? Config.apiURL, // api 的 base_url
+        timeout: options?.timeout ?? Config.timeout, // 请求超时时间
     });
     return service;
 }

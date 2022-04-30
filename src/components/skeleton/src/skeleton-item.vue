@@ -1,37 +1,56 @@
 <template>
     <div
         :class="['skeleton-item', `display-${type}`]"
-        :style="{
-            width: width,
-            height: height,
-        }">
-        <span>{{ a }}</span>
-    </div>
+        :style="{ width: parseValue(width), height: parseValue(height) }"></div>
 </template>
 
 <script setup>
 defineProps({
     type: {
         type: String,
+        required: false,
         default: 'line',
     },
     width: {
         type: [Number, String],
+        required: false,
         default: '100%',
     },
     height: {
         type: [Number, String],
-        default: 32,
+        required: false,
+        default: 24,
     },
 });
-const a = 'text';
+const parseValue = val => {
+    return val + (~String.prototype.indexOf.call(val, '%') ? '' : 'px');
+};
 </script>
 
 <style lang="scss" scoped>
 .skeleton-item {
-    background-color: gray;
-    border-radius: 4px;
+    margin: 0 0 10px;
+    background: linear-gradient(90deg, #dee1e4 25%, #e6e8eb 35%, #dee1e4 50%);
+    background-size: 400% 100%;
+    animation: loading 1.4s ease infinite;
 }
-// .display-line {
-// }
+@keyframes loading {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+.display-line {
+    border-radius: 8px;
+}
+.display-box {
+    border-radius: 8px;
+    aspect-ratio: 1;
+}
+.display-circle {
+    border-radius: 100%;
+    aspect-ratio: 1;
+}
 </style>

@@ -6,85 +6,104 @@
                 class="view-mask"
                 @click="leave" />
             <div class="container">
-                <!-- 横幅 -->
-                <div class="banner">
-                    <async-img
-                        v-if="articleData.cover"
-                        class="banner-img"
-                        :url="articleData.cover.path"
-                        suffix="?x-oss-process=image/resize,s_820" />
-                    <div
-                        class="banner-text"
-                        :class="{ 'has-bg': articleData.cover }">
-                        <div class="main-title">
-                            {{ articleData.title }}
-                        </div>
-                        <div class="tags-box">
-                            <div
-                                v-for="tag in articleData.tags"
-                                :key="tag.id"
-                                class="tag">
-                                <span class="text">{{ tag.name }}</span>
+                <template v-if="!articleData">
+                    <Skeleton custom class="skeleton">
+                        <SkeletonItem width="75%" :height="42"></SkeletonItem>
+                        <SkeletonItem
+                            class="skeleton-item-tag"
+                            :width="100"
+                            height="32"></SkeletonItem>
+                        <SkeletonItem
+                            class="skeleton-item-tag"
+                            :width="75"
+                            height="32"></SkeletonItem>
+                        <SkeletonItem
+                            class="skeleton-item-tag"
+                            :width="75"
+                            height="32"></SkeletonItem>
+                        <SkeletonItem width="30%"></SkeletonItem>
+                    </Skeleton>
+                    <Skeleton class="skeleton"></Skeleton>
+                </template>
+                <template v-else>
+                    <!-- 横幅 -->
+                    <div class="banner">
+                        <async-img
+                            v-if="articleData?.cover"
+                            class="banner-img"
+                            :url="articleData?.cover.path"
+                            suffix="?x-oss-process=image/resize,s_820" />
+                        <div
+                            class="banner-text"
+                            :class="{ 'has-bg': articleData?.cover }">
+                            <div class="main-title">
+                                {{ articleData?.title }}
+                            </div>
+                            <div class="tags-box">
+                                <div
+                                    v-for="tag in articleData?.tags"
+                                    :key="tag.id"
+                                    class="tag">
+                                    <span class="text">{{ tag.name }}</span>
+                                </div>
+                            </div>
+                            <div class="other-info">
+                                <span class="author">{{
+                                    articleData?.userInfo.nickname
+                                }}</span>
+                                <span class="date">{{ postDate }}</span>
                             </div>
                         </div>
-                        <div class="other-info">
-                            <span class="author">{{
-                                articleData.userInfo.nickname
-                            }}</span>
-                            <span class="date">{{ postDate }}</span>
-                        </div>
                     </div>
-                </div>
-                <!-- 主要内容 -->
-                <div class="wrapper-box">
-                    <v-md-preview
-                        :text="articleData.content"
-                        @copy-code-success="handleCopyCodeSuccess" />
-                </div>
-                <!-- 评论区 -->
-                <div class="comments-box">
-                    <comment-list
-                        ref="comment-list"
-                        :cate="2"
-                        :id="id"
-                        @to-comment="commentIt" />
-                </div>
-                <teleport to="body">
-                    <!-- 操作栏 -->
-                    <operation-bar
-                        :z-index="52"
-                        center
-                        :left="410"
-                        :like="{
-                            use: loggedUser?.lv > 1,
-                            liked: articleData.isLiked,
-                            count: articleData.likes,
-                        }"
-                        @to-like="likeIt"
-                        :comment="loggedUser?.lv > 1"
-                        @to-comment="commentIt"
-                        :tools="[
-                            {
-                                use: loggedUser?.lv > 1,
-                                icon: 'icon-edit',
-                                title: '编辑',
-                                event: editIt,
-                            },
-                            {
-                                use: loggedUser?.lv > 1,
-                                icon: 'icon-trash',
-                                title: '删除',
-                                event: deleteIt,
-                            },
-                        ]"
-                        :top="
-                            $route.path.indexOf('/detail') === -1
-                                ? scrollTop
-                                : true
-                        " />
-                </teleport>
+                    <!-- 主要内容 -->
+                    <div class="wrapper-box">
+                        <v-md-preview
+                            :text="articleData?.content"
+                            @copy-code-success="handleCopyCodeSuccess" />
+                    </div>
+                    <!-- 评论区 -->
+                    <div class="comments-box">
+                        <comment-list
+                            ref="comment-list"
+                            :cate="2"
+                            :id="id"
+                            @to-comment="commentIt" />
+                    </div>
+                </template>
             </div>
         </div>
+        <teleport to="body">
+            <!-- 操作栏 -->
+            <operation-bar
+                :z-index="52"
+                center
+                :left="410"
+                :like="{
+                    use: loggedUser?.lv > 1,
+                    liked: articleData?.isLiked,
+                    count: articleData?.likes,
+                }"
+                @to-like="likeIt"
+                :comment="loggedUser?.lv > 1"
+                @to-comment="commentIt"
+                :tools="[
+                    {
+                        use: loggedUser?.lv > 1,
+                        icon: 'icon-edit',
+                        title: '编辑',
+                        event: editIt,
+                    },
+                    {
+                        use: loggedUser?.lv > 1,
+                        icon: 'icon-trash',
+                        title: '删除',
+                        event: deleteIt,
+                    },
+                ]"
+                :top="
+                    $route.path.indexOf('/detail') === -1 ? scrollTop : true
+                " />
+        </teleport>
     </div>
 </template>
 
@@ -113,14 +132,12 @@ export default {
     data() {
         return {
             // 文章数据
-            articleData: {
-                userInfo: {},
-            },
+            articleData: null,
         };
     },
     computed: {
         postDate() {
-            return beautifyTime(this.articleData.postDate);
+            return beautifyTime(this.articleData?.postDate);
         },
         loggedUser() {
             return this.$auth.get('user');
@@ -350,6 +367,17 @@ export default {
     margin: auto;
     background-color: $white;
     box-shadow: 0 8px 48px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+.skeleton {
+    margin: 50px 50px 0;
+    .skeleton-item-tag {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    &:first-child {
+        margin-top: 100px;
+    }
 }
 .banner {
     position: relative;

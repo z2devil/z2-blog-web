@@ -498,11 +498,15 @@ export default {
                         file: file,
                     };
                     // oss直传上传进度函数
+                    // const callback = async function (e) {
+                    //     if (e.lengthComputable) {
+                    //         const f = that.getByKey(files.content, 'id', e.id);
+                    //         if (f) f.progress = e.loaded / e.total;
+                    //     }
+                    // };
                     const callback = async function (e) {
-                        if (e.lengthComputable) {
-                            const f = that.getByKey(files.content, 'id', e.id);
-                            if (f) f.progress = e.loaded / e.total;
-                        }
+                        const f = that.getByKey(files.content, 'id', fileId);
+                        if (f) f.progress = e.loaded / e.total;
                     };
                     Promise.all([
                         // oss直传

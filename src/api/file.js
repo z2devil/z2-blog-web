@@ -48,13 +48,13 @@ export function upload(params, callback) {
     const host = 'https://' + Config.oss_bucket + '.' + Config.oss_endpoint;
     // const expireEnd = Date.parse(new Date()) + 30*24*60*60*1000;
     // params.expire = new Date(expireEnd).getDay;
-    let req = pureRequest();
+    let req = pureRequest({ timeout: 0 });
     req.interceptors.request.use(config => {
         config.headers['Content-Type'] = 'multipart/form-data;';
         config.onUploadProgress = function (e) {
-            const fileId =
-                typeof config.data == 'object' ? config.data.get('id') : 0;
-            e.id = fileId;
+            // const fileId =
+            //     typeof config.data == 'object' ? config.data.get('id') : 0;
+            // e.id = fileId;
             if (callback) callback(e);
         };
         return config;

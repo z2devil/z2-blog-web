@@ -306,10 +306,13 @@ export default {
                     };
                     // oss直传上传进度函数
                     const callback = async function (e) {
-                        if (e.lengthComputable) {
-                            const f = getFile(e.id);
-                            if (f) f.progress = e.loaded / e.total;
-                        }
+                        // const callback = async e => {
+                        // if (e.lengthComputable) {
+                        //     const f = getFile(e.id);
+                        //     if (f) f.progress = e.loaded / e.total;
+                        // }
+                        const f = getFile(fileId);
+                        if (f) f.progress = e.loaded / e.total;
                     };
                     Promise.all([
                         // oss直传

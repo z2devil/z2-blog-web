@@ -14,6 +14,7 @@ import store from '@/store';
 // const index = () => import('@/views/index');
 
 const index = () => import(/* webpackChunkName: "index" */ '@/views/index');
+
 const tweetIndex = () =>
     import(/* webpackChunkName: "tweet" */ '@/views/tweet/index');
 const articleIndex = () =>
