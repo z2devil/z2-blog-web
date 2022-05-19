@@ -81,12 +81,6 @@ VMdEditor.use(VMdTheme, {
         vue: 'html',
     },
 });
-VMdPreview.use(VMdTheme, {
-    Prism,
-    codeHighlightExtensionMap: {
-        vue: 'html',
-    },
-});
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 VMdEditor.use(createLineNumbertPlugin());
 VMdPreview.use(createLineNumbertPlugin());

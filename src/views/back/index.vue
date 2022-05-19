@@ -1,13 +1,13 @@
 <template>
     <div class="back-page">
         <div class="container">
-            <Skeleton custom>
+            <!-- <Skeleton custom>
                 <SkeletonItem :height="180"></SkeletonItem>
                 <SkeletonItem :height="180"></SkeletonItem>
                 <SkeletonItem :height="180"></SkeletonItem>
                 <SkeletonItem :height="180"></SkeletonItem>
                 <SkeletonItem :height="180"></SkeletonItem>
-            </Skeleton>
+            </Skeleton> -->
             <!-- <template v-if="idx === 0">
                 <keep-alive>
                     <Com.A />
@@ -36,6 +36,9 @@
                 </template>
             </Scroller.recycle> -->
             <!-- <z-button @click="changeIdx"> 切换 </z-button> -->
+            <div class="box">
+                <div class="child" v-for="i in 6" :key="i"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -89,5 +92,26 @@
 }
 .data-list-item {
     // height: 200px;
+}
+.box {
+}
+.child {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    font-size: 0;
+    margin-right: 10px;
+    background-color: red;
+}
+.child:first-child:nth-last-child(n + 3),
+.child:first-child:nth-last-child(n + 3) ~ .child {
+    border: dashed 2px black;
+}
+$num: 4;
+.child:nth-child(#{$num}):nth-last-child(n-#{$num}),
+.child:nth-child(#{$num}):nth-last-child(n-#{$num}) ~ .child {
+    background-color: blue;
 }
 </style>
