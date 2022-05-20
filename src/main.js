@@ -69,11 +69,8 @@ app.component('ZButton', zButton);
  * vue-md-editor
  */
 import VMdEditor from '@kangc/v-md-editor';
-// import '@kangc/v-md-editor/lib/style/base-editor.css';
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
-// import '@kangc/v-md-editor/lib/style/preview.css';
 import VMdTheme from '@kangc/v-md-editor/lib/theme/vuepress';
-// import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import Prism from 'prismjs';
 VMdEditor.use(VMdTheme, {
     Prism,
@@ -81,14 +78,20 @@ VMdEditor.use(VMdTheme, {
         vue: 'html',
     },
 });
+VMdPreview.use(VMdTheme, {
+    Prism,
+    codeHighlightExtensionMap: {
+        vue: 'html',
+    },
+});
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 VMdEditor.use(createLineNumbertPlugin());
-VMdPreview.use(createLineNumbertPlugin());
+// VMdPreview.use(createLineNumbertPlugin());
 import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 import '@/styles/markdown.css';
 VMdEditor.use(createCopyCodePlugin());
-VMdPreview.use(createCopyCodePlugin());
+// VMdPreview.use(createCopyCodePlugin());
 app.use(VMdEditor);
 app.use(VMdPreview);
 

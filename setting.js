@@ -23,7 +23,7 @@ module.exports = {
      * @description 后端接口地址
      */
     apiURL: 'https://z2devil.cn/api',
-    // apiURL: 'http://localhost:3000/',
+    // apiURL: 'http://localhost:8000/api',
 
     /**
      * @description 后端下载/查看文件接口地址

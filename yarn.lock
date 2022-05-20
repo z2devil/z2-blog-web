@@ -1044,10 +1044,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kangc/v-md-editor@^2.3.7":
-  version "2.3.15"
-  resolved "https://registry.npmmirror.com/@kangc/v-md-editor/-/v-md-editor-2.3.15.tgz#2d005eb64cfc5748688df2fedec7ad9f92ddcdd7"
-  integrity sha512-tPsBJd4YwJSZK3+mbeBu9Iol9Zi3BboNr1QbDfsxVQ/4hlMgEpMT+vj3/e5FNwgBx50RIphU0j9qNLK+dgFmqA==
+"@kangc/v-md-editor@2.3.14":
+  version "2.3.14"
+  resolved "https://registry.npmmirror.com/@kangc/v-md-editor/-/v-md-editor-2.3.14.tgz#3101637804977e1c108d1d6c848bfcff6e8c84d6"
+  integrity sha512-T1AdLnM4QflJqXC5nWLiUU0t8ajw/2GVLIrAsZhDimNaoxly28A+AqZ5OeBVJx/1vpFkkE4CYafqWS3k23h5HQ==
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@vuepress/markdown" "^1.8.2"

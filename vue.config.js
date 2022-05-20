@@ -12,7 +12,7 @@ const externals = {
     // 'vuedraggable': 'vuedraggable',
     // '@kangc/v-md-editor': 'VMdEditor',
     // '@kangc/v-md-editor/lib/preview': 'VMdPreview',
-    '@kangc/v-md-editor/lib/theme/vuepress': 'VMdTheme',
+    // '@kangc/v-md-editor/lib/theme/vuepress': 'VMdTheme',
     'mapbox-gl': 'mapboxgl',
     // 'gsap': 'exports',
 };
@@ -32,7 +32,7 @@ const cdn = {
         // 'https://cdn.jsdelivr.net/npm/vuedraggable@4.1.0/dist/vuedraggable.umd.min.js',
         // 'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/base-editor.js',
         // 'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/preview.js',
-        'https://oss.z2devil.cn/cdn/js/md-vuepress.js',
+        // 'https://oss.z2devil.cn/cdn/js/md-vuepress.js',
         'https://oss.z2devil.cn/cdn/js/mapbox-gl.js',
         // 'https://cdn.jsdelivr.net/npm/gsap@3.9.1/dist/gsap.min.js',
     ],
