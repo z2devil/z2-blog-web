@@ -13,7 +13,6 @@ const externals = {
     // '@kangc/v-md-editor': 'VMdEditor',
     // '@kangc/v-md-editor/lib/preview': 'VMdPreview',
     // '@kangc/v-md-editor/lib/theme/vuepress': 'VMdTheme',
-    'mapbox-gl': 'mapboxgl',
     // 'gsap': 'exports',
 };
 const cdn = {
@@ -33,7 +32,6 @@ const cdn = {
         // 'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/base-editor.js',
         // 'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/preview.js',
         // 'https://oss.z2devil.cn/cdn/js/md-vuepress.js',
-        'https://z2devil-bucket.oss-cn-beijing.aliyuncs.com/cdn/js/mapbox-gl.js',
         // 'https://cdn.jsdelivr.net/npm/gsap@3.9.1/dist/gsap.min.js',
     ],
 };
