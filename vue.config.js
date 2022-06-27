@@ -18,9 +18,9 @@ const externals = {
 };
 const cdn = {
     css: [
-        'https://oss.z2devil.cn/cdn/css/md-editor.css',
-        'https://oss.z2devil.cn/cdn/css/md-preview.css',
-        'https://oss.z2devil.cn/cdn/css/md-vuepress.css',
+        'https://z2devil-bucket.oss-cn-beijing.aliyuncs.com/cdn/css/md-editor.css',
+        'https://z2devil-bucket.oss-cn-beijing.aliyuncs.com/cdn/css/md-preview.css',
+        'https://z2devil-bucket.oss-cn-beijing.aliyuncs.com/cdn/css/md-vuepress.css',
     ],
     js: [
         // 'https://cdn.jsdelivr.net/npm/vue@3.2.20/dist/vue.global.min.js',
@@ -33,7 +33,7 @@ const cdn = {
         // 'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/base-editor.js',
         // 'https://cdn.jsdelivr.net/npm/@kangc/v-md-editor@2.3.14/lib/preview.js',
         // 'https://oss.z2devil.cn/cdn/js/md-vuepress.js',
-        'https://oss.z2devil.cn/cdn/js/mapbox-gl.js',
+        'https://z2devil-bucket.oss-cn-beijing.aliyuncs.com/cdn/js/mapbox-gl.js',
         // 'https://cdn.jsdelivr.net/npm/gsap@3.9.1/dist/gsap.min.js',
     ],
 };

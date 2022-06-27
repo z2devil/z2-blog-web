@@ -86,12 +86,12 @@ VMdPreview.use(VMdTheme, {
 });
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 VMdEditor.use(createLineNumbertPlugin());
-// VMdPreview.use(createLineNumbertPlugin());
+VMdPreview.use(createLineNumbertPlugin());
 import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 import '@/styles/markdown.css';
 VMdEditor.use(createCopyCodePlugin());
-// VMdPreview.use(createCopyCodePlugin());
+VMdPreview.use(createCopyCodePlugin());
 app.use(VMdEditor);
 app.use(VMdPreview);
 
