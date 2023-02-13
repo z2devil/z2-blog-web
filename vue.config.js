@@ -40,6 +40,7 @@ const cdn = {
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 // const TerserPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const DotenvWebpackPlugin = require('dotenv-webpack');
 //匹配此 {RegExp} 的资源
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 module.exports = {
@@ -64,6 +65,12 @@ module.exports = {
         );
         // bundle 分析
         plugins.push(new BundleAnalyzerPlugin());
+        plugins.push(
+            new DotenvWebpackPlugin({
+                path: '.env',
+                safe: true,
+            })
+        );
         if (process.env.NODE_ENV === 'production') {
             config.mode = 'production';
             // 打包文件大小

@@ -1,4 +1,3 @@
-import Config from '/setting';
 import {
     // get,
     post,
@@ -35,8 +34,11 @@ export function upload(params, callback) {
     const formdata = new FormData();
     formdata.append('policy', params.policy);
     formdata.append('Signature', params.signature);
-    formdata.append('OSSAccessKeyId', Config.oss_accessid);
-    formdata.append('key', Config.oss_root + fileType + '${filename}');
+    formdata.append('OSSAccessKeyId', process.env.VUE_APP_OSS_ID);
+    formdata.append(
+        'key',
+        process.env.VUE_APP_OSS_ROOT + fileType + '${filename}'
+    );
     formdata.append('id', params.id);
     formdata.append('name', params.file.name);
     formdata.append(
@@ -45,7 +47,7 @@ export function upload(params, callback) {
         params.name ? params.name : params.file.name
     );
     formdata.append('success_action_status', '200');
-    const host = 'https://' + Config.oss_bucket + '.' + Config.oss_endpoint;
+    const host = `https://${process.env.VUE_APP_OSS_BUCKET}.${process.env.VUE_APP_OSS_ENDPOINT}`;
     // const expireEnd = Date.parse(new Date()) + 30*24*60*60*1000;
     // params.expire = new Date(expireEnd).getDay;
     let req = pureRequest({ timeout: 0 });

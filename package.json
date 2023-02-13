@@ -12,6 +12,7 @@
         "ali-oss": "^6.16.0",
         "axios": "0.26.1",
         "core-js": "^3.6.5",
+        "dotenv-webpack": "^8.0.1",
         "eslint-config-prettier": "^8.5.0",
         "gsap": "^3.9.0",
         "hmacsha1": "^1.0.0",

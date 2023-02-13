@@ -17,18 +17,7 @@ module.exports = {
     /**
      * 网站地址
      */
-    baseURL: 'https://z2devil.cn',
-
-    /**
-     * @description 后端接口地址
-     */
-    // apiURL: 'https://z2devil.cn/api',
-    apiURL: 'http://localhost:8000/api',
-
-    /**
-     * @description 后端下载/查看文件接口地址
-     */
-    downloadUrl: 'https://z2devil-bucket.oss-cn-beijing.aliyuncs.com/',
+    url: 'https://z2devil.cn',
 
     /**
      * @description 记住密码状态下的token在Cookie中存储的天数
@@ -44,14 +33,6 @@ module.exports = {
      * 请求体数据类型
      */
     contentType: 'application/json',
-
-    /**
-     * oss 相关
-     */
-    oss_accessid: 'LTAI5tSfHizt7iAEjigoefXg',
-    oss_endpoint: 'oss-cn-beijing.aliyuncs.com',
-    oss_bucket: 'z2devil-bucket',
-    oss_root: 'blog/',
 
     /**
      * 上传图片最大大小（15MB）

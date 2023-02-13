@@ -223,9 +223,7 @@ export default {
         async handleCopyCodeSuccess(code) {
             const content = `${code}\n作者：${Config.author}\n来源：${
                 Config.title
-            }\n链接：${Config.baseURL + this.$route.fullPath}\n${
-                Config.copyRight
-            }`;
+            }\n链接：${Config.url + this.$route.fullPath}\n${Config.copyRight}`;
             await navigator.clipboard.writeText(content);
             this.$msg('success', '已复制代码');
         },
