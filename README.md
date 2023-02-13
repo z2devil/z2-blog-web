@@ -2,7 +2,7 @@
 [![version](https://img.shields.io/badge/-v1.0-f15642)](https://github.com/z2devil/z2-blog-web/) [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/z2devil/z2-blog-web/blob/main/LICENSE)
 </br>个人博客前端项目，主要包含无感用户登录注册、文字图片内容社区、Markdown 编辑器、OSS 文件上传等功能。
 
-## Demo
+## 示例
 [我的个人网站](https://z2devil.cn?_blank)
 
 ## 技术栈
